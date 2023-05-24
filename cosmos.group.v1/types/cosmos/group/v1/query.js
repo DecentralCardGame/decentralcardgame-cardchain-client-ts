@@ -1355,6 +1355,110 @@ export const QueryTallyResultResponse = {
         return message;
     },
 };
+function createBaseQueryGroupsRequest() {
+    return { pagination: undefined };
+}
+export const QueryGroupsRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.pagination !== undefined) {
+            PageRequest.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryGroupsRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 2:
+                    message.pagination = PageRequest.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { pagination: isSet(object.pagination) ? PageRequest.fromJSON(object.pagination) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.pagination !== undefined
+            && (obj.pagination = message.pagination ? PageRequest.toJSON(message.pagination) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryGroupsRequest();
+        message.pagination = (object.pagination !== undefined && object.pagination !== null)
+            ? PageRequest.fromPartial(object.pagination)
+            : undefined;
+        return message;
+    },
+};
+function createBaseQueryGroupsResponse() {
+    return { groups: [], pagination: undefined };
+}
+export const QueryGroupsResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        for (const v of message.groups) {
+            GroupInfo.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        if (message.pagination !== undefined) {
+            PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryGroupsResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.groups.push(GroupInfo.decode(reader, reader.uint32()));
+                    break;
+                case 2:
+                    message.pagination = PageResponse.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            groups: Array.isArray(object?.groups) ? object.groups.map((e) => GroupInfo.fromJSON(e)) : [],
+            pagination: isSet(object.pagination) ? PageResponse.fromJSON(object.pagination) : undefined,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.groups) {
+            obj.groups = message.groups.map((e) => e ? GroupInfo.toJSON(e) : undefined);
+        }
+        else {
+            obj.groups = [];
+        }
+        message.pagination !== undefined
+            && (obj.pagination = message.pagination ? PageResponse.toJSON(message.pagination) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryGroupsResponse();
+        message.groups = object.groups?.map((e) => GroupInfo.fromPartial(e)) || [];
+        message.pagination = (object.pagination !== undefined && object.pagination !== null)
+            ? PageResponse.fromPartial(object.pagination)
+            : undefined;
+        return message;
+    },
+};
 export class QueryClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -1371,6 +1475,7 @@ export class QueryClientImpl {
         this.VotesByVoter = this.VotesByVoter.bind(this);
         this.GroupsByMember = this.GroupsByMember.bind(this);
         this.TallyResult = this.TallyResult.bind(this);
+        this.Groups = this.Groups.bind(this);
     }
     GroupInfo(request) {
         const data = QueryGroupInfoRequest.encode(request).finish();
@@ -1436,6 +1541,11 @@ export class QueryClientImpl {
         const data = QueryTallyResultRequest.encode(request).finish();
         const promise = this.rpc.request("cosmos.group.v1.Query", "TallyResult", data);
         return promise.then((data) => QueryTallyResultResponse.decode(new _m0.Reader(data)));
+    }
+    Groups(request) {
+        const data = QueryGroupsRequest.encode(request).finish();
+        const promise = this.rpc.request("cosmos.group.v1.Query", "Groups", data);
+        return promise.then((data) => QueryGroupsResponse.decode(new _m0.Reader(data)));
     }
 }
 var globalThis = (() => {

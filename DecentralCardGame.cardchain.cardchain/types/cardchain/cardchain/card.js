@@ -13,7 +13,6 @@ export var Status;
     Status[Status["bannedSoon"] = 6] = "bannedSoon";
     Status[Status["bannedVerySoon"] = 7] = "bannedVerySoon";
     Status[Status["none"] = 8] = "none";
-    Status[Status["inCouncil"] = 9] = "inCouncil";
     Status[Status["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
 })(Status || (Status = {}));
 export function statusFromJSON(object) {
@@ -45,9 +44,6 @@ export function statusFromJSON(object) {
         case 8:
         case "none":
             return Status.none;
-        case 9:
-        case "inCouncil":
-            return Status.inCouncil;
         case -1:
         case "UNRECOGNIZED":
         default:
@@ -74,8 +70,6 @@ export function statusToJSON(object) {
             return "bannedVerySoon";
         case Status.none:
             return "none";
-        case Status.inCouncil:
-            return "inCouncil";
         case Status.UNRECOGNIZED:
         default:
             return "UNRECOGNIZED";
@@ -97,6 +91,7 @@ function createBaseCard() {
         underpoweredVotes: 0,
         inappropriateVotes: 0,
         nerflevel: 0,
+        balanceAnchor: false,
     };
 }
 export const Card = {
@@ -142,6 +137,9 @@ export const Card = {
         }
         if (message.nerflevel !== 0) {
             writer.uint32(104).int64(message.nerflevel);
+        }
+        if (message.balanceAnchor === true) {
+            writer.uint32(120).bool(message.balanceAnchor);
         }
         return writer;
     },
@@ -194,6 +192,9 @@ export const Card = {
                 case 13:
                     message.nerflevel = longToNumber(reader.int64());
                     break;
+                case 15:
+                    message.balanceAnchor = reader.bool();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -217,6 +218,7 @@ export const Card = {
             underpoweredVotes: isSet(object.underpoweredVotes) ? Number(object.underpoweredVotes) : 0,
             inappropriateVotes: isSet(object.inappropriateVotes) ? Number(object.inappropriateVotes) : 0,
             nerflevel: isSet(object.nerflevel) ? Number(object.nerflevel) : 0,
+            balanceAnchor: isSet(object.balanceAnchor) ? Boolean(object.balanceAnchor) : false,
         };
     },
     toJSON(message) {
@@ -241,6 +243,7 @@ export const Card = {
         message.underpoweredVotes !== undefined && (obj.underpoweredVotes = Math.round(message.underpoweredVotes));
         message.inappropriateVotes !== undefined && (obj.inappropriateVotes = Math.round(message.inappropriateVotes));
         message.nerflevel !== undefined && (obj.nerflevel = Math.round(message.nerflevel));
+        message.balanceAnchor !== undefined && (obj.balanceAnchor = message.balanceAnchor);
         return obj;
     },
     fromPartial(object) {
@@ -259,6 +262,7 @@ export const Card = {
         message.underpoweredVotes = object.underpoweredVotes ?? 0;
         message.inappropriateVotes = object.inappropriateVotes ?? 0;
         message.nerflevel = object.nerflevel ?? 0;
+        message.balanceAnchor = object.balanceAnchor ?? false;
         return message;
     },
 };
@@ -278,6 +282,8 @@ function createBaseOutpCard() {
         underpoweredVotes: 0,
         inappropriateVotes: 0,
         nerflevel: 0,
+        balanceAnchor: false,
+        hash: "",
     };
 }
 export const OutpCard = {
@@ -323,6 +329,12 @@ export const OutpCard = {
         }
         if (message.nerflevel !== 0) {
             writer.uint32(104).int64(message.nerflevel);
+        }
+        if (message.balanceAnchor === true) {
+            writer.uint32(120).bool(message.balanceAnchor);
+        }
+        if (message.hash !== "") {
+            writer.uint32(130).string(message.hash);
         }
         return writer;
     },
@@ -375,6 +387,12 @@ export const OutpCard = {
                 case 13:
                     message.nerflevel = longToNumber(reader.int64());
                     break;
+                case 15:
+                    message.balanceAnchor = reader.bool();
+                    break;
+                case 16:
+                    message.hash = reader.string();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -398,6 +416,8 @@ export const OutpCard = {
             underpoweredVotes: isSet(object.underpoweredVotes) ? Number(object.underpoweredVotes) : 0,
             inappropriateVotes: isSet(object.inappropriateVotes) ? Number(object.inappropriateVotes) : 0,
             nerflevel: isSet(object.nerflevel) ? Number(object.nerflevel) : 0,
+            balanceAnchor: isSet(object.balanceAnchor) ? Boolean(object.balanceAnchor) : false,
+            hash: isSet(object.hash) ? String(object.hash) : "",
         };
     },
     toJSON(message) {
@@ -421,6 +441,8 @@ export const OutpCard = {
         message.underpoweredVotes !== undefined && (obj.underpoweredVotes = Math.round(message.underpoweredVotes));
         message.inappropriateVotes !== undefined && (obj.inappropriateVotes = Math.round(message.inappropriateVotes));
         message.nerflevel !== undefined && (obj.nerflevel = Math.round(message.nerflevel));
+        message.balanceAnchor !== undefined && (obj.balanceAnchor = message.balanceAnchor);
+        message.hash !== undefined && (obj.hash = message.hash);
         return obj;
     },
     fromPartial(object) {
@@ -439,6 +461,8 @@ export const OutpCard = {
         message.underpoweredVotes = object.underpoweredVotes ?? 0;
         message.inappropriateVotes = object.inappropriateVotes ?? 0;
         message.nerflevel = object.nerflevel ?? 0;
+        message.balanceAnchor = object.balanceAnchor ?? false;
+        message.hash = object.hash ?? "";
         return message;
     },
 };

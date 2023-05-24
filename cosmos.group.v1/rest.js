@@ -227,6 +227,21 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
+         * @description Since: cosmos-sdk 0.47.1
+         *
+         * @tags Query
+         * @name QueryGroups
+         * @summary Groups queries all groups in state.
+         * @request GET:/cosmos/group/v1/groups
+         */
+        this.queryGroups = (query, params = {}) => this.request({
+            path: `/cosmos/group/v1/groups`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
          * No description
          *
          * @tags Query

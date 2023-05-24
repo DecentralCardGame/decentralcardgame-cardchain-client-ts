@@ -6,7 +6,7 @@ const defaultFee = {
     amount: [],
     gas: "200000",
 };
-export class IgniteClient extends EventEmitter {
+class IgniteClient extends EventEmitter {
     static plugin(plugin) {
         const currentPlugins = this.plugins;
         class AugmentedClient extends this {
@@ -133,3 +133,4 @@ export class IgniteClient extends EventEmitter {
     }
 }
 IgniteClient.plugins = [];
+export { IgniteClient };

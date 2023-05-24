@@ -1,6 +1,7 @@
 /* eslint-disable */
 import Long from "long";
 import _m0 from "protobufjs/minimal";
+import { Coin } from "../../cosmos/base/v1beta1/coin";
 import { responseFromJSON, responseToJSON } from "./council";
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 export var Outcome;
@@ -141,15 +142,15 @@ export const MsgCreateuserResponse = {
     },
 };
 function createBaseMsgBuyCardScheme() {
-    return { creator: "", bid: "" };
+    return { creator: "", bid: undefined };
 }
 export const MsgBuyCardScheme = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.creator !== "") {
             writer.uint32(10).string(message.creator);
         }
-        if (message.bid !== "") {
-            writer.uint32(18).string(message.bid);
+        if (message.bid !== undefined) {
+            Coin.encode(message.bid, writer.uint32(18).fork()).ldelim();
         }
         return writer;
     },
@@ -164,7 +165,7 @@ export const MsgBuyCardScheme = {
                     message.creator = reader.string();
                     break;
                 case 2:
-                    message.bid = reader.string();
+                    message.bid = Coin.decode(reader, reader.uint32());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -176,19 +177,19 @@ export const MsgBuyCardScheme = {
     fromJSON(object) {
         return {
             creator: isSet(object.creator) ? String(object.creator) : "",
-            bid: isSet(object.bid) ? String(object.bid) : "",
+            bid: isSet(object.bid) ? Coin.fromJSON(object.bid) : undefined,
         };
     },
     toJSON(message) {
         const obj = {};
         message.creator !== undefined && (obj.creator = message.creator);
-        message.bid !== undefined && (obj.bid = message.bid);
+        message.bid !== undefined && (obj.bid = message.bid ? Coin.toJSON(message.bid) : undefined);
         return obj;
     },
     fromPartial(object) {
         const message = createBaseMsgBuyCardScheme();
         message.creator = object.creator ?? "";
-        message.bid = object.bid ?? "";
+        message.bid = (object.bid !== undefined && object.bid !== null) ? Coin.fromPartial(object.bid) : undefined;
         return message;
     },
 };
@@ -328,7 +329,7 @@ export const MsgVoteCardResponse = {
     },
 };
 function createBaseMsgSaveCardContent() {
-    return { creator: "", cardId: 0, content: new Uint8Array(), notes: "", artist: "" };
+    return { creator: "", cardId: 0, content: new Uint8Array(), notes: "", artist: "", balanceAnchor: false };
 }
 export const MsgSaveCardContent = {
     encode(message, writer = _m0.Writer.create()) {
@@ -346,6 +347,9 @@ export const MsgSaveCardContent = {
         }
         if (message.artist !== "") {
             writer.uint32(42).string(message.artist);
+        }
+        if (message.balanceAnchor === true) {
+            writer.uint32(48).bool(message.balanceAnchor);
         }
         return writer;
     },
@@ -371,6 +375,9 @@ export const MsgSaveCardContent = {
                 case 5:
                     message.artist = reader.string();
                     break;
+                case 6:
+                    message.balanceAnchor = reader.bool();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -385,6 +392,7 @@ export const MsgSaveCardContent = {
             content: isSet(object.content) ? bytesFromBase64(object.content) : new Uint8Array(),
             notes: isSet(object.notes) ? String(object.notes) : "",
             artist: isSet(object.artist) ? String(object.artist) : "",
+            balanceAnchor: isSet(object.balanceAnchor) ? Boolean(object.balanceAnchor) : false,
         };
     },
     toJSON(message) {
@@ -395,6 +403,7 @@ export const MsgSaveCardContent = {
             && (obj.content = base64FromBytes(message.content !== undefined ? message.content : new Uint8Array()));
         message.notes !== undefined && (obj.notes = message.notes);
         message.artist !== undefined && (obj.artist = message.artist);
+        message.balanceAnchor !== undefined && (obj.balanceAnchor = message.balanceAnchor);
         return obj;
     },
     fromPartial(object) {
@@ -404,6 +413,7 @@ export const MsgSaveCardContent = {
         message.content = object.content ?? new Uint8Array();
         message.notes = object.notes ?? "";
         message.artist = object.artist ?? "";
+        message.balanceAnchor = object.balanceAnchor ?? false;
         return message;
     },
 };
@@ -3836,6 +3846,148 @@ export const MsgSetUserBiographyResponse = {
         return message;
     },
 };
+function createBaseSingleVote() {
+    return { cardId: 0, voteType: "" };
+}
+export const SingleVote = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.cardId !== 0) {
+            writer.uint32(8).uint64(message.cardId);
+        }
+        if (message.voteType !== "") {
+            writer.uint32(18).string(message.voteType);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseSingleVote();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.cardId = longToNumber(reader.uint64());
+                    break;
+                case 2:
+                    message.voteType = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
+            voteType: isSet(object.voteType) ? String(object.voteType) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
+        message.voteType !== undefined && (obj.voteType = message.voteType);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseSingleVote();
+        message.cardId = object.cardId ?? 0;
+        message.voteType = object.voteType ?? "";
+        return message;
+    },
+};
+function createBaseMsgMultiVoteCard() {
+    return { creator: "", votes: [] };
+}
+export const MsgMultiVoteCard = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        for (const v of message.votes) {
+            SingleVote.encode(v, writer.uint32(18).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseMsgMultiVoteCard();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.votes.push(SingleVote.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            creator: isSet(object.creator) ? String(object.creator) : "",
+            votes: Array.isArray(object?.votes) ? object.votes.map((e) => SingleVote.fromJSON(e)) : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        if (message.votes) {
+            obj.votes = message.votes.map((e) => e ? SingleVote.toJSON(e) : undefined);
+        }
+        else {
+            obj.votes = [];
+        }
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseMsgMultiVoteCard();
+        message.creator = object.creator ?? "";
+        message.votes = object.votes?.map((e) => SingleVote.fromPartial(e)) || [];
+        return message;
+    },
+};
+function createBaseMsgMultiVoteCardResponse() {
+    return {};
+}
+export const MsgMultiVoteCardResponse = {
+    encode(_, writer = _m0.Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseMsgMultiVoteCardResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = createBaseMsgMultiVoteCardResponse();
+        return message;
+    },
+};
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -3879,6 +4031,7 @@ export class MsgClientImpl {
         this.SetCollectionArtist = this.SetCollectionArtist.bind(this);
         this.SetUserWebsite = this.SetUserWebsite.bind(this);
         this.SetUserBiography = this.SetUserBiography.bind(this);
+        this.MultiVoteCard = this.MultiVoteCard.bind(this);
     }
     Createuser(request) {
         const data = MsgCreateuser.encode(request).finish();
@@ -4079,6 +4232,11 @@ export class MsgClientImpl {
         const data = MsgSetUserBiography.encode(request).finish();
         const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetUserBiography", data);
         return promise.then((data) => MsgSetUserBiographyResponse.decode(new _m0.Reader(data)));
+    }
+    MultiVoteCard(request) {
+        const data = MsgMultiVoteCard.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "MultiVoteCard", data);
+        return promise.then((data) => MsgMultiVoteCardResponse.decode(new _m0.Reader(data)));
     }
 }
 var globalThis = (() => {

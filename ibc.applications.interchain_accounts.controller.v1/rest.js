@@ -8,6 +8,15 @@
  * ## SOURCE: https://github.com/acacode/swagger-typescript-api ##
  * ---------------------------------------------------------------
  */
+/**
+* - TYPE_UNSPECIFIED: Default zero value enumeration
+ - TYPE_EXECUTE_TX: Execute a transaction on an interchain accounts host chain
+*/
+export var InterchainAccountsv1Type;
+(function (InterchainAccountsv1Type) {
+    InterchainAccountsv1Type["TYPE_UNSPECIFIED"] = "TYPE_UNSPECIFIED";
+    InterchainAccountsv1Type["TYPE_EXECUTE_TX"] = "TYPE_EXECUTE_TX";
+})(InterchainAccountsv1Type || (InterchainAccountsv1Type = {}));
 import axios from "axios";
 export var ContentType;
 (function (ContentType) {

@@ -86,20 +86,6 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
-         * @name QueryClientParams
-         * @summary ClientParams queries all parameters of the ibc client.
-         * @request GET:/ibc/client/v1/params
-         */
-        this.queryClientParams = (params = {}) => this.request({
-            path: `/ibc/client/v1/params`,
-            method: "GET",
-            format: "json",
-            ...params,
-        });
-        /**
-         * No description
-         *
-         * @tags Query
          * @name QueryClientStates
          * @summary ClientStates queries all the IBC light clients of a chain.
          * @request GET:/ibc/core/client/v1/client_states
@@ -183,6 +169,20 @@ export class Api extends HttpClient {
             path: `/ibc/core/client/v1/consensus_states/${clientId}/revision/${revisionNumber}/height/${revisionHeight}`,
             method: "GET",
             query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryClientParams
+         * @summary ClientParams queries all parameters of the ibc client submodule.
+         * @request GET:/ibc/core/client/v1/params
+         */
+        this.queryClientParams = (params = {}) => this.request({
+            path: `/ibc/core/client/v1/params`,
+            method: "GET",
             format: "json",
             ...params,
         });

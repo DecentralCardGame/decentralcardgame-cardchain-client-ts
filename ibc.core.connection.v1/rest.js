@@ -173,5 +173,19 @@ export class Api extends HttpClient {
             format: "json",
             ...params,
         });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryConnectionParams
+         * @summary ConnectionParams queries all parameters of the ibc connection submodule.
+         * @request GET:/ibc/core/connection/v1/params
+         */
+        this.queryConnectionParams = (params = {}) => this.request({
+            path: `/ibc/core/connection/v1/params`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
     }
 }

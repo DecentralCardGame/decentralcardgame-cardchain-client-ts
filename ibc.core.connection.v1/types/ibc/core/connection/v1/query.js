@@ -4,7 +4,7 @@ import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../../../cosmos/base/query/v1beta1/pagination";
 import { Any } from "../../../../google/protobuf/any";
 import { Height, IdentifiedClientState } from "../../client/v1/client";
-import { ConnectionEnd, IdentifiedConnection } from "./connection";
+import { ConnectionEnd, IdentifiedConnection, Params } from "./connection";
 export const protobufPackage = "ibc.core.connection.v1";
 function createBaseQueryConnectionRequest() {
     return { connectionId: "" };
@@ -594,6 +594,82 @@ export const QueryConnectionConsensusStateResponse = {
         return message;
     },
 };
+function createBaseQueryConnectionParamsRequest() {
+    return {};
+}
+export const QueryConnectionParamsRequest = {
+    encode(_, writer = _m0.Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryConnectionParamsRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = createBaseQueryConnectionParamsRequest();
+        return message;
+    },
+};
+function createBaseQueryConnectionParamsResponse() {
+    return { params: undefined };
+}
+export const QueryConnectionParamsResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.params !== undefined) {
+            Params.encode(message.params, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryConnectionParamsResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.params = Params.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { params: isSet(object.params) ? Params.fromJSON(object.params) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryConnectionParamsResponse();
+        message.params = (object.params !== undefined && object.params !== null)
+            ? Params.fromPartial(object.params)
+            : undefined;
+        return message;
+    },
+};
 export class QueryClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -602,6 +678,7 @@ export class QueryClientImpl {
         this.ClientConnections = this.ClientConnections.bind(this);
         this.ConnectionClientState = this.ConnectionClientState.bind(this);
         this.ConnectionConsensusState = this.ConnectionConsensusState.bind(this);
+        this.ConnectionParams = this.ConnectionParams.bind(this);
     }
     Connection(request) {
         const data = QueryConnectionRequest.encode(request).finish();
@@ -627,6 +704,11 @@ export class QueryClientImpl {
         const data = QueryConnectionConsensusStateRequest.encode(request).finish();
         const promise = this.rpc.request("ibc.core.connection.v1.Query", "ConnectionConsensusState", data);
         return promise.then((data) => QueryConnectionConsensusStateResponse.decode(new _m0.Reader(data)));
+    }
+    ConnectionParams(request) {
+        const data = QueryConnectionParamsRequest.encode(request).finish();
+        const promise = this.rpc.request("ibc.core.connection.v1.Query", "ConnectionParams", data);
+        return promise.then((data) => QueryConnectionParamsResponse.decode(new _m0.Reader(data)));
     }
 }
 var globalThis = (() => {

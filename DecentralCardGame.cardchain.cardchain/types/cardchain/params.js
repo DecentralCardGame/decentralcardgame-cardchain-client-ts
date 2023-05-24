@@ -11,7 +11,6 @@ function createBaseParams() {
         collectionCreationFee: "",
         collateralDeposit: "",
         winnerReward: 0,
-        voterReward: 0,
         hourlyFaucet: "",
         inflationRate: "",
         raresPerPack: 0,
@@ -22,6 +21,9 @@ function createBaseParams() {
         cardAuctionPriceReductionPeriod: 0,
         airDropValue: "",
         airDropMaxBlockHeight: 0,
+        trialVoteReward: "",
+        votePoolFraction: 0,
+        votingRewardCap: 0,
     };
 }
 export const Params = {
@@ -46,9 +48,6 @@ export const Params = {
         }
         if (message.winnerReward !== 0) {
             writer.uint32(56).int64(message.winnerReward);
-        }
-        if (message.voterReward !== 0) {
-            writer.uint32(64).int64(message.voterReward);
         }
         if (message.hourlyFaucet !== "") {
             writer.uint32(74).string(message.hourlyFaucet);
@@ -80,6 +79,15 @@ export const Params = {
         if (message.airDropMaxBlockHeight !== 0) {
             writer.uint32(144).int64(message.airDropMaxBlockHeight);
         }
+        if (message.trialVoteReward !== "") {
+            writer.uint32(154).string(message.trialVoteReward);
+        }
+        if (message.votePoolFraction !== 0) {
+            writer.uint32(160).int64(message.votePoolFraction);
+        }
+        if (message.votingRewardCap !== 0) {
+            writer.uint32(64).int64(message.votingRewardCap);
+        }
         return writer;
     },
     decode(input, length) {
@@ -109,9 +117,6 @@ export const Params = {
                     break;
                 case 7:
                     message.winnerReward = longToNumber(reader.int64());
-                    break;
-                case 8:
-                    message.voterReward = longToNumber(reader.int64());
                     break;
                 case 9:
                     message.hourlyFaucet = reader.string();
@@ -143,6 +148,15 @@ export const Params = {
                 case 18:
                     message.airDropMaxBlockHeight = longToNumber(reader.int64());
                     break;
+                case 19:
+                    message.trialVoteReward = reader.string();
+                    break;
+                case 20:
+                    message.votePoolFraction = longToNumber(reader.int64());
+                    break;
+                case 8:
+                    message.votingRewardCap = longToNumber(reader.int64());
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -161,7 +175,6 @@ export const Params = {
             collectionCreationFee: isSet(object.collectionCreationFee) ? String(object.collectionCreationFee) : "",
             collateralDeposit: isSet(object.collateralDeposit) ? String(object.collateralDeposit) : "",
             winnerReward: isSet(object.winnerReward) ? Number(object.winnerReward) : 0,
-            voterReward: isSet(object.voterReward) ? Number(object.voterReward) : 0,
             hourlyFaucet: isSet(object.hourlyFaucet) ? String(object.hourlyFaucet) : "",
             inflationRate: isSet(object.inflationRate) ? String(object.inflationRate) : "",
             raresPerPack: isSet(object.raresPerPack) ? Number(object.raresPerPack) : 0,
@@ -174,6 +187,9 @@ export const Params = {
                 : 0,
             airDropValue: isSet(object.airDropValue) ? String(object.airDropValue) : "",
             airDropMaxBlockHeight: isSet(object.airDropMaxBlockHeight) ? Number(object.airDropMaxBlockHeight) : 0,
+            trialVoteReward: isSet(object.trialVoteReward) ? String(object.trialVoteReward) : "",
+            votePoolFraction: isSet(object.votePoolFraction) ? Number(object.votePoolFraction) : 0,
+            votingRewardCap: isSet(object.votingRewardCap) ? Number(object.votingRewardCap) : 0,
         };
     },
     toJSON(message) {
@@ -187,7 +203,6 @@ export const Params = {
         message.collectionCreationFee !== undefined && (obj.collectionCreationFee = message.collectionCreationFee);
         message.collateralDeposit !== undefined && (obj.collateralDeposit = message.collateralDeposit);
         message.winnerReward !== undefined && (obj.winnerReward = Math.round(message.winnerReward));
-        message.voterReward !== undefined && (obj.voterReward = Math.round(message.voterReward));
         message.hourlyFaucet !== undefined && (obj.hourlyFaucet = message.hourlyFaucet);
         message.inflationRate !== undefined && (obj.inflationRate = message.inflationRate);
         message.raresPerPack !== undefined && (obj.raresPerPack = Math.round(message.raresPerPack));
@@ -200,6 +215,9 @@ export const Params = {
         message.airDropValue !== undefined && (obj.airDropValue = message.airDropValue);
         message.airDropMaxBlockHeight !== undefined
             && (obj.airDropMaxBlockHeight = Math.round(message.airDropMaxBlockHeight));
+        message.trialVoteReward !== undefined && (obj.trialVoteReward = message.trialVoteReward);
+        message.votePoolFraction !== undefined && (obj.votePoolFraction = Math.round(message.votePoolFraction));
+        message.votingRewardCap !== undefined && (obj.votingRewardCap = Math.round(message.votingRewardCap));
         return obj;
     },
     fromPartial(object) {
@@ -211,7 +229,6 @@ export const Params = {
         message.collectionCreationFee = object.collectionCreationFee ?? "";
         message.collateralDeposit = object.collateralDeposit ?? "";
         message.winnerReward = object.winnerReward ?? 0;
-        message.voterReward = object.voterReward ?? 0;
         message.hourlyFaucet = object.hourlyFaucet ?? "";
         message.inflationRate = object.inflationRate ?? "";
         message.raresPerPack = object.raresPerPack ?? 0;
@@ -222,6 +239,9 @@ export const Params = {
         message.cardAuctionPriceReductionPeriod = object.cardAuctionPriceReductionPeriod ?? 0;
         message.airDropValue = object.airDropValue ?? "";
         message.airDropMaxBlockHeight = object.airDropMaxBlockHeight ?? 0;
+        message.trialVoteReward = object.trialVoteReward ?? "";
+        message.votePoolFraction = object.votePoolFraction ?? 0;
+        message.votingRewardCap = object.votingRewardCap ?? 0;
         return message;
     },
 };
