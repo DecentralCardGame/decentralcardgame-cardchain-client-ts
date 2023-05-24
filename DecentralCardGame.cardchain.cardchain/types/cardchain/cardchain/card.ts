@@ -14,7 +14,6 @@ export enum Status {
   bannedSoon = 6,
   bannedVerySoon = 7,
   none = 8,
-  inCouncil = 9,
   UNRECOGNIZED = -1,
 }
 
@@ -47,9 +46,6 @@ export function statusFromJSON(object: any): Status {
     case 8:
     case "none":
       return Status.none;
-    case 9:
-    case "inCouncil":
-      return Status.inCouncil;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -77,8 +73,6 @@ export function statusToJSON(object: Status): string {
       return "bannedVerySoon";
     case Status.none:
       return "none";
-    case Status.inCouncil:
-      return "inCouncil";
     case Status.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";
@@ -100,6 +94,7 @@ export interface Card {
   underpoweredVotes: number;
   inappropriateVotes: number;
   nerflevel: number;
+  balanceAnchor: boolean;
 }
 
 export interface OutpCard {
@@ -117,6 +112,8 @@ export interface OutpCard {
   underpoweredVotes: number;
   inappropriateVotes: number;
   nerflevel: number;
+  balanceAnchor: boolean;
+  hash: string;
 }
 
 function createBaseCard(): Card {
@@ -135,6 +132,7 @@ function createBaseCard(): Card {
     underpoweredVotes: 0,
     inappropriateVotes: 0,
     nerflevel: 0,
+    balanceAnchor: false,
   };
 }
 
@@ -181,6 +179,9 @@ export const Card = {
     }
     if (message.nerflevel !== 0) {
       writer.uint32(104).int64(message.nerflevel);
+    }
+    if (message.balanceAnchor === true) {
+      writer.uint32(120).bool(message.balanceAnchor);
     }
     return writer;
   },
@@ -234,6 +235,9 @@ export const Card = {
         case 13:
           message.nerflevel = longToNumber(reader.int64() as Long);
           break;
+        case 15:
+          message.balanceAnchor = reader.bool();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -258,6 +262,7 @@ export const Card = {
       underpoweredVotes: isSet(object.underpoweredVotes) ? Number(object.underpoweredVotes) : 0,
       inappropriateVotes: isSet(object.inappropriateVotes) ? Number(object.inappropriateVotes) : 0,
       nerflevel: isSet(object.nerflevel) ? Number(object.nerflevel) : 0,
+      balanceAnchor: isSet(object.balanceAnchor) ? Boolean(object.balanceAnchor) : false,
     };
   },
 
@@ -282,6 +287,7 @@ export const Card = {
     message.underpoweredVotes !== undefined && (obj.underpoweredVotes = Math.round(message.underpoweredVotes));
     message.inappropriateVotes !== undefined && (obj.inappropriateVotes = Math.round(message.inappropriateVotes));
     message.nerflevel !== undefined && (obj.nerflevel = Math.round(message.nerflevel));
+    message.balanceAnchor !== undefined && (obj.balanceAnchor = message.balanceAnchor);
     return obj;
   },
 
@@ -301,6 +307,7 @@ export const Card = {
     message.underpoweredVotes = object.underpoweredVotes ?? 0;
     message.inappropriateVotes = object.inappropriateVotes ?? 0;
     message.nerflevel = object.nerflevel ?? 0;
+    message.balanceAnchor = object.balanceAnchor ?? false;
     return message;
   },
 };
@@ -321,6 +328,8 @@ function createBaseOutpCard(): OutpCard {
     underpoweredVotes: 0,
     inappropriateVotes: 0,
     nerflevel: 0,
+    balanceAnchor: false,
+    hash: "",
   };
 }
 
@@ -367,6 +376,12 @@ export const OutpCard = {
     }
     if (message.nerflevel !== 0) {
       writer.uint32(104).int64(message.nerflevel);
+    }
+    if (message.balanceAnchor === true) {
+      writer.uint32(120).bool(message.balanceAnchor);
+    }
+    if (message.hash !== "") {
+      writer.uint32(130).string(message.hash);
     }
     return writer;
   },
@@ -420,6 +435,12 @@ export const OutpCard = {
         case 13:
           message.nerflevel = longToNumber(reader.int64() as Long);
           break;
+        case 15:
+          message.balanceAnchor = reader.bool();
+          break;
+        case 16:
+          message.hash = reader.string();
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -444,6 +465,8 @@ export const OutpCard = {
       underpoweredVotes: isSet(object.underpoweredVotes) ? Number(object.underpoweredVotes) : 0,
       inappropriateVotes: isSet(object.inappropriateVotes) ? Number(object.inappropriateVotes) : 0,
       nerflevel: isSet(object.nerflevel) ? Number(object.nerflevel) : 0,
+      balanceAnchor: isSet(object.balanceAnchor) ? Boolean(object.balanceAnchor) : false,
+      hash: isSet(object.hash) ? String(object.hash) : "",
     };
   },
 
@@ -467,6 +490,8 @@ export const OutpCard = {
     message.underpoweredVotes !== undefined && (obj.underpoweredVotes = Math.round(message.underpoweredVotes));
     message.inappropriateVotes !== undefined && (obj.inappropriateVotes = Math.round(message.inappropriateVotes));
     message.nerflevel !== undefined && (obj.nerflevel = Math.round(message.nerflevel));
+    message.balanceAnchor !== undefined && (obj.balanceAnchor = message.balanceAnchor);
+    message.hash !== undefined && (obj.hash = message.hash);
     return obj;
   },
 
@@ -486,6 +511,8 @@ export const OutpCard = {
     message.underpoweredVotes = object.underpoweredVotes ?? 0;
     message.inappropriateVotes = object.inappropriateVotes ?? 0;
     message.nerflevel = object.nerflevel ?? 0;
+    message.balanceAnchor = object.balanceAnchor ?? false;
+    message.hash = object.hash ?? "";
     return message;
   },
 };

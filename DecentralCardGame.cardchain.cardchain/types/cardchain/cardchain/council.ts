@@ -44,37 +44,33 @@ export function responseToJSON(object: Response): string {
 }
 
 export enum CouncelingStatus {
-  councilDoesNotExist = 0,
-  councilOpen = 1,
-  councilCreated = 2,
-  councilClosed = 3,
-  commited = 4,
-  revealed = 5,
-  suggestionsMade = 6,
+  councilOpen = 0,
+  councilCreated = 1,
+  councilClosed = 2,
+  commited = 3,
+  revealed = 4,
+  suggestionsMade = 5,
   UNRECOGNIZED = -1,
 }
 
 export function councelingStatusFromJSON(object: any): CouncelingStatus {
   switch (object) {
     case 0:
-    case "councilDoesNotExist":
-      return CouncelingStatus.councilDoesNotExist;
-    case 1:
     case "councilOpen":
       return CouncelingStatus.councilOpen;
-    case 2:
+    case 1:
     case "councilCreated":
       return CouncelingStatus.councilCreated;
-    case 3:
+    case 2:
     case "councilClosed":
       return CouncelingStatus.councilClosed;
-    case 4:
+    case 3:
     case "commited":
       return CouncelingStatus.commited;
-    case 5:
+    case 4:
     case "revealed":
       return CouncelingStatus.revealed;
-    case 6:
+    case 5:
     case "suggestionsMade":
       return CouncelingStatus.suggestionsMade;
     case -1:
@@ -86,8 +82,6 @@ export function councelingStatusFromJSON(object: any): CouncelingStatus {
 
 export function councelingStatusToJSON(object: CouncelingStatus): string {
   switch (object) {
-    case CouncelingStatus.councilDoesNotExist:
-      return "councilDoesNotExist";
     case CouncelingStatus.councilOpen:
       return "councilOpen";
     case CouncelingStatus.councilCreated:

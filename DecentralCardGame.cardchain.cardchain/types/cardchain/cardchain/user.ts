@@ -107,18 +107,13 @@ export interface User {
   ownedPrototypes: number[];
   cards: number[];
   voteRights: VoteRight[];
-  councilParticipation: CouncilParticipation | undefined;
+  CouncilStatus: CouncilStatus;
   ReportMatches: boolean;
   profileCard: number;
   airDrops: AirDrops | undefined;
   boosterPacks: BoosterPack[];
   website: string;
   biography: string;
-}
-
-export interface CouncilParticipation {
-  status: CouncilStatus;
-  council: number;
 }
 
 export interface BoosterPack {
@@ -142,7 +137,7 @@ function createBaseUser(): User {
     ownedPrototypes: [],
     cards: [],
     voteRights: [],
-    councilParticipation: undefined,
+    CouncilStatus: 0,
     ReportMatches: false,
     profileCard: 0,
     airDrops: undefined,
@@ -175,8 +170,8 @@ export const User = {
     for (const v of message.voteRights) {
       VoteRight.encode(v!, writer.uint32(42).fork()).ldelim();
     }
-    if (message.councilParticipation !== undefined) {
-      CouncilParticipation.encode(message.councilParticipation, writer.uint32(50).fork()).ldelim();
+    if (message.CouncilStatus !== 0) {
+      writer.uint32(48).int32(message.CouncilStatus);
     }
     if (message.ReportMatches === true) {
       writer.uint32(56).bool(message.ReportMatches);
@@ -243,7 +238,7 @@ export const User = {
           message.voteRights.push(VoteRight.decode(reader, reader.uint32()));
           break;
         case 6:
-          message.councilParticipation = CouncilParticipation.decode(reader, reader.uint32());
+          message.CouncilStatus = reader.int32() as any;
           break;
         case 7:
           message.ReportMatches = reader.bool();
@@ -280,9 +275,7 @@ export const User = {
       ownedPrototypes: Array.isArray(object?.ownedPrototypes) ? object.ownedPrototypes.map((e: any) => Number(e)) : [],
       cards: Array.isArray(object?.cards) ? object.cards.map((e: any) => Number(e)) : [],
       voteRights: Array.isArray(object?.voteRights) ? object.voteRights.map((e: any) => VoteRight.fromJSON(e)) : [],
-      councilParticipation: isSet(object.councilParticipation)
-        ? CouncilParticipation.fromJSON(object.councilParticipation)
-        : undefined,
+      CouncilStatus: isSet(object.CouncilStatus) ? councilStatusFromJSON(object.CouncilStatus) : 0,
       ReportMatches: isSet(object.ReportMatches) ? Boolean(object.ReportMatches) : false,
       profileCard: isSet(object.profileCard) ? Number(object.profileCard) : 0,
       airDrops: isSet(object.airDrops) ? AirDrops.fromJSON(object.airDrops) : undefined,
@@ -317,9 +310,7 @@ export const User = {
     } else {
       obj.voteRights = [];
     }
-    message.councilParticipation !== undefined && (obj.councilParticipation = message.councilParticipation
-      ? CouncilParticipation.toJSON(message.councilParticipation)
-      : undefined);
+    message.CouncilStatus !== undefined && (obj.CouncilStatus = councilStatusToJSON(message.CouncilStatus));
     message.ReportMatches !== undefined && (obj.ReportMatches = message.ReportMatches);
     message.profileCard !== undefined && (obj.profileCard = Math.round(message.profileCard));
     message.airDrops !== undefined && (obj.airDrops = message.airDrops ? AirDrops.toJSON(message.airDrops) : undefined);
@@ -340,9 +331,7 @@ export const User = {
     message.ownedPrototypes = object.ownedPrototypes?.map((e) => e) || [];
     message.cards = object.cards?.map((e) => e) || [];
     message.voteRights = object.voteRights?.map((e) => VoteRight.fromPartial(e)) || [];
-    message.councilParticipation = (object.councilParticipation !== undefined && object.councilParticipation !== null)
-      ? CouncilParticipation.fromPartial(object.councilParticipation)
-      : undefined;
+    message.CouncilStatus = object.CouncilStatus ?? 0;
     message.ReportMatches = object.ReportMatches ?? false;
     message.profileCard = object.profileCard ?? 0;
     message.airDrops = (object.airDrops !== undefined && object.airDrops !== null)
@@ -351,64 +340,6 @@ export const User = {
     message.boosterPacks = object.boosterPacks?.map((e) => BoosterPack.fromPartial(e)) || [];
     message.website = object.website ?? "";
     message.biography = object.biography ?? "";
-    return message;
-  },
-};
-
-function createBaseCouncilParticipation(): CouncilParticipation {
-  return { status: 0, council: 0 };
-}
-
-export const CouncilParticipation = {
-  encode(message: CouncilParticipation, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.status !== 0) {
-      writer.uint32(8).int32(message.status);
-    }
-    if (message.council !== 0) {
-      writer.uint32(16).uint64(message.council);
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): CouncilParticipation {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseCouncilParticipation();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.status = reader.int32() as any;
-          break;
-        case 2:
-          message.council = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): CouncilParticipation {
-    return {
-      status: isSet(object.status) ? councilStatusFromJSON(object.status) : 0,
-      council: isSet(object.council) ? Number(object.council) : 0,
-    };
-  },
-
-  toJSON(message: CouncilParticipation): unknown {
-    const obj: any = {};
-    message.status !== undefined && (obj.status = councilStatusToJSON(message.status));
-    message.council !== undefined && (obj.council = Math.round(message.council));
-    return obj;
-  },
-
-  fromPartial<I extends Exact<DeepPartial<CouncilParticipation>, I>>(object: I): CouncilParticipation {
-    const message = createBaseCouncilParticipation();
-    message.status = object.status ?? 0;
-    message.council = object.council ?? 0;
     return message;
   },
 };

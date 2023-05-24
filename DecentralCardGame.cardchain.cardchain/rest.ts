@@ -126,6 +126,8 @@ export type CardchainMsgDonateToCardResponse = object;
 
 export type CardchainMsgFinalizeCollectionResponse = object;
 
+export type CardchainMsgMultiVoteCardResponse = object;
+
 export type CardchainMsgOpenBoosterPackResponse = object;
 
 export type CardchainMsgRegisterForCouncilResponse = object;
@@ -209,6 +211,8 @@ export interface CardchainOutpCard {
 
   /** @format int64 */
   nerflevel?: string;
+  balanceAnchor?: boolean;
+  hash?: string;
 }
 
 export interface CardchainOutpCollection {
@@ -383,6 +387,12 @@ export interface CardchainServer {
 
   /** @format uint64 */
   validReports?: string;
+}
+
+export interface CardchainSingleVote {
+  /** @format uint64 */
+  cardId?: string;
+  voteType?: string;
 }
 
 export interface CardchainUser {
@@ -613,7 +623,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title cardchain/card.proto
+ * @title cardchain/cardchain/card.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
