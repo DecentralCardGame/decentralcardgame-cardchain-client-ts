@@ -116,6 +116,10 @@ export interface OutpCard {
   hash: string;
 }
 
+export interface TimeStamp {
+  timeStamp: number;
+}
+
 function createBaseCard(): Card {
   return {
     owner: "",
@@ -513,6 +517,53 @@ export const OutpCard = {
     message.nerflevel = object.nerflevel ?? 0;
     message.balanceAnchor = object.balanceAnchor ?? false;
     message.hash = object.hash ?? "";
+    return message;
+  },
+};
+
+function createBaseTimeStamp(): TimeStamp {
+  return { timeStamp: 0 };
+}
+
+export const TimeStamp = {
+  encode(message: TimeStamp, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.timeStamp !== 0) {
+      writer.uint32(8).uint64(message.timeStamp);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): TimeStamp {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseTimeStamp();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.timeStamp = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): TimeStamp {
+    return { timeStamp: isSet(object.timeStamp) ? Number(object.timeStamp) : 0 };
+  },
+
+  toJSON(message: TimeStamp): unknown {
+    const obj: any = {};
+    message.timeStamp !== undefined && (obj.timeStamp = Math.round(message.timeStamp));
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<TimeStamp>, I>>(object: I): TimeStamp {
+    const message = createBaseTimeStamp();
+    message.timeStamp = object.timeStamp ?? 0;
     return message;
   },
 };

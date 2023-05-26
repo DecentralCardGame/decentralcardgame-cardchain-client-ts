@@ -466,6 +466,47 @@ export const OutpCard = {
         return message;
     },
 };
+function createBaseTimeStamp() {
+    return { timeStamp: 0 };
+}
+export const TimeStamp = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.timeStamp !== 0) {
+            writer.uint32(8).uint64(message.timeStamp);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseTimeStamp();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.timeStamp = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { timeStamp: isSet(object.timeStamp) ? Number(object.timeStamp) : 0 };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.timeStamp !== undefined && (obj.timeStamp = Math.round(message.timeStamp));
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseTimeStamp();
+        message.timeStamp = object.timeStamp ?? 0;
+        return message;
+    },
+};
 var globalThis = (() => {
     if (typeof globalThis !== "undefined") {
         return globalThis;

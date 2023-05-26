@@ -1,4 +1,5 @@
 import { Card } from "./types/cardchain/cardchain/card"
+import { TimeStamp } from "./types/cardchain/cardchain/card"
 import { Collection } from "./types/cardchain/cardchain/collection"
 import { CollectionProposal } from "./types/cardchain/cardchain/collection_proposal"
 import { CopyrightProposal } from "./types/cardchain/cardchain/copyright_proposal"
@@ -23,6 +24,7 @@ import { VotingResults } from "./types/cardchain/cardchain/voting_results"
 
 export {     
     Card,
+    TimeStamp,
     Collection,
     CollectionProposal,
     CopyrightProposal,

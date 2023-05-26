@@ -390,6 +390,7 @@ function createBaseQueryQCardchainInfoResponse() {
         matchesNumber: 0,
         sellOffersNumber: 0,
         councilsNumber: 0,
+        lastCardModified: 0,
     };
 }
 export const QueryQCardchainInfoResponse = {
@@ -413,6 +414,9 @@ export const QueryQCardchainInfoResponse = {
         }
         if (message.councilsNumber !== 0) {
             writer.uint32(48).uint64(message.councilsNumber);
+        }
+        if (message.lastCardModified !== 0) {
+            writer.uint32(56).uint64(message.lastCardModified);
         }
         return writer;
     },
@@ -449,6 +453,9 @@ export const QueryQCardchainInfoResponse = {
                 case 6:
                     message.councilsNumber = longToNumber(reader.uint64());
                     break;
+                case 7:
+                    message.lastCardModified = longToNumber(reader.uint64());
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -466,6 +473,7 @@ export const QueryQCardchainInfoResponse = {
             matchesNumber: isSet(object.matchesNumber) ? Number(object.matchesNumber) : 0,
             sellOffersNumber: isSet(object.sellOffersNumber) ? Number(object.sellOffersNumber) : 0,
             councilsNumber: isSet(object.councilsNumber) ? Number(object.councilsNumber) : 0,
+            lastCardModified: isSet(object.lastCardModified) ? Number(object.lastCardModified) : 0,
         };
     },
     toJSON(message) {
@@ -481,6 +489,7 @@ export const QueryQCardchainInfoResponse = {
         message.matchesNumber !== undefined && (obj.matchesNumber = Math.round(message.matchesNumber));
         message.sellOffersNumber !== undefined && (obj.sellOffersNumber = Math.round(message.sellOffersNumber));
         message.councilsNumber !== undefined && (obj.councilsNumber = Math.round(message.councilsNumber));
+        message.lastCardModified !== undefined && (obj.lastCardModified = Math.round(message.lastCardModified));
         return obj;
     },
     fromPartial(object) {
@@ -491,6 +500,7 @@ export const QueryQCardchainInfoResponse = {
         message.matchesNumber = object.matchesNumber ?? 0;
         message.sellOffersNumber = object.sellOffersNumber ?? 0;
         message.councilsNumber = object.councilsNumber ?? 0;
+        message.lastCardModified = object.lastCardModified ?? 0;
         return message;
     },
 };

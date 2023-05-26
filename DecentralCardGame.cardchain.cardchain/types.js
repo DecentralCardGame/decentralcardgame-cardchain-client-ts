@@ -1,4 +1,5 @@
 import { Card } from "./types/cardchain/cardchain/card";
+import { TimeStamp } from "./types/cardchain/cardchain/card";
 import { Collection } from "./types/cardchain/cardchain/collection";
 import { CollectionProposal } from "./types/cardchain/cardchain/collection_proposal";
 import { CopyrightProposal } from "./types/cardchain/cardchain/copyright_proposal";
@@ -19,4 +20,4 @@ import { AirDrops } from "./types/cardchain/cardchain/user";
 import { VoteRight } from "./types/cardchain/cardchain/vote_right";
 import { VotingResult } from "./types/cardchain/cardchain/voting_result";
 import { VotingResults } from "./types/cardchain/cardchain/voting_results";
-export { Card, Collection, CollectionProposal, CopyrightProposal, WrapClearResponse, WrapHashResponse, Image, MatchPlayer, MatchReporterProposal, Num, Params, IgnoreMatches, IgnoreSellOffers, QueryQServerResponse, RunningAverage, SingleVote, BoosterPack, AirDrops, VoteRight, VotingResult, VotingResults, };
+export { Card, TimeStamp, Collection, CollectionProposal, CopyrightProposal, WrapClearResponse, WrapHashResponse, Image, MatchPlayer, MatchReporterProposal, Num, Params, IgnoreMatches, IgnoreSellOffers, QueryQServerResponse, RunningAverage, SingleVote, BoosterPack, AirDrops, VoteRight, VotingResult, VotingResults, };

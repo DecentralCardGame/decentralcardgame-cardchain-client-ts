@@ -308,6 +308,9 @@ export interface CardchainQueryQCardchainInfoResponse {
 
   /** @format uint64 */
   councilsNumber?: string;
+
+  /** @format uint64 */
+  lastCardModified?: string;
 }
 
 export enum CardchainQueryQCardsRequestStatus {

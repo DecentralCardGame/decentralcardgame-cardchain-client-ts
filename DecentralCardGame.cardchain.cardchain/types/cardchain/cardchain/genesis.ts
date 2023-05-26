@@ -1,7 +1,7 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
 import { Coin } from "../../cosmos/base/v1beta1/coin";
-import { Card } from "./card";
+import { Card, TimeStamp } from "./card";
 import { Collection } from "./collection";
 import { Council } from "./council";
 import { Image } from "./image";
@@ -28,8 +28,9 @@ export interface GenesisState {
   councils: Council[];
   RunningAverages: RunningAverage[];
   images: Image[];
-  /** this line is used by starport scaffolding # genesis/proto/state */
   Servers: Server[];
+  /** this line is used by starport scaffolding # genesis/proto/state */
+  lastCardModified: TimeStamp | undefined;
 }
 
 function createBaseGenesisState(): GenesisState {
@@ -47,6 +48,7 @@ function createBaseGenesisState(): GenesisState {
     RunningAverages: [],
     images: [],
     Servers: [],
+    lastCardModified: undefined,
   };
 }
 
@@ -90,6 +92,9 @@ export const GenesisState = {
     }
     for (const v of message.Servers) {
       Server.encode(v!, writer.uint32(122).fork()).ldelim();
+    }
+    if (message.lastCardModified !== undefined) {
+      TimeStamp.encode(message.lastCardModified, writer.uint32(130).fork()).ldelim();
     }
     return writer;
   },
@@ -140,6 +145,9 @@ export const GenesisState = {
         case 15:
           message.Servers.push(Server.decode(reader, reader.uint32()));
           break;
+        case 16:
+          message.lastCardModified = TimeStamp.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -165,6 +173,7 @@ export const GenesisState = {
         : [],
       images: Array.isArray(object?.images) ? object.images.map((e: any) => Image.fromJSON(e)) : [],
       Servers: Array.isArray(object?.Servers) ? object.Servers.map((e: any) => Server.fromJSON(e)) : [],
+      lastCardModified: isSet(object.lastCardModified) ? TimeStamp.fromJSON(object.lastCardModified) : undefined,
     };
   },
 
@@ -227,6 +236,8 @@ export const GenesisState = {
     } else {
       obj.Servers = [];
     }
+    message.lastCardModified !== undefined
+      && (obj.lastCardModified = message.lastCardModified ? TimeStamp.toJSON(message.lastCardModified) : undefined);
     return obj;
   },
 
@@ -247,6 +258,9 @@ export const GenesisState = {
     message.RunningAverages = object.RunningAverages?.map((e) => RunningAverage.fromPartial(e)) || [];
     message.images = object.images?.map((e) => Image.fromPartial(e)) || [];
     message.Servers = object.Servers?.map((e) => Server.fromPartial(e)) || [];
+    message.lastCardModified = (object.lastCardModified !== undefined && object.lastCardModified !== null)
+      ? TimeStamp.fromPartial(object.lastCardModified)
+      : undefined;
     return message;
   },
 };
