@@ -4,7 +4,7 @@
 
 Run
 ```shell
-tsc
+npm run build
 ```
 
 ## Deployment
