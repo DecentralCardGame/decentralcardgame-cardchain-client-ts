@@ -7,47 +7,47 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
-import { MsgSetCardRarity } from "./types/cardchain/cardchain/tx";
-import { MsgCreateCollection } from "./types/cardchain/cardchain/tx";
-import { MsgBuyCollection } from "./types/cardchain/cardchain/tx";
-import { MsgBuyCardScheme } from "./types/cardchain/cardchain/tx";
-import { MsgCreateSellOffer } from "./types/cardchain/cardchain/tx";
-import { MsgSetCollectionArtist } from "./types/cardchain/cardchain/tx";
-import { MsgRevealCouncilResponse } from "./types/cardchain/cardchain/tx";
-import { MsgDonateToCard } from "./types/cardchain/cardchain/tx";
 import { MsgTransferCard } from "./types/cardchain/cardchain/tx";
-import { MsgAddContributorToCollection } from "./types/cardchain/cardchain/tx";
-import { MsgRegisterForCouncil } from "./types/cardchain/cardchain/tx";
-import { MsgCreateCouncil } from "./types/cardchain/cardchain/tx";
-import { MsgAddArtworkToCollection } from "./types/cardchain/cardchain/tx";
-import { MsgSetUserBiography } from "./types/cardchain/cardchain/tx";
-import { MsgRemoveCardFromCollection } from "./types/cardchain/cardchain/tx";
-import { MsgVoteCard } from "./types/cardchain/cardchain/tx";
-import { MsgCommitCouncilResponse } from "./types/cardchain/cardchain/tx";
 import { MsgOpenBoosterPack } from "./types/cardchain/cardchain/tx";
-import { MsgSetUserWebsite } from "./types/cardchain/cardchain/tx";
-import { MsgSubmitCopyrightProposal } from "./types/cardchain/cardchain/tx";
-import { MsgSaveCardContent } from "./types/cardchain/cardchain/tx";
-import { MsgRemoveContributorFromCollection } from "./types/cardchain/cardchain/tx";
-import { MsgConfirmMatch } from "./types/cardchain/cardchain/tx";
-import { MsgRewokeCouncilRegistration } from "./types/cardchain/cardchain/tx";
-import { MsgChangeArtist } from "./types/cardchain/cardchain/tx";
-import { MsgRemoveSellOffer } from "./types/cardchain/cardchain/tx";
-import { MsgAddCardToCollection } from "./types/cardchain/cardchain/tx";
-import { MsgFinalizeCollection } from "./types/cardchain/cardchain/tx";
-import { MsgAddStoryToCollection } from "./types/cardchain/cardchain/tx";
-import { MsgSetCollectionStoryWriter } from "./types/cardchain/cardchain/tx";
-import { MsgMultiVoteCard } from "./types/cardchain/cardchain/tx";
-import { MsgAddArtwork } from "./types/cardchain/cardchain/tx";
-import { MsgReportMatch } from "./types/cardchain/cardchain/tx";
+import { MsgCreateCollection } from "./types/cardchain/cardchain/tx";
 import { MsgCreateuser } from "./types/cardchain/cardchain/tx";
-import { MsgSubmitCollectionProposal } from "./types/cardchain/cardchain/tx";
-import { MsgRestartCouncil } from "./types/cardchain/cardchain/tx";
 import { MsgSubmitMatchReporterProposal } from "./types/cardchain/cardchain/tx";
-import { MsgSetProfileCard } from "./types/cardchain/cardchain/tx";
-import { MsgApointMatchReporter } from "./types/cardchain/cardchain/tx";
-import { MsgBuyCard } from "./types/cardchain/cardchain/tx";
+import { MsgRemoveContributorFromCollection } from "./types/cardchain/cardchain/tx";
+import { MsgSubmitCopyrightProposal } from "./types/cardchain/cardchain/tx";
+import { MsgRewokeCouncilRegistration } from "./types/cardchain/cardchain/tx";
+import { MsgReportMatch } from "./types/cardchain/cardchain/tx";
+import { MsgSubmitCollectionProposal } from "./types/cardchain/cardchain/tx";
+import { MsgSaveCardContent } from "./types/cardchain/cardchain/tx";
+import { MsgDonateToCard } from "./types/cardchain/cardchain/tx";
+import { MsgAddStoryToCollection } from "./types/cardchain/cardchain/tx";
 import { MsgTransferBoosterPack } from "./types/cardchain/cardchain/tx";
+import { MsgSetProfileCard } from "./types/cardchain/cardchain/tx";
+import { MsgRemoveCardFromCollection } from "./types/cardchain/cardchain/tx";
+import { MsgAddArtworkToCollection } from "./types/cardchain/cardchain/tx";
+import { MsgAddCardToCollection } from "./types/cardchain/cardchain/tx";
+import { MsgSetCardRarity } from "./types/cardchain/cardchain/tx";
+import { MsgFinalizeCollection } from "./types/cardchain/cardchain/tx";
+import { MsgAddContributorToCollection } from "./types/cardchain/cardchain/tx";
+import { MsgCreateCouncil } from "./types/cardchain/cardchain/tx";
+import { MsgRestartCouncil } from "./types/cardchain/cardchain/tx";
+import { MsgSetUserWebsite } from "./types/cardchain/cardchain/tx";
+import { MsgConfirmMatch } from "./types/cardchain/cardchain/tx";
+import { MsgSetUserBiography } from "./types/cardchain/cardchain/tx";
+import { MsgMultiVoteCard } from "./types/cardchain/cardchain/tx";
+import { MsgChangeArtist } from "./types/cardchain/cardchain/tx";
+import { MsgCreateSellOffer } from "./types/cardchain/cardchain/tx";
+import { MsgSetCollectionStoryWriter } from "./types/cardchain/cardchain/tx";
+import { MsgRemoveSellOffer } from "./types/cardchain/cardchain/tx";
+import { MsgAddArtwork } from "./types/cardchain/cardchain/tx";
+import { MsgApointMatchReporter } from "./types/cardchain/cardchain/tx";
+import { MsgRegisterForCouncil } from "./types/cardchain/cardchain/tx";
+import { MsgRevealCouncilResponse } from "./types/cardchain/cardchain/tx";
+import { MsgVoteCard } from "./types/cardchain/cardchain/tx";
+import { MsgSetCollectionArtist } from "./types/cardchain/cardchain/tx";
+import { MsgBuyCardScheme } from "./types/cardchain/cardchain/tx";
+import { MsgBuyCollection } from "./types/cardchain/cardchain/tx";
+import { MsgBuyCard } from "./types/cardchain/cardchain/tx";
+import { MsgCommitCouncilResponse } from "./types/cardchain/cardchain/tx";
 
 import { Card as typeCard} from "./types"
 import { TimeStamp as typeTimeStamp} from "./types"
@@ -72,106 +72,10 @@ import { VoteRight as typeVoteRight} from "./types"
 import { VotingResult as typeVotingResult} from "./types"
 import { VotingResults as typeVotingResults} from "./types"
 
-export { MsgSetCardRarity, MsgCreateCollection, MsgBuyCollection, MsgBuyCardScheme, MsgCreateSellOffer, MsgSetCollectionArtist, MsgRevealCouncilResponse, MsgDonateToCard, MsgTransferCard, MsgAddContributorToCollection, MsgRegisterForCouncil, MsgCreateCouncil, MsgAddArtworkToCollection, MsgSetUserBiography, MsgRemoveCardFromCollection, MsgVoteCard, MsgCommitCouncilResponse, MsgOpenBoosterPack, MsgSetUserWebsite, MsgSubmitCopyrightProposal, MsgSaveCardContent, MsgRemoveContributorFromCollection, MsgConfirmMatch, MsgRewokeCouncilRegistration, MsgChangeArtist, MsgRemoveSellOffer, MsgAddCardToCollection, MsgFinalizeCollection, MsgAddStoryToCollection, MsgSetCollectionStoryWriter, MsgMultiVoteCard, MsgAddArtwork, MsgReportMatch, MsgCreateuser, MsgSubmitCollectionProposal, MsgRestartCouncil, MsgSubmitMatchReporterProposal, MsgSetProfileCard, MsgApointMatchReporter, MsgBuyCard, MsgTransferBoosterPack };
-
-type sendMsgSetCardRarityParams = {
-  value: MsgSetCardRarity,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateCollectionParams = {
-  value: MsgCreateCollection,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgBuyCollectionParams = {
-  value: MsgBuyCollection,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgBuyCardSchemeParams = {
-  value: MsgBuyCardScheme,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateSellOfferParams = {
-  value: MsgCreateSellOffer,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgSetCollectionArtistParams = {
-  value: MsgSetCollectionArtist,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgRevealCouncilResponseParams = {
-  value: MsgRevealCouncilResponse,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgDonateToCardParams = {
-  value: MsgDonateToCard,
-  fee?: StdFee,
-  memo?: string
-};
+export { MsgTransferCard, MsgOpenBoosterPack, MsgCreateCollection, MsgCreateuser, MsgSubmitMatchReporterProposal, MsgRemoveContributorFromCollection, MsgSubmitCopyrightProposal, MsgRewokeCouncilRegistration, MsgReportMatch, MsgSubmitCollectionProposal, MsgSaveCardContent, MsgDonateToCard, MsgAddStoryToCollection, MsgTransferBoosterPack, MsgSetProfileCard, MsgRemoveCardFromCollection, MsgAddArtworkToCollection, MsgAddCardToCollection, MsgSetCardRarity, MsgFinalizeCollection, MsgAddContributorToCollection, MsgCreateCouncil, MsgRestartCouncil, MsgSetUserWebsite, MsgConfirmMatch, MsgSetUserBiography, MsgMultiVoteCard, MsgChangeArtist, MsgCreateSellOffer, MsgSetCollectionStoryWriter, MsgRemoveSellOffer, MsgAddArtwork, MsgApointMatchReporter, MsgRegisterForCouncil, MsgRevealCouncilResponse, MsgVoteCard, MsgSetCollectionArtist, MsgBuyCardScheme, MsgBuyCollection, MsgBuyCard, MsgCommitCouncilResponse };
 
 type sendMsgTransferCardParams = {
   value: MsgTransferCard,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgAddContributorToCollectionParams = {
-  value: MsgAddContributorToCollection,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgRegisterForCouncilParams = {
-  value: MsgRegisterForCouncil,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCreateCouncilParams = {
-  value: MsgCreateCouncil,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgAddArtworkToCollectionParams = {
-  value: MsgAddArtworkToCollection,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgSetUserBiographyParams = {
-  value: MsgSetUserBiography,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgRemoveCardFromCollectionParams = {
-  value: MsgRemoveCardFromCollection,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgVoteCardParams = {
-  value: MsgVoteCard,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgCommitCouncilResponseParams = {
-  value: MsgCommitCouncilResponse,
   fee?: StdFee,
   memo?: string
 };
@@ -182,92 +86,8 @@ type sendMsgOpenBoosterPackParams = {
   memo?: string
 };
 
-type sendMsgSetUserWebsiteParams = {
-  value: MsgSetUserWebsite,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgSubmitCopyrightProposalParams = {
-  value: MsgSubmitCopyrightProposal,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgSaveCardContentParams = {
-  value: MsgSaveCardContent,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgRemoveContributorFromCollectionParams = {
-  value: MsgRemoveContributorFromCollection,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgConfirmMatchParams = {
-  value: MsgConfirmMatch,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgRewokeCouncilRegistrationParams = {
-  value: MsgRewokeCouncilRegistration,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgChangeArtistParams = {
-  value: MsgChangeArtist,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgRemoveSellOfferParams = {
-  value: MsgRemoveSellOffer,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgAddCardToCollectionParams = {
-  value: MsgAddCardToCollection,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgFinalizeCollectionParams = {
-  value: MsgFinalizeCollection,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgAddStoryToCollectionParams = {
-  value: MsgAddStoryToCollection,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgSetCollectionStoryWriterParams = {
-  value: MsgSetCollectionStoryWriter,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgMultiVoteCardParams = {
-  value: MsgMultiVoteCard,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgAddArtworkParams = {
-  value: MsgAddArtwork,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgReportMatchParams = {
-  value: MsgReportMatch,
+type sendMsgCreateCollectionParams = {
+  value: MsgCreateCollection,
   fee?: StdFee,
   memo?: string
 };
@@ -278,38 +98,56 @@ type sendMsgCreateuserParams = {
   memo?: string
 };
 
-type sendMsgSubmitCollectionProposalParams = {
-  value: MsgSubmitCollectionProposal,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgRestartCouncilParams = {
-  value: MsgRestartCouncil,
-  fee?: StdFee,
-  memo?: string
-};
-
 type sendMsgSubmitMatchReporterProposalParams = {
   value: MsgSubmitMatchReporterProposal,
   fee?: StdFee,
   memo?: string
 };
 
-type sendMsgSetProfileCardParams = {
-  value: MsgSetProfileCard,
+type sendMsgRemoveContributorFromCollectionParams = {
+  value: MsgRemoveContributorFromCollection,
   fee?: StdFee,
   memo?: string
 };
 
-type sendMsgApointMatchReporterParams = {
-  value: MsgApointMatchReporter,
+type sendMsgSubmitCopyrightProposalParams = {
+  value: MsgSubmitCopyrightProposal,
   fee?: StdFee,
   memo?: string
 };
 
-type sendMsgBuyCardParams = {
-  value: MsgBuyCard,
+type sendMsgRewokeCouncilRegistrationParams = {
+  value: MsgRewokeCouncilRegistration,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgReportMatchParams = {
+  value: MsgReportMatch,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgSubmitCollectionProposalParams = {
+  value: MsgSubmitCollectionProposal,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgSaveCardContentParams = {
+  value: MsgSaveCardContent,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgDonateToCardParams = {
+  value: MsgDonateToCard,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgAddStoryToCollectionParams = {
+  value: MsgAddStoryToCollection,
   fee?: StdFee,
   memo?: string
 };
@@ -320,169 +158,331 @@ type sendMsgTransferBoosterPackParams = {
   memo?: string
 };
 
+type sendMsgSetProfileCardParams = {
+  value: MsgSetProfileCard,
+  fee?: StdFee,
+  memo?: string
+};
 
-type msgSetCardRarityParams = {
+type sendMsgRemoveCardFromCollectionParams = {
+  value: MsgRemoveCardFromCollection,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgAddArtworkToCollectionParams = {
+  value: MsgAddArtworkToCollection,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgAddCardToCollectionParams = {
+  value: MsgAddCardToCollection,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgSetCardRarityParams = {
   value: MsgSetCardRarity,
+  fee?: StdFee,
+  memo?: string
 };
 
-type msgCreateCollectionParams = {
-  value: MsgCreateCollection,
+type sendMsgFinalizeCollectionParams = {
+  value: MsgFinalizeCollection,
+  fee?: StdFee,
+  memo?: string
 };
 
-type msgBuyCollectionParams = {
-  value: MsgBuyCollection,
+type sendMsgAddContributorToCollectionParams = {
+  value: MsgAddContributorToCollection,
+  fee?: StdFee,
+  memo?: string
 };
 
-type msgBuyCardSchemeParams = {
-  value: MsgBuyCardScheme,
+type sendMsgCreateCouncilParams = {
+  value: MsgCreateCouncil,
+  fee?: StdFee,
+  memo?: string
 };
 
-type msgCreateSellOfferParams = {
+type sendMsgRestartCouncilParams = {
+  value: MsgRestartCouncil,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgSetUserWebsiteParams = {
+  value: MsgSetUserWebsite,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgConfirmMatchParams = {
+  value: MsgConfirmMatch,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgSetUserBiographyParams = {
+  value: MsgSetUserBiography,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgMultiVoteCardParams = {
+  value: MsgMultiVoteCard,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgChangeArtistParams = {
+  value: MsgChangeArtist,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgCreateSellOfferParams = {
   value: MsgCreateSellOffer,
+  fee?: StdFee,
+  memo?: string
 };
 
-type msgSetCollectionArtistParams = {
-  value: MsgSetCollectionArtist,
+type sendMsgSetCollectionStoryWriterParams = {
+  value: MsgSetCollectionStoryWriter,
+  fee?: StdFee,
+  memo?: string
 };
 
-type msgRevealCouncilResponseParams = {
+type sendMsgRemoveSellOfferParams = {
+  value: MsgRemoveSellOffer,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgAddArtworkParams = {
+  value: MsgAddArtwork,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgApointMatchReporterParams = {
+  value: MsgApointMatchReporter,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgRegisterForCouncilParams = {
+  value: MsgRegisterForCouncil,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgRevealCouncilResponseParams = {
   value: MsgRevealCouncilResponse,
+  fee?: StdFee,
+  memo?: string
 };
 
-type msgDonateToCardParams = {
-  value: MsgDonateToCard,
+type sendMsgVoteCardParams = {
+  value: MsgVoteCard,
+  fee?: StdFee,
+  memo?: string
 };
+
+type sendMsgSetCollectionArtistParams = {
+  value: MsgSetCollectionArtist,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgBuyCardSchemeParams = {
+  value: MsgBuyCardScheme,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgBuyCollectionParams = {
+  value: MsgBuyCollection,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgBuyCardParams = {
+  value: MsgBuyCard,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgCommitCouncilResponseParams = {
+  value: MsgCommitCouncilResponse,
+  fee?: StdFee,
+  memo?: string
+};
+
 
 type msgTransferCardParams = {
   value: MsgTransferCard,
-};
-
-type msgAddContributorToCollectionParams = {
-  value: MsgAddContributorToCollection,
-};
-
-type msgRegisterForCouncilParams = {
-  value: MsgRegisterForCouncil,
-};
-
-type msgCreateCouncilParams = {
-  value: MsgCreateCouncil,
-};
-
-type msgAddArtworkToCollectionParams = {
-  value: MsgAddArtworkToCollection,
-};
-
-type msgSetUserBiographyParams = {
-  value: MsgSetUserBiography,
-};
-
-type msgRemoveCardFromCollectionParams = {
-  value: MsgRemoveCardFromCollection,
-};
-
-type msgVoteCardParams = {
-  value: MsgVoteCard,
-};
-
-type msgCommitCouncilResponseParams = {
-  value: MsgCommitCouncilResponse,
 };
 
 type msgOpenBoosterPackParams = {
   value: MsgOpenBoosterPack,
 };
 
-type msgSetUserWebsiteParams = {
-  value: MsgSetUserWebsite,
-};
-
-type msgSubmitCopyrightProposalParams = {
-  value: MsgSubmitCopyrightProposal,
-};
-
-type msgSaveCardContentParams = {
-  value: MsgSaveCardContent,
-};
-
-type msgRemoveContributorFromCollectionParams = {
-  value: MsgRemoveContributorFromCollection,
-};
-
-type msgConfirmMatchParams = {
-  value: MsgConfirmMatch,
-};
-
-type msgRewokeCouncilRegistrationParams = {
-  value: MsgRewokeCouncilRegistration,
-};
-
-type msgChangeArtistParams = {
-  value: MsgChangeArtist,
-};
-
-type msgRemoveSellOfferParams = {
-  value: MsgRemoveSellOffer,
-};
-
-type msgAddCardToCollectionParams = {
-  value: MsgAddCardToCollection,
-};
-
-type msgFinalizeCollectionParams = {
-  value: MsgFinalizeCollection,
-};
-
-type msgAddStoryToCollectionParams = {
-  value: MsgAddStoryToCollection,
-};
-
-type msgSetCollectionStoryWriterParams = {
-  value: MsgSetCollectionStoryWriter,
-};
-
-type msgMultiVoteCardParams = {
-  value: MsgMultiVoteCard,
-};
-
-type msgAddArtworkParams = {
-  value: MsgAddArtwork,
-};
-
-type msgReportMatchParams = {
-  value: MsgReportMatch,
+type msgCreateCollectionParams = {
+  value: MsgCreateCollection,
 };
 
 type msgCreateuserParams = {
   value: MsgCreateuser,
 };
 
+type msgSubmitMatchReporterProposalParams = {
+  value: MsgSubmitMatchReporterProposal,
+};
+
+type msgRemoveContributorFromCollectionParams = {
+  value: MsgRemoveContributorFromCollection,
+};
+
+type msgSubmitCopyrightProposalParams = {
+  value: MsgSubmitCopyrightProposal,
+};
+
+type msgRewokeCouncilRegistrationParams = {
+  value: MsgRewokeCouncilRegistration,
+};
+
+type msgReportMatchParams = {
+  value: MsgReportMatch,
+};
+
 type msgSubmitCollectionProposalParams = {
   value: MsgSubmitCollectionProposal,
 };
 
-type msgRestartCouncilParams = {
-  value: MsgRestartCouncil,
+type msgSaveCardContentParams = {
+  value: MsgSaveCardContent,
 };
 
-type msgSubmitMatchReporterProposalParams = {
-  value: MsgSubmitMatchReporterProposal,
+type msgDonateToCardParams = {
+  value: MsgDonateToCard,
+};
+
+type msgAddStoryToCollectionParams = {
+  value: MsgAddStoryToCollection,
+};
+
+type msgTransferBoosterPackParams = {
+  value: MsgTransferBoosterPack,
 };
 
 type msgSetProfileCardParams = {
   value: MsgSetProfileCard,
 };
 
+type msgRemoveCardFromCollectionParams = {
+  value: MsgRemoveCardFromCollection,
+};
+
+type msgAddArtworkToCollectionParams = {
+  value: MsgAddArtworkToCollection,
+};
+
+type msgAddCardToCollectionParams = {
+  value: MsgAddCardToCollection,
+};
+
+type msgSetCardRarityParams = {
+  value: MsgSetCardRarity,
+};
+
+type msgFinalizeCollectionParams = {
+  value: MsgFinalizeCollection,
+};
+
+type msgAddContributorToCollectionParams = {
+  value: MsgAddContributorToCollection,
+};
+
+type msgCreateCouncilParams = {
+  value: MsgCreateCouncil,
+};
+
+type msgRestartCouncilParams = {
+  value: MsgRestartCouncil,
+};
+
+type msgSetUserWebsiteParams = {
+  value: MsgSetUserWebsite,
+};
+
+type msgConfirmMatchParams = {
+  value: MsgConfirmMatch,
+};
+
+type msgSetUserBiographyParams = {
+  value: MsgSetUserBiography,
+};
+
+type msgMultiVoteCardParams = {
+  value: MsgMultiVoteCard,
+};
+
+type msgChangeArtistParams = {
+  value: MsgChangeArtist,
+};
+
+type msgCreateSellOfferParams = {
+  value: MsgCreateSellOffer,
+};
+
+type msgSetCollectionStoryWriterParams = {
+  value: MsgSetCollectionStoryWriter,
+};
+
+type msgRemoveSellOfferParams = {
+  value: MsgRemoveSellOffer,
+};
+
+type msgAddArtworkParams = {
+  value: MsgAddArtwork,
+};
+
 type msgApointMatchReporterParams = {
   value: MsgApointMatchReporter,
+};
+
+type msgRegisterForCouncilParams = {
+  value: MsgRegisterForCouncil,
+};
+
+type msgRevealCouncilResponseParams = {
+  value: MsgRevealCouncilResponse,
+};
+
+type msgVoteCardParams = {
+  value: MsgVoteCard,
+};
+
+type msgSetCollectionArtistParams = {
+  value: MsgSetCollectionArtist,
+};
+
+type msgBuyCardSchemeParams = {
+  value: MsgBuyCardScheme,
+};
+
+type msgBuyCollectionParams = {
+  value: MsgBuyCollection,
 };
 
 type msgBuyCardParams = {
   value: MsgBuyCard,
 };
 
-type msgTransferBoosterPackParams = {
-  value: MsgTransferBoosterPack,
+type msgCommitCouncilResponseParams = {
+  value: MsgCommitCouncilResponse,
 };
 
 
@@ -515,118 +515,6 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 
   return {
 		
-		async sendMsgSetCardRarity({ value, fee, memo }: sendMsgSetCardRarityParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgSetCardRarity: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSetCardRarity({ value: MsgSetCardRarity.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSetCardRarity: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateCollection({ value, fee, memo }: sendMsgCreateCollectionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateCollection: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateCollection({ value: MsgCreateCollection.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateCollection: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgBuyCollection({ value, fee, memo }: sendMsgBuyCollectionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgBuyCollection: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgBuyCollection({ value: MsgBuyCollection.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgBuyCollection: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgBuyCardScheme({ value, fee, memo }: sendMsgBuyCardSchemeParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgBuyCardScheme: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgBuyCardScheme({ value: MsgBuyCardScheme.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgBuyCardScheme: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateSellOffer({ value, fee, memo }: sendMsgCreateSellOfferParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateSellOffer: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateSellOffer({ value: MsgCreateSellOffer.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateSellOffer: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgSetCollectionArtist({ value, fee, memo }: sendMsgSetCollectionArtistParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgSetCollectionArtist: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSetCollectionArtist({ value: MsgSetCollectionArtist.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSetCollectionArtist: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgRevealCouncilResponse({ value, fee, memo }: sendMsgRevealCouncilResponseParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgRevealCouncilResponse: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgRevealCouncilResponse({ value: MsgRevealCouncilResponse.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgRevealCouncilResponse: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgDonateToCard({ value, fee, memo }: sendMsgDonateToCardParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgDonateToCard: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgDonateToCard({ value: MsgDonateToCard.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgDonateToCard: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
 		async sendMsgTransferCard({ value, fee, memo }: sendMsgTransferCardParams): Promise<DeliverTxResponse> {
 			if (!signer) {
 					throw new Error('TxClient:sendMsgTransferCard: Unable to sign Tx. Signer is not present.')
@@ -638,118 +526,6 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
 				throw new Error('TxClient:sendMsgTransferCard: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgAddContributorToCollection({ value, fee, memo }: sendMsgAddContributorToCollectionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgAddContributorToCollection: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgAddContributorToCollection({ value: MsgAddContributorToCollection.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgAddContributorToCollection: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgRegisterForCouncil({ value, fee, memo }: sendMsgRegisterForCouncilParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgRegisterForCouncil: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgRegisterForCouncil({ value: MsgRegisterForCouncil.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgRegisterForCouncil: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCreateCouncil({ value, fee, memo }: sendMsgCreateCouncilParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateCouncil: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateCouncil({ value: MsgCreateCouncil.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateCouncil: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgAddArtworkToCollection({ value, fee, memo }: sendMsgAddArtworkToCollectionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgAddArtworkToCollection: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgAddArtworkToCollection({ value: MsgAddArtworkToCollection.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgAddArtworkToCollection: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgSetUserBiography({ value, fee, memo }: sendMsgSetUserBiographyParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgSetUserBiography: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSetUserBiography({ value: MsgSetUserBiography.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSetUserBiography: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgRemoveCardFromCollection({ value, fee, memo }: sendMsgRemoveCardFromCollectionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgRemoveCardFromCollection: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgRemoveCardFromCollection({ value: MsgRemoveCardFromCollection.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgRemoveCardFromCollection: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgVoteCard({ value, fee, memo }: sendMsgVoteCardParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgVoteCard: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgVoteCard({ value: MsgVoteCard.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgVoteCard: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgCommitCouncilResponse({ value, fee, memo }: sendMsgCommitCouncilResponseParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgCommitCouncilResponse: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCommitCouncilResponse({ value: MsgCommitCouncilResponse.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCommitCouncilResponse: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -767,213 +543,17 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgSetUserWebsite({ value, fee, memo }: sendMsgSetUserWebsiteParams): Promise<DeliverTxResponse> {
+		async sendMsgCreateCollection({ value, fee, memo }: sendMsgCreateCollectionParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgSetUserWebsite: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgCreateCollection: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSetUserWebsite({ value: MsgSetUserWebsite.fromPartial(value) })
+				let msg = this.msgCreateCollection({ value: MsgCreateCollection.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSetUserWebsite: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgSubmitCopyrightProposal({ value, fee, memo }: sendMsgSubmitCopyrightProposalParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgSubmitCopyrightProposal: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSubmitCopyrightProposal({ value: MsgSubmitCopyrightProposal.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSubmitCopyrightProposal: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgSaveCardContent({ value, fee, memo }: sendMsgSaveCardContentParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgSaveCardContent: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSaveCardContent({ value: MsgSaveCardContent.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSaveCardContent: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgRemoveContributorFromCollection({ value, fee, memo }: sendMsgRemoveContributorFromCollectionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgRemoveContributorFromCollection: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgRemoveContributorFromCollection({ value: MsgRemoveContributorFromCollection.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgRemoveContributorFromCollection: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgConfirmMatch({ value, fee, memo }: sendMsgConfirmMatchParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgConfirmMatch: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgConfirmMatch({ value: MsgConfirmMatch.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgConfirmMatch: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgRewokeCouncilRegistration({ value, fee, memo }: sendMsgRewokeCouncilRegistrationParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgRewokeCouncilRegistration: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgRewokeCouncilRegistration({ value: MsgRewokeCouncilRegistration.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgRewokeCouncilRegistration: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgChangeArtist({ value, fee, memo }: sendMsgChangeArtistParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgChangeArtist: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgChangeArtist({ value: MsgChangeArtist.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgChangeArtist: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgRemoveSellOffer({ value, fee, memo }: sendMsgRemoveSellOfferParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgRemoveSellOffer: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgRemoveSellOffer({ value: MsgRemoveSellOffer.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgRemoveSellOffer: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgAddCardToCollection({ value, fee, memo }: sendMsgAddCardToCollectionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgAddCardToCollection: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgAddCardToCollection({ value: MsgAddCardToCollection.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgAddCardToCollection: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgFinalizeCollection({ value, fee, memo }: sendMsgFinalizeCollectionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgFinalizeCollection: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgFinalizeCollection({ value: MsgFinalizeCollection.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgFinalizeCollection: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgAddStoryToCollection({ value, fee, memo }: sendMsgAddStoryToCollectionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgAddStoryToCollection: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgAddStoryToCollection({ value: MsgAddStoryToCollection.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgAddStoryToCollection: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgSetCollectionStoryWriter({ value, fee, memo }: sendMsgSetCollectionStoryWriterParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgSetCollectionStoryWriter: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSetCollectionStoryWriter({ value: MsgSetCollectionStoryWriter.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSetCollectionStoryWriter: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgMultiVoteCard({ value, fee, memo }: sendMsgMultiVoteCardParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgMultiVoteCard: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgMultiVoteCard({ value: MsgMultiVoteCard.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgMultiVoteCard: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgAddArtwork({ value, fee, memo }: sendMsgAddArtworkParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgAddArtwork: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgAddArtwork({ value: MsgAddArtwork.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgAddArtwork: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgReportMatch({ value, fee, memo }: sendMsgReportMatchParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgReportMatch: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgReportMatch({ value: MsgReportMatch.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgReportMatch: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgCreateCollection: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -991,34 +571,6 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgSubmitCollectionProposal({ value, fee, memo }: sendMsgSubmitCollectionProposalParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgSubmitCollectionProposal: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSubmitCollectionProposal({ value: MsgSubmitCollectionProposal.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSubmitCollectionProposal: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgRestartCouncil({ value, fee, memo }: sendMsgRestartCouncilParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgRestartCouncil: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgRestartCouncil({ value: MsgRestartCouncil.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgRestartCouncil: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
 		async sendMsgSubmitMatchReporterProposal({ value, fee, memo }: sendMsgSubmitMatchReporterProposalParams): Promise<DeliverTxResponse> {
 			if (!signer) {
 					throw new Error('TxClient:sendMsgSubmitMatchReporterProposal: Unable to sign Tx. Signer is not present.')
@@ -1033,45 +585,115 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgSetProfileCard({ value, fee, memo }: sendMsgSetProfileCardParams): Promise<DeliverTxResponse> {
+		async sendMsgRemoveContributorFromCollection({ value, fee, memo }: sendMsgRemoveContributorFromCollectionParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgSetProfileCard: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgRemoveContributorFromCollection: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgSetProfileCard({ value: MsgSetProfileCard.fromPartial(value) })
+				let msg = this.msgRemoveContributorFromCollection({ value: MsgRemoveContributorFromCollection.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgSetProfileCard: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgRemoveContributorFromCollection: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		async sendMsgApointMatchReporter({ value, fee, memo }: sendMsgApointMatchReporterParams): Promise<DeliverTxResponse> {
+		async sendMsgSubmitCopyrightProposal({ value, fee, memo }: sendMsgSubmitCopyrightProposalParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgApointMatchReporter: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgSubmitCopyrightProposal: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgApointMatchReporter({ value: MsgApointMatchReporter.fromPartial(value) })
+				let msg = this.msgSubmitCopyrightProposal({ value: MsgSubmitCopyrightProposal.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgApointMatchReporter: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgSubmitCopyrightProposal: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		async sendMsgBuyCard({ value, fee, memo }: sendMsgBuyCardParams): Promise<DeliverTxResponse> {
+		async sendMsgRewokeCouncilRegistration({ value, fee, memo }: sendMsgRewokeCouncilRegistrationParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgBuyCard: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgRewokeCouncilRegistration: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgBuyCard({ value: MsgBuyCard.fromPartial(value) })
+				let msg = this.msgRewokeCouncilRegistration({ value: MsgRewokeCouncilRegistration.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgBuyCard: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgRewokeCouncilRegistration: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgReportMatch({ value, fee, memo }: sendMsgReportMatchParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgReportMatch: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgReportMatch({ value: MsgReportMatch.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgReportMatch: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgSubmitCollectionProposal({ value, fee, memo }: sendMsgSubmitCollectionProposalParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSubmitCollectionProposal: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSubmitCollectionProposal({ value: MsgSubmitCollectionProposal.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgSubmitCollectionProposal: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgSaveCardContent({ value, fee, memo }: sendMsgSaveCardContentParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSaveCardContent: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSaveCardContent({ value: MsgSaveCardContent.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgSaveCardContent: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgDonateToCard({ value, fee, memo }: sendMsgDonateToCardParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgDonateToCard: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgDonateToCard({ value: MsgDonateToCard.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgDonateToCard: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgAddStoryToCollection({ value, fee, memo }: sendMsgAddStoryToCollectionParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgAddStoryToCollection: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgAddStoryToCollection({ value: MsgAddStoryToCollection.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgAddStoryToCollection: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -1089,140 +711,390 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		
-		msgSetCardRarity({ value }: msgSetCardRarityParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetCardRarity", value: MsgSetCardRarity.fromPartial( value ) }  
+		async sendMsgSetProfileCard({ value, fee, memo }: sendMsgSetProfileCardParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSetProfileCard: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSetProfileCard({ value: MsgSetProfileCard.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgSetCardRarity: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgSetProfileCard: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgCreateCollection({ value }: msgCreateCollectionParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgCreateCollection", value: MsgCreateCollection.fromPartial( value ) }  
+		async sendMsgRemoveCardFromCollection({ value, fee, memo }: sendMsgRemoveCardFromCollectionParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgRemoveCardFromCollection: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgRemoveCardFromCollection({ value: MsgRemoveCardFromCollection.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateCollection: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgRemoveCardFromCollection: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgBuyCollection({ value }: msgBuyCollectionParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgBuyCollection", value: MsgBuyCollection.fromPartial( value ) }  
+		async sendMsgAddArtworkToCollection({ value, fee, memo }: sendMsgAddArtworkToCollectionParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgAddArtworkToCollection: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgAddArtworkToCollection({ value: MsgAddArtworkToCollection.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgBuyCollection: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgAddArtworkToCollection: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgBuyCardScheme({ value }: msgBuyCardSchemeParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgBuyCardScheme", value: MsgBuyCardScheme.fromPartial( value ) }  
+		async sendMsgAddCardToCollection({ value, fee, memo }: sendMsgAddCardToCollectionParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgAddCardToCollection: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgAddCardToCollection({ value: MsgAddCardToCollection.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgBuyCardScheme: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgAddCardToCollection: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgCreateSellOffer({ value }: msgCreateSellOfferParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgCreateSellOffer", value: MsgCreateSellOffer.fromPartial( value ) }  
+		async sendMsgSetCardRarity({ value, fee, memo }: sendMsgSetCardRarityParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSetCardRarity: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSetCardRarity({ value: MsgSetCardRarity.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateSellOffer: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgSetCardRarity: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgSetCollectionArtist({ value }: msgSetCollectionArtistParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetCollectionArtist", value: MsgSetCollectionArtist.fromPartial( value ) }  
+		async sendMsgFinalizeCollection({ value, fee, memo }: sendMsgFinalizeCollectionParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgFinalizeCollection: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgFinalizeCollection({ value: MsgFinalizeCollection.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgSetCollectionArtist: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgFinalizeCollection: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgRevealCouncilResponse({ value }: msgRevealCouncilResponseParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRevealCouncilResponse", value: MsgRevealCouncilResponse.fromPartial( value ) }  
+		async sendMsgAddContributorToCollection({ value, fee, memo }: sendMsgAddContributorToCollectionParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgAddContributorToCollection: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgAddContributorToCollection({ value: MsgAddContributorToCollection.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgRevealCouncilResponse: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgAddContributorToCollection: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
-		msgDonateToCard({ value }: msgDonateToCardParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgDonateToCard", value: MsgDonateToCard.fromPartial( value ) }  
+		async sendMsgCreateCouncil({ value, fee, memo }: sendMsgCreateCouncilParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreateCouncil: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreateCouncil({ value: MsgCreateCouncil.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:MsgDonateToCard: Could not create message: ' + e.message)
+				throw new Error('TxClient:sendMsgCreateCouncil: Could not broadcast Tx: '+ e.message)
 			}
 		},
+		
+		async sendMsgRestartCouncil({ value, fee, memo }: sendMsgRestartCouncilParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgRestartCouncil: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgRestartCouncil({ value: MsgRestartCouncil.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgRestartCouncil: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgSetUserWebsite({ value, fee, memo }: sendMsgSetUserWebsiteParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSetUserWebsite: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSetUserWebsite({ value: MsgSetUserWebsite.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgSetUserWebsite: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgConfirmMatch({ value, fee, memo }: sendMsgConfirmMatchParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgConfirmMatch: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgConfirmMatch({ value: MsgConfirmMatch.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgConfirmMatch: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgSetUserBiography({ value, fee, memo }: sendMsgSetUserBiographyParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSetUserBiography: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSetUserBiography({ value: MsgSetUserBiography.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgSetUserBiography: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgMultiVoteCard({ value, fee, memo }: sendMsgMultiVoteCardParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgMultiVoteCard: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgMultiVoteCard({ value: MsgMultiVoteCard.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgMultiVoteCard: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgChangeArtist({ value, fee, memo }: sendMsgChangeArtistParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgChangeArtist: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgChangeArtist({ value: MsgChangeArtist.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgChangeArtist: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgCreateSellOffer({ value, fee, memo }: sendMsgCreateSellOfferParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreateSellOffer: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreateSellOffer({ value: MsgCreateSellOffer.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCreateSellOffer: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgSetCollectionStoryWriter({ value, fee, memo }: sendMsgSetCollectionStoryWriterParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSetCollectionStoryWriter: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSetCollectionStoryWriter({ value: MsgSetCollectionStoryWriter.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgSetCollectionStoryWriter: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgRemoveSellOffer({ value, fee, memo }: sendMsgRemoveSellOfferParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgRemoveSellOffer: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgRemoveSellOffer({ value: MsgRemoveSellOffer.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgRemoveSellOffer: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgAddArtwork({ value, fee, memo }: sendMsgAddArtworkParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgAddArtwork: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgAddArtwork({ value: MsgAddArtwork.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgAddArtwork: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgApointMatchReporter({ value, fee, memo }: sendMsgApointMatchReporterParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgApointMatchReporter: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgApointMatchReporter({ value: MsgApointMatchReporter.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgApointMatchReporter: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgRegisterForCouncil({ value, fee, memo }: sendMsgRegisterForCouncilParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgRegisterForCouncil: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgRegisterForCouncil({ value: MsgRegisterForCouncil.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgRegisterForCouncil: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgRevealCouncilResponse({ value, fee, memo }: sendMsgRevealCouncilResponseParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgRevealCouncilResponse: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgRevealCouncilResponse({ value: MsgRevealCouncilResponse.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgRevealCouncilResponse: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgVoteCard({ value, fee, memo }: sendMsgVoteCardParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgVoteCard: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgVoteCard({ value: MsgVoteCard.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgVoteCard: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgSetCollectionArtist({ value, fee, memo }: sendMsgSetCollectionArtistParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgSetCollectionArtist: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgSetCollectionArtist({ value: MsgSetCollectionArtist.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgSetCollectionArtist: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgBuyCardScheme({ value, fee, memo }: sendMsgBuyCardSchemeParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgBuyCardScheme: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgBuyCardScheme({ value: MsgBuyCardScheme.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgBuyCardScheme: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgBuyCollection({ value, fee, memo }: sendMsgBuyCollectionParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgBuyCollection: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgBuyCollection({ value: MsgBuyCollection.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgBuyCollection: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgBuyCard({ value, fee, memo }: sendMsgBuyCardParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgBuyCard: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgBuyCard({ value: MsgBuyCard.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgBuyCard: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgCommitCouncilResponse({ value, fee, memo }: sendMsgCommitCouncilResponseParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCommitCouncilResponse: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCommitCouncilResponse({ value: MsgCommitCouncilResponse.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCommitCouncilResponse: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		
 		msgTransferCard({ value }: msgTransferCardParams): EncodeObject {
 			try {
 				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgTransferCard", value: MsgTransferCard.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgTransferCard: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgAddContributorToCollection({ value }: msgAddContributorToCollectionParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddContributorToCollection", value: MsgAddContributorToCollection.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgAddContributorToCollection: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgRegisterForCouncil({ value }: msgRegisterForCouncilParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRegisterForCouncil", value: MsgRegisterForCouncil.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgRegisterForCouncil: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgCreateCouncil({ value }: msgCreateCouncilParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgCreateCouncil", value: MsgCreateCouncil.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateCouncil: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgAddArtworkToCollection({ value }: msgAddArtworkToCollectionParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddArtworkToCollection", value: MsgAddArtworkToCollection.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgAddArtworkToCollection: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgSetUserBiography({ value }: msgSetUserBiographyParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetUserBiography", value: MsgSetUserBiography.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgSetUserBiography: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgRemoveCardFromCollection({ value }: msgRemoveCardFromCollectionParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRemoveCardFromCollection", value: MsgRemoveCardFromCollection.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgRemoveCardFromCollection: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgVoteCard({ value }: msgVoteCardParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgVoteCard", value: MsgVoteCard.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgVoteCard: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgCommitCouncilResponse({ value }: msgCommitCouncilResponseParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgCommitCouncilResponse", value: MsgCommitCouncilResponse.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgCommitCouncilResponse: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -1234,123 +1106,11 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgSetUserWebsite({ value }: msgSetUserWebsiteParams): EncodeObject {
+		msgCreateCollection({ value }: msgCreateCollectionParams): EncodeObject {
 			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetUserWebsite", value: MsgSetUserWebsite.fromPartial( value ) }  
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgCreateCollection", value: MsgCreateCollection.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgSetUserWebsite: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgSubmitCopyrightProposal({ value }: msgSubmitCopyrightProposalParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSubmitCopyrightProposal", value: MsgSubmitCopyrightProposal.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgSubmitCopyrightProposal: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgSaveCardContent({ value }: msgSaveCardContentParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSaveCardContent", value: MsgSaveCardContent.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgSaveCardContent: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgRemoveContributorFromCollection({ value }: msgRemoveContributorFromCollectionParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRemoveContributorFromCollection", value: MsgRemoveContributorFromCollection.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgRemoveContributorFromCollection: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgConfirmMatch({ value }: msgConfirmMatchParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgConfirmMatch", value: MsgConfirmMatch.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgConfirmMatch: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgRewokeCouncilRegistration({ value }: msgRewokeCouncilRegistrationParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRewokeCouncilRegistration", value: MsgRewokeCouncilRegistration.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgRewokeCouncilRegistration: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgChangeArtist({ value }: msgChangeArtistParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgChangeArtist", value: MsgChangeArtist.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgChangeArtist: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgRemoveSellOffer({ value }: msgRemoveSellOfferParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRemoveSellOffer", value: MsgRemoveSellOffer.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgRemoveSellOffer: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgAddCardToCollection({ value }: msgAddCardToCollectionParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddCardToCollection", value: MsgAddCardToCollection.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgAddCardToCollection: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgFinalizeCollection({ value }: msgFinalizeCollectionParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgFinalizeCollection", value: MsgFinalizeCollection.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgFinalizeCollection: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgAddStoryToCollection({ value }: msgAddStoryToCollectionParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddStoryToCollection", value: MsgAddStoryToCollection.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgAddStoryToCollection: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgSetCollectionStoryWriter({ value }: msgSetCollectionStoryWriterParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetCollectionStoryWriter", value: MsgSetCollectionStoryWriter.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgSetCollectionStoryWriter: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgMultiVoteCard({ value }: msgMultiVoteCardParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgMultiVoteCard", value: MsgMultiVoteCard.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgMultiVoteCard: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgAddArtwork({ value }: msgAddArtworkParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddArtwork", value: MsgAddArtwork.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgAddArtwork: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgReportMatch({ value }: msgReportMatchParams): EncodeObject {
-			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgReportMatch", value: MsgReportMatch.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgReportMatch: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgCreateCollection: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -1362,6 +1122,46 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		msgSubmitMatchReporterProposal({ value }: msgSubmitMatchReporterProposalParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSubmitMatchReporterProposal", value: MsgSubmitMatchReporterProposal.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgSubmitMatchReporterProposal: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgRemoveContributorFromCollection({ value }: msgRemoveContributorFromCollectionParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRemoveContributorFromCollection", value: MsgRemoveContributorFromCollection.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgRemoveContributorFromCollection: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgSubmitCopyrightProposal({ value }: msgSubmitCopyrightProposalParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSubmitCopyrightProposal", value: MsgSubmitCopyrightProposal.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgSubmitCopyrightProposal: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgRewokeCouncilRegistration({ value }: msgRewokeCouncilRegistrationParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRewokeCouncilRegistration", value: MsgRewokeCouncilRegistration.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgRewokeCouncilRegistration: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgReportMatch({ value }: msgReportMatchParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgReportMatch", value: MsgReportMatch.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgReportMatch: Could not create message: ' + e.message)
+			}
+		},
+		
 		msgSubmitCollectionProposal({ value }: msgSubmitCollectionProposalParams): EncodeObject {
 			try {
 				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSubmitCollectionProposal", value: MsgSubmitCollectionProposal.fromPartial( value ) }  
@@ -1370,19 +1170,35 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgRestartCouncil({ value }: msgRestartCouncilParams): EncodeObject {
+		msgSaveCardContent({ value }: msgSaveCardContentParams): EncodeObject {
 			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRestartCouncil", value: MsgRestartCouncil.fromPartial( value ) }  
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSaveCardContent", value: MsgSaveCardContent.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgRestartCouncil: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgSaveCardContent: Could not create message: ' + e.message)
 			}
 		},
 		
-		msgSubmitMatchReporterProposal({ value }: msgSubmitMatchReporterProposalParams): EncodeObject {
+		msgDonateToCard({ value }: msgDonateToCardParams): EncodeObject {
 			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSubmitMatchReporterProposal", value: MsgSubmitMatchReporterProposal.fromPartial( value ) }  
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgDonateToCard", value: MsgDonateToCard.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgSubmitMatchReporterProposal: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgDonateToCard: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgAddStoryToCollection({ value }: msgAddStoryToCollectionParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddStoryToCollection", value: MsgAddStoryToCollection.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgAddStoryToCollection: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgTransferBoosterPack({ value }: msgTransferBoosterPackParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgTransferBoosterPack", value: MsgTransferBoosterPack.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgTransferBoosterPack: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -1394,11 +1210,195 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		msgRemoveCardFromCollection({ value }: msgRemoveCardFromCollectionParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRemoveCardFromCollection", value: MsgRemoveCardFromCollection.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgRemoveCardFromCollection: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgAddArtworkToCollection({ value }: msgAddArtworkToCollectionParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddArtworkToCollection", value: MsgAddArtworkToCollection.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgAddArtworkToCollection: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgAddCardToCollection({ value }: msgAddCardToCollectionParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddCardToCollection", value: MsgAddCardToCollection.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgAddCardToCollection: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgSetCardRarity({ value }: msgSetCardRarityParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetCardRarity", value: MsgSetCardRarity.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgSetCardRarity: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgFinalizeCollection({ value }: msgFinalizeCollectionParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgFinalizeCollection", value: MsgFinalizeCollection.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgFinalizeCollection: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgAddContributorToCollection({ value }: msgAddContributorToCollectionParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddContributorToCollection", value: MsgAddContributorToCollection.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgAddContributorToCollection: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgCreateCouncil({ value }: msgCreateCouncilParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgCreateCouncil", value: MsgCreateCouncil.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreateCouncil: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgRestartCouncil({ value }: msgRestartCouncilParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRestartCouncil", value: MsgRestartCouncil.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgRestartCouncil: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgSetUserWebsite({ value }: msgSetUserWebsiteParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetUserWebsite", value: MsgSetUserWebsite.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgSetUserWebsite: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgConfirmMatch({ value }: msgConfirmMatchParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgConfirmMatch", value: MsgConfirmMatch.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgConfirmMatch: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgSetUserBiography({ value }: msgSetUserBiographyParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetUserBiography", value: MsgSetUserBiography.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgSetUserBiography: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgMultiVoteCard({ value }: msgMultiVoteCardParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgMultiVoteCard", value: MsgMultiVoteCard.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgMultiVoteCard: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgChangeArtist({ value }: msgChangeArtistParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgChangeArtist", value: MsgChangeArtist.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgChangeArtist: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgCreateSellOffer({ value }: msgCreateSellOfferParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgCreateSellOffer", value: MsgCreateSellOffer.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreateSellOffer: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgSetCollectionStoryWriter({ value }: msgSetCollectionStoryWriterParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetCollectionStoryWriter", value: MsgSetCollectionStoryWriter.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgSetCollectionStoryWriter: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgRemoveSellOffer({ value }: msgRemoveSellOfferParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRemoveSellOffer", value: MsgRemoveSellOffer.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgRemoveSellOffer: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgAddArtwork({ value }: msgAddArtworkParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgAddArtwork", value: MsgAddArtwork.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgAddArtwork: Could not create message: ' + e.message)
+			}
+		},
+		
 		msgApointMatchReporter({ value }: msgApointMatchReporterParams): EncodeObject {
 			try {
 				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgApointMatchReporter", value: MsgApointMatchReporter.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgApointMatchReporter: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgRegisterForCouncil({ value }: msgRegisterForCouncilParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRegisterForCouncil", value: MsgRegisterForCouncil.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgRegisterForCouncil: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgRevealCouncilResponse({ value }: msgRevealCouncilResponseParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgRevealCouncilResponse", value: MsgRevealCouncilResponse.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgRevealCouncilResponse: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgVoteCard({ value }: msgVoteCardParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgVoteCard", value: MsgVoteCard.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgVoteCard: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgSetCollectionArtist({ value }: msgSetCollectionArtistParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgSetCollectionArtist", value: MsgSetCollectionArtist.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgSetCollectionArtist: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgBuyCardScheme({ value }: msgBuyCardSchemeParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgBuyCardScheme", value: MsgBuyCardScheme.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgBuyCardScheme: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgBuyCollection({ value }: msgBuyCollectionParams): EncodeObject {
+			try {
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgBuyCollection", value: MsgBuyCollection.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgBuyCollection: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -1410,11 +1410,11 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgTransferBoosterPack({ value }: msgTransferBoosterPackParams): EncodeObject {
+		msgCommitCouncilResponse({ value }: msgCommitCouncilResponseParams): EncodeObject {
 			try {
-				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgTransferBoosterPack", value: MsgTransferBoosterPack.fromPartial( value ) }  
+				return { typeUrl: "/DecentralCardGame.cardchain.cardchain.MsgCommitCouncilResponse", value: MsgCommitCouncilResponse.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgTransferBoosterPack: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgCommitCouncilResponse: Could not create message: ' + e.message)
 			}
 		},
 		
