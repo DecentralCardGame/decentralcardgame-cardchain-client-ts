@@ -102,7 +102,10 @@ export type CardchainMsgApointMatchReporterResponse = object;
 
 export type CardchainMsgBuyCardResponse = object;
 
-export type CardchainMsgBuyCardSchemeResponse = object;
+export interface CardchainMsgBuyCardSchemeResponse {
+  /** @format uint64 */
+  cardId?: string;
+}
 
 export interface CardchainMsgBuyCollectionResponse {
   airdropClaimed?: boolean;
@@ -128,7 +131,9 @@ export type CardchainMsgFinalizeCollectionResponse = object;
 
 export type CardchainMsgMultiVoteCardResponse = object;
 
-export type CardchainMsgOpenBoosterPackResponse = object;
+export interface CardchainMsgOpenBoosterPackResponse {
+  cardIds?: string[];
+}
 
 export type CardchainMsgRegisterForCouncilResponse = object;
 
@@ -626,7 +631,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title cardchain/cardchain/card.proto
+ * @title DecentralCardGame/cardchain/cardchain/card.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
