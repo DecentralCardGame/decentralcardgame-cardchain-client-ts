@@ -98,7 +98,7 @@ export class Api extends HttpClient {
     constructor() {
         super(...arguments);
         /**
-         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+         * No description
          *
          * @tags Query
          * @name QueryDelegatorDelegations
@@ -113,7 +113,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+         * No description
          *
          * @tags Query
          * @name QueryRedelegations
@@ -128,7 +128,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-       * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+       * No description
        *
        * @tags Query
        * @name QueryDelegatorUnbondingDelegations
@@ -144,7 +144,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-       * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+       * No description
        *
        * @tags Query
        * @name QueryDelegatorValidators
@@ -217,7 +217,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+         * No description
          *
          * @tags Query
          * @name QueryValidators
@@ -246,7 +246,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+         * No description
          *
          * @tags Query
          * @name QueryValidatorDelegations
@@ -290,7 +290,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+         * No description
          *
          * @tags Query
          * @name QueryValidatorUnbondingDelegations

@@ -5,10 +5,8 @@ import { msgTypes } from './registry';
 import { Api } from "./rest";
 import { MsgWithdrawValidatorCommission } from "./types/cosmos/distribution/v1beta1/tx";
 import { MsgWithdrawDelegatorReward } from "./types/cosmos/distribution/v1beta1/tx";
-import { MsgCommunityPoolSpend } from "./types/cosmos/distribution/v1beta1/tx";
-import { MsgFundCommunityPool } from "./types/cosmos/distribution/v1beta1/tx";
 import { MsgSetWithdrawAddress } from "./types/cosmos/distribution/v1beta1/tx";
-import { MsgUpdateParams } from "./types/cosmos/distribution/v1beta1/tx";
+import { MsgFundCommunityPool } from "./types/cosmos/distribution/v1beta1/tx";
 import { Params as typeParams } from "./types";
 import { ValidatorHistoricalRewards as typeValidatorHistoricalRewards } from "./types";
 import { ValidatorCurrentRewards as typeValidatorCurrentRewards } from "./types";
@@ -28,7 +26,7 @@ import { ValidatorHistoricalRewardsRecord as typeValidatorHistoricalRewardsRecor
 import { ValidatorCurrentRewardsRecord as typeValidatorCurrentRewardsRecord } from "./types";
 import { DelegatorStartingInfoRecord as typeDelegatorStartingInfoRecord } from "./types";
 import { ValidatorSlashEventRecord as typeValidatorSlashEventRecord } from "./types";
-export { MsgWithdrawValidatorCommission, MsgWithdrawDelegatorReward, MsgCommunityPoolSpend, MsgFundCommunityPool, MsgSetWithdrawAddress, MsgUpdateParams };
+export { MsgWithdrawValidatorCommission, MsgWithdrawDelegatorReward, MsgSetWithdrawAddress, MsgFundCommunityPool };
 export const registry = new Registry(msgTypes);
 function getStructure(template) {
     const structure = { fields: [] };
@@ -72,34 +70,6 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
                 throw new Error('TxClient:sendMsgWithdrawDelegatorReward: Could not broadcast Tx: ' + e.message);
             }
         },
-        async sendMsgCommunityPoolSpend({ value, fee, memo }) {
-            if (!signer) {
-                throw new Error('TxClient:sendMsgCommunityPoolSpend: Unable to sign Tx. Signer is not present.');
-            }
-            try {
-                const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
-                let msg = this.msgCommunityPoolSpend({ value: MsgCommunityPoolSpend.fromPartial(value) });
-                return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
-            }
-            catch (e) {
-                throw new Error('TxClient:sendMsgCommunityPoolSpend: Could not broadcast Tx: ' + e.message);
-            }
-        },
-        async sendMsgFundCommunityPool({ value, fee, memo }) {
-            if (!signer) {
-                throw new Error('TxClient:sendMsgFundCommunityPool: Unable to sign Tx. Signer is not present.');
-            }
-            try {
-                const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
-                let msg = this.msgFundCommunityPool({ value: MsgFundCommunityPool.fromPartial(value) });
-                return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
-            }
-            catch (e) {
-                throw new Error('TxClient:sendMsgFundCommunityPool: Could not broadcast Tx: ' + e.message);
-            }
-        },
         async sendMsgSetWithdrawAddress({ value, fee, memo }) {
             if (!signer) {
                 throw new Error('TxClient:sendMsgSetWithdrawAddress: Unable to sign Tx. Signer is not present.');
@@ -114,18 +84,18 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
                 throw new Error('TxClient:sendMsgSetWithdrawAddress: Could not broadcast Tx: ' + e.message);
             }
         },
-        async sendMsgUpdateParams({ value, fee, memo }) {
+        async sendMsgFundCommunityPool({ value, fee, memo }) {
             if (!signer) {
-                throw new Error('TxClient:sendMsgUpdateParams: Unable to sign Tx. Signer is not present.');
+                throw new Error('TxClient:sendMsgFundCommunityPool: Unable to sign Tx. Signer is not present.');
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
                 const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
-                let msg = this.msgUpdateParams({ value: MsgUpdateParams.fromPartial(value) });
+                let msg = this.msgFundCommunityPool({ value: MsgFundCommunityPool.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
             catch (e) {
-                throw new Error('TxClient:sendMsgUpdateParams: Could not broadcast Tx: ' + e.message);
+                throw new Error('TxClient:sendMsgFundCommunityPool: Could not broadcast Tx: ' + e.message);
             }
         },
         msgWithdrawValidatorCommission({ value }) {
@@ -144,22 +114,6 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
                 throw new Error('TxClient:MsgWithdrawDelegatorReward: Could not create message: ' + e.message);
             }
         },
-        msgCommunityPoolSpend({ value }) {
-            try {
-                return { typeUrl: "/cosmos.distribution.v1beta1.MsgCommunityPoolSpend", value: MsgCommunityPoolSpend.fromPartial(value) };
-            }
-            catch (e) {
-                throw new Error('TxClient:MsgCommunityPoolSpend: Could not create message: ' + e.message);
-            }
-        },
-        msgFundCommunityPool({ value }) {
-            try {
-                return { typeUrl: "/cosmos.distribution.v1beta1.MsgFundCommunityPool", value: MsgFundCommunityPool.fromPartial(value) };
-            }
-            catch (e) {
-                throw new Error('TxClient:MsgFundCommunityPool: Could not create message: ' + e.message);
-            }
-        },
         msgSetWithdrawAddress({ value }) {
             try {
                 return { typeUrl: "/cosmos.distribution.v1beta1.MsgSetWithdrawAddress", value: MsgSetWithdrawAddress.fromPartial(value) };
@@ -168,12 +122,12 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
                 throw new Error('TxClient:MsgSetWithdrawAddress: Could not create message: ' + e.message);
             }
         },
-        msgUpdateParams({ value }) {
+        msgFundCommunityPool({ value }) {
             try {
-                return { typeUrl: "/cosmos.distribution.v1beta1.MsgUpdateParams", value: MsgUpdateParams.fromPartial(value) };
+                return { typeUrl: "/cosmos.distribution.v1beta1.MsgFundCommunityPool", value: MsgFundCommunityPool.fromPartial(value) };
             }
             catch (e) {
-                throw new Error('TxClient:MsgUpdateParams: Could not create message: ' + e.message);
+                throw new Error('TxClient:MsgFundCommunityPool: Could not create message: ' + e.message);
             }
         },
     };

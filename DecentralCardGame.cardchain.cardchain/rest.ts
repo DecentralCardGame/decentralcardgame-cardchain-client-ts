@@ -79,6 +79,7 @@ export interface CardchainMatch {
   playerB?: CardchainMatchPlayer;
   outcome?: CardchainOutcome;
   coinsDistributed?: boolean;
+  serverConfirmed?: boolean;
 }
 
 export interface CardchainMatchPlayer {
@@ -86,6 +87,8 @@ export interface CardchainMatchPlayer {
   playedCards?: string[];
   confirmed?: boolean;
   outcome?: CardchainOutcome;
+  deck?: string[];
+  votedCards?: CardchainSingleVote[];
 }
 
 export type CardchainMsgAddArtworkResponse = object;
@@ -128,6 +131,11 @@ export type CardchainMsgCreateuserResponse = object;
 export type CardchainMsgDonateToCardResponse = object;
 
 export type CardchainMsgFinalizeCollectionResponse = object;
+
+export interface CardchainMsgMsgOpenMatchResponse {
+  /** @format uint64 */
+  matchId?: string;
+}
 
 export type CardchainMsgMultiVoteCardResponse = object;
 
@@ -283,6 +291,9 @@ export interface CardchainParams {
 
   /** @format int64 */
   votingRewardCap?: string;
+
+  /** @format uint64 */
+  matchWorkerDelay?: string;
 }
 
 /**
@@ -631,7 +642,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title DecentralCardGame/cardchain/cardchain/card.proto
+ * @title cardchain/cardchain/card.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {

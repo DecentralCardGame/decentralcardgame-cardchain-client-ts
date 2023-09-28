@@ -618,39 +618,6 @@ export const MsgUpdateGroupPolicyAdmin = {
         return message;
     },
 };
-function createBaseMsgUpdateGroupPolicyAdminResponse() {
-    return {};
-}
-export const MsgUpdateGroupPolicyAdminResponse = {
-    encode(_, writer = _m0.Writer.create()) {
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgUpdateGroupPolicyAdminResponse();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(_) {
-        return {};
-    },
-    toJSON(_) {
-        const obj = {};
-        return obj;
-    },
-    fromPartial(_) {
-        const message = createBaseMsgUpdateGroupPolicyAdminResponse();
-        return message;
-    },
-};
 function createBaseMsgCreateGroupWithPolicy() {
     return {
         admin: "",
@@ -803,6 +770,39 @@ export const MsgCreateGroupWithPolicyResponse = {
         const message = createBaseMsgCreateGroupWithPolicyResponse();
         message.groupId = object.groupId ?? 0;
         message.groupPolicyAddress = object.groupPolicyAddress ?? "";
+        return message;
+    },
+};
+function createBaseMsgUpdateGroupPolicyAdminResponse() {
+    return {};
+}
+export const MsgUpdateGroupPolicyAdminResponse = {
+    encode(_, writer = _m0.Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseMsgUpdateGroupPolicyAdminResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = createBaseMsgUpdateGroupPolicyAdminResponse();
         return message;
     },
 };
@@ -998,7 +998,7 @@ export const MsgUpdateGroupPolicyMetadataResponse = {
     },
 };
 function createBaseMsgSubmitProposal() {
-    return { groupPolicyAddress: "", proposers: [], metadata: "", messages: [], exec: 0, title: "", summary: "" };
+    return { groupPolicyAddress: "", proposers: [], metadata: "", messages: [], exec: 0 };
 }
 export const MsgSubmitProposal = {
     encode(message, writer = _m0.Writer.create()) {
@@ -1016,12 +1016,6 @@ export const MsgSubmitProposal = {
         }
         if (message.exec !== 0) {
             writer.uint32(40).int32(message.exec);
-        }
-        if (message.title !== "") {
-            writer.uint32(50).string(message.title);
-        }
-        if (message.summary !== "") {
-            writer.uint32(58).string(message.summary);
         }
         return writer;
     },
@@ -1047,12 +1041,6 @@ export const MsgSubmitProposal = {
                 case 5:
                     message.exec = reader.int32();
                     break;
-                case 6:
-                    message.title = reader.string();
-                    break;
-                case 7:
-                    message.summary = reader.string();
-                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -1067,8 +1055,6 @@ export const MsgSubmitProposal = {
             metadata: isSet(object.metadata) ? String(object.metadata) : "",
             messages: Array.isArray(object?.messages) ? object.messages.map((e) => Any.fromJSON(e)) : [],
             exec: isSet(object.exec) ? execFromJSON(object.exec) : 0,
-            title: isSet(object.title) ? String(object.title) : "",
-            summary: isSet(object.summary) ? String(object.summary) : "",
         };
     },
     toJSON(message) {
@@ -1088,8 +1074,6 @@ export const MsgSubmitProposal = {
             obj.messages = [];
         }
         message.exec !== undefined && (obj.exec = execToJSON(message.exec));
-        message.title !== undefined && (obj.title = message.title);
-        message.summary !== undefined && (obj.summary = message.summary);
         return obj;
     },
     fromPartial(object) {
@@ -1099,8 +1083,6 @@ export const MsgSubmitProposal = {
         message.metadata = object.metadata ?? "";
         message.messages = object.messages?.map((e) => Any.fromPartial(e)) || [];
         message.exec = object.exec ?? 0;
-        message.title = object.title ?? "";
-        message.summary = object.summary ?? "";
         return message;
     },
 };

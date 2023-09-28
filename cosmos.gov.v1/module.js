@@ -3,10 +3,9 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { msgTypes } from './registry';
 import { Api } from "./rest";
-import { MsgDeposit } from "./types/cosmos/gov/v1/tx";
 import { MsgVote } from "./types/cosmos/gov/v1/tx";
 import { MsgVoteWeighted } from "./types/cosmos/gov/v1/tx";
-import { MsgUpdateParams } from "./types/cosmos/gov/v1/tx";
+import { MsgDeposit } from "./types/cosmos/gov/v1/tx";
 import { MsgSubmitProposal } from "./types/cosmos/gov/v1/tx";
 import { WeightedVoteOption as typeWeightedVoteOption } from "./types";
 import { Deposit as typeDeposit } from "./types";
@@ -16,8 +15,7 @@ import { Vote as typeVote } from "./types";
 import { DepositParams as typeDepositParams } from "./types";
 import { VotingParams as typeVotingParams } from "./types";
 import { TallyParams as typeTallyParams } from "./types";
-import { Params as typeParams } from "./types";
-export { MsgDeposit, MsgVote, MsgVoteWeighted, MsgUpdateParams, MsgSubmitProposal };
+export { MsgVote, MsgVoteWeighted, MsgDeposit, MsgSubmitProposal };
 export const registry = new Registry(msgTypes);
 function getStructure(template) {
     const structure = { fields: [] };
@@ -33,20 +31,6 @@ const defaultFee = {
 };
 export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26657", prefix: "cosmos" }) => {
     return {
-        async sendMsgDeposit({ value, fee, memo }) {
-            if (!signer) {
-                throw new Error('TxClient:sendMsgDeposit: Unable to sign Tx. Signer is not present.');
-            }
-            try {
-                const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
-                let msg = this.msgDeposit({ value: MsgDeposit.fromPartial(value) });
-                return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
-            }
-            catch (e) {
-                throw new Error('TxClient:sendMsgDeposit: Could not broadcast Tx: ' + e.message);
-            }
-        },
         async sendMsgVote({ value, fee, memo }) {
             if (!signer) {
                 throw new Error('TxClient:sendMsgVote: Unable to sign Tx. Signer is not present.');
@@ -75,18 +59,18 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
                 throw new Error('TxClient:sendMsgVoteWeighted: Could not broadcast Tx: ' + e.message);
             }
         },
-        async sendMsgUpdateParams({ value, fee, memo }) {
+        async sendMsgDeposit({ value, fee, memo }) {
             if (!signer) {
-                throw new Error('TxClient:sendMsgUpdateParams: Unable to sign Tx. Signer is not present.');
+                throw new Error('TxClient:sendMsgDeposit: Unable to sign Tx. Signer is not present.');
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
                 const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
-                let msg = this.msgUpdateParams({ value: MsgUpdateParams.fromPartial(value) });
+                let msg = this.msgDeposit({ value: MsgDeposit.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
             catch (e) {
-                throw new Error('TxClient:sendMsgUpdateParams: Could not broadcast Tx: ' + e.message);
+                throw new Error('TxClient:sendMsgDeposit: Could not broadcast Tx: ' + e.message);
             }
         },
         async sendMsgSubmitProposal({ value, fee, memo }) {
@@ -101,14 +85,6 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             catch (e) {
                 throw new Error('TxClient:sendMsgSubmitProposal: Could not broadcast Tx: ' + e.message);
-            }
-        },
-        msgDeposit({ value }) {
-            try {
-                return { typeUrl: "/cosmos.gov.v1.MsgDeposit", value: MsgDeposit.fromPartial(value) };
-            }
-            catch (e) {
-                throw new Error('TxClient:MsgDeposit: Could not create message: ' + e.message);
             }
         },
         msgVote({ value }) {
@@ -127,12 +103,12 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
                 throw new Error('TxClient:MsgVoteWeighted: Could not create message: ' + e.message);
             }
         },
-        msgUpdateParams({ value }) {
+        msgDeposit({ value }) {
             try {
-                return { typeUrl: "/cosmos.gov.v1.MsgUpdateParams", value: MsgUpdateParams.fromPartial(value) };
+                return { typeUrl: "/cosmos.gov.v1.MsgDeposit", value: MsgDeposit.fromPartial(value) };
             }
             catch (e) {
-                throw new Error('TxClient:MsgUpdateParams: Could not create message: ' + e.message);
+                throw new Error('TxClient:MsgDeposit: Could not create message: ' + e.message);
             }
         },
         msgSubmitProposal({ value }) {
@@ -162,7 +138,6 @@ class SDKModule {
             DepositParams: getStructure(typeDepositParams.fromPartial({})),
             VotingParams: getStructure(typeVotingParams.fromPartial({})),
             TallyParams: getStructure(typeTallyParams.fromPartial({})),
-            Params: getStructure(typeParams.fromPartial({})),
         };
         client.on('signer-changed', (signer) => {
             this.updateTX(client);

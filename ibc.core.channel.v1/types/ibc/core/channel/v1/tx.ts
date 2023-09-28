@@ -89,7 +89,6 @@ export interface MsgChannelOpenTry {
 /** MsgChannelOpenTryResponse defines the Msg/ChannelOpenTry response type. */
 export interface MsgChannelOpenTryResponse {
   version: string;
-  channelId: string;
 }
 
 /**
@@ -463,16 +462,13 @@ export const MsgChannelOpenTry = {
 };
 
 function createBaseMsgChannelOpenTryResponse(): MsgChannelOpenTryResponse {
-  return { version: "", channelId: "" };
+  return { version: "" };
 }
 
 export const MsgChannelOpenTryResponse = {
   encode(message: MsgChannelOpenTryResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
     if (message.version !== "") {
       writer.uint32(10).string(message.version);
-    }
-    if (message.channelId !== "") {
-      writer.uint32(18).string(message.channelId);
     }
     return writer;
   },
@@ -487,9 +483,6 @@ export const MsgChannelOpenTryResponse = {
         case 1:
           message.version = reader.string();
           break;
-        case 2:
-          message.channelId = reader.string();
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -499,23 +492,18 @@ export const MsgChannelOpenTryResponse = {
   },
 
   fromJSON(object: any): MsgChannelOpenTryResponse {
-    return {
-      version: isSet(object.version) ? String(object.version) : "",
-      channelId: isSet(object.channelId) ? String(object.channelId) : "",
-    };
+    return { version: isSet(object.version) ? String(object.version) : "" };
   },
 
   toJSON(message: MsgChannelOpenTryResponse): unknown {
     const obj: any = {};
     message.version !== undefined && (obj.version = message.version);
-    message.channelId !== undefined && (obj.channelId = message.channelId);
     return obj;
   },
 
   fromPartial<I extends Exact<DeepPartial<MsgChannelOpenTryResponse>, I>>(object: I): MsgChannelOpenTryResponse {
     const message = createBaseMsgChannelOpenTryResponse();
     message.version = object.version ?? "";
-    message.channelId = object.channelId ?? "";
     return message;
   },
 };

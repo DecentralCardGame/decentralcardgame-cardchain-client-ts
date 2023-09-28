@@ -185,6 +185,7 @@ export interface V1Beta1Plan {
 
   /**
    * The height at which the upgrade must be performed.
+   * Only used if Time is not set.
    * @format int64
    */
   height?: string;

@@ -144,7 +144,7 @@ export class HttpClient {
     }
 }
 /**
- * @title DecentralCardGame/cardchain/cardchain/card.proto
+ * @title cardchain/cardchain/card.proto
  * @version version not set
  */
 export class Api extends HttpClient {

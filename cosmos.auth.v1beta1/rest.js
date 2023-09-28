@@ -83,25 +83,11 @@ export class Api extends HttpClient {
     constructor() {
         super(...arguments);
         /**
-         * @description Since: cosmos-sdk 0.47
-         *
-         * @tags Query
-         * @name QueryAccountInfo
-         * @summary AccountInfo queries account info which is common to all account types.
-         * @request GET:/cosmos/auth/v1beta1/account_info/{address}
-         */
-        this.queryAccountInfo = (address, params = {}) => this.request({
-            path: `/cosmos/auth/v1beta1/account_info/${address}`,
-            method: "GET",
-            format: "json",
-            ...params,
-        });
-        /**
-         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set. Since: cosmos-sdk 0.43
+         * @description Since: cosmos-sdk 0.43
          *
          * @tags Query
          * @name QueryAccounts
-         * @summary Accounts returns all the existing accounts.
+         * @summary Accounts returns all the existing accounts
          * @request GET:/cosmos/auth/v1beta1/accounts
          */
         this.queryAccounts = (query, params = {}) => this.request({
@@ -133,10 +119,9 @@ export class Api extends HttpClient {
          * @summary AccountAddressByID returns account address based on account number.
          * @request GET:/cosmos/auth/v1beta1/address_by_id/{id}
          */
-        this.queryAccountAddressByID = (id, query, params = {}) => this.request({
+        this.queryAccountAddressByID = (id, params = {}) => this.request({
             path: `/cosmos/auth/v1beta1/address_by_id/${id}`,
             method: "GET",
-            query: query,
             format: "json",
             ...params,
         });

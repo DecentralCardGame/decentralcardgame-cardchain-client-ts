@@ -21,5 +21,4 @@ import { DelegationResponse } from "./types/cosmos/staking/v1beta1/staking";
 import { RedelegationEntryResponse } from "./types/cosmos/staking/v1beta1/staking";
 import { RedelegationResponse } from "./types/cosmos/staking/v1beta1/staking";
 import { Pool } from "./types/cosmos/staking/v1beta1/staking";
-import { ValidatorUpdates } from "./types/cosmos/staking/v1beta1/staking";
-export { StakeAuthorization, StakeAuthorization_Validators, LastValidatorPower, HistoricalInfo, CommissionRates, Commission, Description, Validator, ValAddresses, DVPair, DVPairs, DVVTriplet, DVVTriplets, Delegation, UnbondingDelegation, UnbondingDelegationEntry, RedelegationEntry, Redelegation, Params, DelegationResponse, RedelegationEntryResponse, RedelegationResponse, Pool, ValidatorUpdates, };
+export { StakeAuthorization, StakeAuthorization_Validators, LastValidatorPower, HistoricalInfo, CommissionRates, Commission, Description, Validator, ValAddresses, DVPair, DVPairs, DVVTriplet, DVVTriplets, Delegation, UnbondingDelegation, UnbondingDelegationEntry, RedelegationEntry, Redelegation, Params, DelegationResponse, RedelegationEntryResponse, RedelegationResponse, Pool, };
