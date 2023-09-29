@@ -112,7 +112,6 @@ export class IgniteClient extends EventEmitter {
                     bech32Config,
                     currencies,
                     feeCurrencies,
-                    coinType,
                     ...keplrChainInfo,
                 };
                 await window.keplr.experimentalSuggestChain(suggestOptions);
