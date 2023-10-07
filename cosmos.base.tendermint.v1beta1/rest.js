@@ -107,9 +107,9 @@ export class Api extends HttpClient {
        *
        * @tags Service
        * @name ServiceAbciQuery
-       * @summary ABCIQuery defines a query handler that supports ABCI queries directly to
-      the application, bypassing Tendermint completely. The ABCI query must
-      contain a valid and supported path, including app, custom, p2p, and store.
+       * @summary ABCIQuery defines a query handler that supports ABCI queries directly to the
+      application, bypassing Tendermint completely. The ABCI query must contain
+      a valid and supported path, including app, custom, p2p, and store.
        * @request GET:/cosmos/base/tendermint/v1beta1/abci_query
        */
         this.serviceABCIQuery = (query, params = {}) => this.request({

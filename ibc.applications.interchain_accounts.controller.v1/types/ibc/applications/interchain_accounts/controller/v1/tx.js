@@ -65,12 +65,15 @@ export const MsgRegisterInterchainAccount = {
     },
 };
 function createBaseMsgRegisterInterchainAccountResponse() {
-    return { channelId: "" };
+    return { channelId: "", portId: "" };
 }
 export const MsgRegisterInterchainAccountResponse = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.channelId !== "") {
             writer.uint32(10).string(message.channelId);
+        }
+        if (message.portId !== "") {
+            writer.uint32(18).string(message.portId);
         }
         return writer;
     },
@@ -84,6 +87,9 @@ export const MsgRegisterInterchainAccountResponse = {
                 case 1:
                     message.channelId = reader.string();
                     break;
+                case 2:
+                    message.portId = reader.string();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -92,16 +98,21 @@ export const MsgRegisterInterchainAccountResponse = {
         return message;
     },
     fromJSON(object) {
-        return { channelId: isSet(object.channelId) ? String(object.channelId) : "" };
+        return {
+            channelId: isSet(object.channelId) ? String(object.channelId) : "",
+            portId: isSet(object.portId) ? String(object.portId) : "",
+        };
     },
     toJSON(message) {
         const obj = {};
         message.channelId !== undefined && (obj.channelId = message.channelId);
+        message.portId !== undefined && (obj.portId = message.portId);
         return obj;
     },
     fromPartial(object) {
         const message = createBaseMsgRegisterInterchainAccountResponse();
         message.channelId = object.channelId ?? "";
+        message.portId = object.portId ?? "";
         return message;
     },
 };

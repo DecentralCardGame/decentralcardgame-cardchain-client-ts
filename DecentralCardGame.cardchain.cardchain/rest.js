@@ -15,6 +15,14 @@ export var CardchainCStatus;
     CardchainCStatus["Active"] = "active";
     CardchainCStatus["Archived"] = "archived";
 })(CardchainCStatus || (CardchainCStatus = {}));
+export var CardchainCardRarity;
+(function (CardchainCardRarity) {
+    CardchainCardRarity["Common"] = "common";
+    CardchainCardRarity["Uncommon"] = "uncommon";
+    CardchainCardRarity["Rare"] = "rare";
+    CardchainCardRarity["Exceptional"] = "exceptional";
+    CardchainCardRarity["Unique"] = "unique";
+})(CardchainCardRarity || (CardchainCardRarity = {}));
 export var CardchainCouncelingStatus;
 (function (CardchainCouncelingStatus) {
     CardchainCouncelingStatus["CouncilOpen"] = "councilOpen";
@@ -144,7 +152,7 @@ export class HttpClient {
     }
 }
 /**
- * @title cardchain/cardchain/card.proto
+ * @title DecentralCardGame/cardchain/cardchain/card.proto
  * @version version not set
  */
 export class Api extends HttpClient {
@@ -154,12 +162,12 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
-         * @name QueryQCollections
-         * @summary Queries a list of QCollections items.
-         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_collections/{status}/{ignoreStatus}
+         * @name QueryQSets
+         * @summary Queries a list of QSets items.
+         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_sets/{status}/{ignoreStatus}
          */
-        this.queryQCollections = (status, ignoreStatus, query, params = {}) => this.request({
-            path: `/DecentralCardGame/Cardchain/cardchain/q_collections/${status}/${ignoreStatus}`,
+        this.queryQSets = (status, ignoreStatus, query, params = {}) => this.request({
+            path: `/DecentralCardGame/Cardchain/cardchain/q_sets/${status}/${ignoreStatus}`,
             method: "GET",
             query: query,
             format: "json",
@@ -171,10 +179,10 @@ export class Api extends HttpClient {
          * @tags Query
          * @name QueryRarityDistribution
          * @summary Queries a list of RarityDistribution items.
-         * @request GET:/DecentralCardGame/Cardchain/cardchain/rarity_distribution/{collectionId}
+         * @request GET:/DecentralCardGame/Cardchain/cardchain/rarity_distribution/{setId}
          */
-        this.queryRarityDistribution = (collectionId, params = {}) => this.request({
-            path: `/DecentralCardGame/Cardchain/cardchain/rarity_distribution/${collectionId}`,
+        this.queryRarityDistribution = (setId, params = {}) => this.request({
+            path: `/DecentralCardGame/Cardchain/cardchain/rarity_distribution/${setId}`,
             method: "GET",
             format: "json",
             ...params,
@@ -247,20 +255,6 @@ export class Api extends HttpClient {
             path: `/DecentralCardGame/cardchain/cardchain/q_cards/${status}`,
             method: "GET",
             query: query,
-            format: "json",
-            ...params,
-        });
-        /**
-         * No description
-         *
-         * @tags Query
-         * @name QueryQCollection
-         * @summary Queries a list of QCollection items.
-         * @request GET:/DecentralCardGame/cardchain/cardchain/q_collection/{collectionId}
-         */
-        this.queryQCollection = (collectionId, params = {}) => this.request({
-            path: `/DecentralCardGame/cardchain/cardchain/q_collection/${collectionId}`,
-            method: "GET",
             format: "json",
             ...params,
         });
@@ -346,6 +340,20 @@ export class Api extends HttpClient {
          */
         this.queryQServer = (id, params = {}) => this.request({
             path: `/DecentralCardGame/cardchain/cardchain/q_server/${id}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryQSet
+         * @summary Queries a list of QSet items.
+         * @request GET:/DecentralCardGame/cardchain/cardchain/q_set/{setId}
+         */
+        this.queryQSet = (setId, params = {}) => this.request({
+            path: `/DecentralCardGame/cardchain/cardchain/q_set/${setId}`,
             method: "GET",
             format: "json",
             ...params,

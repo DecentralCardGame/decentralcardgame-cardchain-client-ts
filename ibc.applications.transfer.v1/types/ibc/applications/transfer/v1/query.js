@@ -1,6 +1,7 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../../../cosmos/base/query/v1beta1/pagination";
+import { Coin } from "../../../../cosmos/base/v1beta1/coin";
 import { DenomTrace, Params } from "./transfer";
 export const protobufPackage = "ibc.applications.transfer.v1";
 function createBaseQueryDenomTraceRequest() {
@@ -443,6 +444,90 @@ export const QueryEscrowAddressResponse = {
         return message;
     },
 };
+function createBaseQueryTotalEscrowForDenomRequest() {
+    return { denom: "" };
+}
+export const QueryTotalEscrowForDenomRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.denom !== "") {
+            writer.uint32(10).string(message.denom);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryTotalEscrowForDenomRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.denom = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { denom: isSet(object.denom) ? String(object.denom) : "" };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.denom !== undefined && (obj.denom = message.denom);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryTotalEscrowForDenomRequest();
+        message.denom = object.denom ?? "";
+        return message;
+    },
+};
+function createBaseQueryTotalEscrowForDenomResponse() {
+    return { amount: undefined };
+}
+export const QueryTotalEscrowForDenomResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.amount !== undefined) {
+            Coin.encode(message.amount, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryTotalEscrowForDenomResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.amount = Coin.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { amount: isSet(object.amount) ? Coin.fromJSON(object.amount) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.amount !== undefined && (obj.amount = message.amount ? Coin.toJSON(message.amount) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryTotalEscrowForDenomResponse();
+        message.amount = (object.amount !== undefined && object.amount !== null)
+            ? Coin.fromPartial(object.amount)
+            : undefined;
+        return message;
+    },
+};
 export class QueryClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -451,6 +536,7 @@ export class QueryClientImpl {
         this.Params = this.Params.bind(this);
         this.DenomHash = this.DenomHash.bind(this);
         this.EscrowAddress = this.EscrowAddress.bind(this);
+        this.TotalEscrowForDenom = this.TotalEscrowForDenom.bind(this);
     }
     DenomTrace(request) {
         const data = QueryDenomTraceRequest.encode(request).finish();
@@ -476,6 +562,11 @@ export class QueryClientImpl {
         const data = QueryEscrowAddressRequest.encode(request).finish();
         const promise = this.rpc.request("ibc.applications.transfer.v1.Query", "EscrowAddress", data);
         return promise.then((data) => QueryEscrowAddressResponse.decode(new _m0.Reader(data)));
+    }
+    TotalEscrowForDenom(request) {
+        const data = QueryTotalEscrowForDenomRequest.encode(request).finish();
+        const promise = this.rpc.request("ibc.applications.transfer.v1.Query", "TotalEscrowForDenom", data);
+        return promise.then((data) => QueryTotalEscrowForDenomResponse.decode(new _m0.Reader(data)));
     }
 }
 function isSet(value) {

@@ -19,11 +19,16 @@ export interface CardchainAirDrops {
 
 export interface CardchainBoosterPack {
   /** @format uint64 */
-  collectionId?: string;
+  setId?: string;
 
   /** @format int64 */
   timeStamp?: string;
+
+  /** How often the different rarities will appear in a BoosterPack */
   raritiesPerPack?: string[];
+
+  /** The chances of the rare beeing a normal rare, an exceptional or a unique */
+  dropRatiosPerPack?: string[];
 }
 
 export enum CardchainCStatus {
@@ -31,6 +36,14 @@ export enum CardchainCStatus {
   Finalized = "finalized",
   Active = "active",
   Archived = "archived",
+}
+
+export enum CardchainCardRarity {
+  Common = "common",
+  Uncommon = "uncommon",
+  Rare = "rare",
+  Exceptional = "exceptional",
+  Unique = "unique",
 }
 
 export enum CardchainCouncelingStatus {
@@ -93,15 +106,19 @@ export interface CardchainMatchPlayer {
 
 export type CardchainMsgAddArtworkResponse = object;
 
-export type CardchainMsgAddArtworkToCollectionResponse = object;
+export type CardchainMsgAddArtworkToSetResponse = object;
 
-export type CardchainMsgAddCardToCollectionResponse = object;
+export type CardchainMsgAddCardToSetResponse = object;
 
-export type CardchainMsgAddContributorToCollectionResponse = object;
+export type CardchainMsgAddContributorToSetResponse = object;
 
-export type CardchainMsgAddStoryToCollectionResponse = object;
+export type CardchainMsgAddStoryToSetResponse = object;
 
 export type CardchainMsgApointMatchReporterResponse = object;
+
+export interface CardchainMsgBuyBoosterPackResponse {
+  airdropClaimed?: boolean;
+}
 
 export type CardchainMsgBuyCardResponse = object;
 
@@ -110,32 +127,23 @@ export interface CardchainMsgBuyCardSchemeResponse {
   cardId?: string;
 }
 
-export interface CardchainMsgBuyCollectionResponse {
-  airdropClaimed?: boolean;
-}
-
 export type CardchainMsgChangeArtistResponse = object;
 
 export type CardchainMsgCommitCouncilResponseResponse = object;
 
 export type CardchainMsgConfirmMatchResponse = object;
 
-export type CardchainMsgCreateCollectionResponse = object;
-
 export type CardchainMsgCreateCouncilResponse = object;
 
 export type CardchainMsgCreateSellOfferResponse = object;
+
+export type CardchainMsgCreateSetResponse = object;
 
 export type CardchainMsgCreateuserResponse = object;
 
 export type CardchainMsgDonateToCardResponse = object;
 
-export type CardchainMsgFinalizeCollectionResponse = object;
-
-export interface CardchainMsgMsgOpenMatchResponse {
-  /** @format uint64 */
-  matchId?: string;
-}
+export type CardchainMsgFinalizeSetResponse = object;
 
 export type CardchainMsgMultiVoteCardResponse = object;
 
@@ -143,11 +151,16 @@ export interface CardchainMsgOpenBoosterPackResponse {
   cardIds?: string[];
 }
 
+export interface CardchainMsgOpenMatchResponse {
+  /** @format uint64 */
+  matchId?: string;
+}
+
 export type CardchainMsgRegisterForCouncilResponse = object;
 
-export type CardchainMsgRemoveCardFromCollectionResponse = object;
+export type CardchainMsgRemoveCardFromSetResponse = object;
 
-export type CardchainMsgRemoveContributorFromCollectionResponse = object;
+export type CardchainMsgRemoveContributorFromSetResponse = object;
 
 export type CardchainMsgRemoveSellOfferResponse = object;
 
@@ -168,21 +181,23 @@ export interface CardchainMsgSaveCardContentResponse {
 
 export type CardchainMsgSetCardRarityResponse = object;
 
-export type CardchainMsgSetCollectionArtistResponse = object;
-
-export type CardchainMsgSetCollectionStoryWriterResponse = object;
-
 export type CardchainMsgSetProfileCardResponse = object;
+
+export type CardchainMsgSetSetArtistResponse = object;
+
+export type CardchainMsgSetSetNameResponse = object;
+
+export type CardchainMsgSetSetStoryWriterResponse = object;
 
 export type CardchainMsgSetUserBiographyResponse = object;
 
 export type CardchainMsgSetUserWebsiteResponse = object;
 
-export type CardchainMsgSubmitCollectionProposalResponse = object;
-
 export type CardchainMsgSubmitCopyrightProposalResponse = object;
 
 export type CardchainMsgSubmitMatchReporterProposalResponse = object;
+
+export type CardchainMsgSubmitSetProposalResponse = object;
 
 export type CardchainMsgTransferBoosterPackResponse = object;
 
@@ -226,9 +241,11 @@ export interface CardchainOutpCard {
   nerflevel?: string;
   balanceAnchor?: boolean;
   hash?: string;
+  starterCard?: boolean;
+  rarity?: CardchainCardRarity;
 }
 
-export interface CardchainOutpCollection {
+export interface CardchainOutpSet {
   name?: string;
   cards?: string[];
   artist?: string;
@@ -250,12 +267,12 @@ export interface CardchainParams {
   votingRightsExpirationTime?: string;
 
   /** @format uint64 */
-  collectionSize?: string;
-  collectionPrice?: string;
+  setSize?: string;
+  setPrice?: string;
 
   /** @format uint64 */
-  activeCollectionsAmount?: string;
-  collectionCreationFee?: string;
+  activeSetsAmount?: string;
+  setCreationFee?: string;
   collateralDeposit?: string;
 
   /** @format int64 */
@@ -294,6 +311,15 @@ export interface CardchainParams {
 
   /** @format uint64 */
   matchWorkerDelay?: string;
+
+  /** @format uint64 */
+  rareDropRatio?: string;
+
+  /** @format uint64 */
+  exceptionalDropRatio?: string;
+
+  /** @format uint64 */
+  uniqueDropRatio?: string;
 }
 
 /**
@@ -311,7 +337,7 @@ export interface CardchainQueryQCardContentResponse {
 
 export interface CardchainQueryQCardchainInfoResponse {
   cardAuctionPrice?: string;
-  activeCollections?: string[];
+  activeSets?: string[];
 
   /** @format uint64 */
   cardsNumber?: string;
@@ -347,10 +373,6 @@ export interface CardchainQueryQCardsResponse {
   cardsList?: string[];
 }
 
-export interface CardchainQueryQCollectionsResponse {
-  collectionIds?: string[];
-}
-
 export interface CardchainQueryQMatchesResponse {
   matchesList?: string[];
   matches?: CardchainMatch[];
@@ -359,6 +381,10 @@ export interface CardchainQueryQMatchesResponse {
 export interface CardchainQueryQSellOffersResponse {
   sellOffersIds?: string[];
   sellOffers?: CardchainSellOffer[];
+}
+
+export interface CardchainQueryQSetsResponse {
+  setIds?: string[];
 }
 
 export interface CardchainQueryQVotableCardsResponse {
@@ -372,8 +398,8 @@ export interface CardchainQueryQVotingResultsResponse {
 }
 
 export interface CardchainQueryRarityDistributionResponse {
-  current?: string[];
-  wanted?: string[];
+  current?: number[];
+  wanted?: number[];
 }
 
 export enum CardchainResponse {
@@ -642,7 +668,7 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title cardchain/cardchain/card.proto
+ * @title DecentralCardGame/cardchain/cardchain/card.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
@@ -650,18 +676,18 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * No description
    *
    * @tags Query
-   * @name QueryQCollections
-   * @summary Queries a list of QCollections items.
-   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_collections/{status}/{ignoreStatus}
+   * @name QueryQSets
+   * @summary Queries a list of QSets items.
+   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_sets/{status}/{ignoreStatus}
    */
-  queryQCollections = (
+  queryQSets = (
     status: "design" | "finalized" | "active" | "archived",
     ignoreStatus: boolean,
     query?: { contributors?: string[]; containsCards?: string[]; owner?: string },
     params: RequestParams = {},
   ) =>
-    this.request<CardchainQueryQCollectionsResponse, GooglerpcStatus>({
-      path: `/DecentralCardGame/Cardchain/cardchain/q_collections/${status}/${ignoreStatus}`,
+    this.request<CardchainQueryQSetsResponse, GooglerpcStatus>({
+      path: `/DecentralCardGame/Cardchain/cardchain/q_sets/${status}/${ignoreStatus}`,
       method: "GET",
       query: query,
       format: "json",
@@ -674,11 +700,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @tags Query
    * @name QueryRarityDistribution
    * @summary Queries a list of RarityDistribution items.
-   * @request GET:/DecentralCardGame/Cardchain/cardchain/rarity_distribution/{collectionId}
+   * @request GET:/DecentralCardGame/Cardchain/cardchain/rarity_distribution/{setId}
    */
-  queryRarityDistribution = (collectionId: string, params: RequestParams = {}) =>
+  queryRarityDistribution = (setId: string, params: RequestParams = {}) =>
     this.request<CardchainQueryRarityDistributionResponse, GooglerpcStatus>({
-      path: `/DecentralCardGame/Cardchain/cardchain/rarity_distribution/${collectionId}`,
+      path: `/DecentralCardGame/Cardchain/cardchain/rarity_distribution/${setId}`,
       method: "GET",
       format: "json",
       ...params,
@@ -777,6 +803,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       nameContains?: string;
       keywordsContains?: string;
       notesContains?: string;
+      onlyStarterCard?: boolean;
     },
     params: RequestParams = {},
   ) =>
@@ -784,22 +811,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       path: `/DecentralCardGame/cardchain/cardchain/q_cards/${status}`,
       method: "GET",
       query: query,
-      format: "json",
-      ...params,
-    });
-
-  /**
-   * No description
-   *
-   * @tags Query
-   * @name QueryQCollection
-   * @summary Queries a list of QCollection items.
-   * @request GET:/DecentralCardGame/cardchain/cardchain/q_collection/{collectionId}
-   */
-  queryQCollection = (collectionId: string, params: RequestParams = {}) =>
-    this.request<CardchainOutpCollection, GooglerpcStatus>({
-      path: `/DecentralCardGame/cardchain/cardchain/q_collection/${collectionId}`,
-      method: "GET",
       format: "json",
       ...params,
     });
@@ -920,6 +931,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryQServer = (id: string, params: RequestParams = {}) =>
     this.request<CardchainServer, GooglerpcStatus>({
       path: `/DecentralCardGame/cardchain/cardchain/q_server/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryQSet
+   * @summary Queries a list of QSet items.
+   * @request GET:/DecentralCardGame/cardchain/cardchain/q_set/{setId}
+   */
+  queryQSet = (setId: string, params: RequestParams = {}) =>
+    this.request<CardchainOutpSet, GooglerpcStatus>({
+      path: `/DecentralCardGame/cardchain/cardchain/q_set/${setId}`,
       method: "GET",
       format: "json",
       ...params,

@@ -272,12 +272,15 @@ export const MsgChannelOpenTry = {
     },
 };
 function createBaseMsgChannelOpenTryResponse() {
-    return { version: "" };
+    return { version: "", channelId: "" };
 }
 export const MsgChannelOpenTryResponse = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.version !== "") {
             writer.uint32(10).string(message.version);
+        }
+        if (message.channelId !== "") {
+            writer.uint32(18).string(message.channelId);
         }
         return writer;
     },
@@ -291,6 +294,9 @@ export const MsgChannelOpenTryResponse = {
                 case 1:
                     message.version = reader.string();
                     break;
+                case 2:
+                    message.channelId = reader.string();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -299,16 +305,21 @@ export const MsgChannelOpenTryResponse = {
         return message;
     },
     fromJSON(object) {
-        return { version: isSet(object.version) ? String(object.version) : "" };
+        return {
+            version: isSet(object.version) ? String(object.version) : "",
+            channelId: isSet(object.channelId) ? String(object.channelId) : "",
+        };
     },
     toJSON(message) {
         const obj = {};
         message.version !== undefined && (obj.version = message.version);
+        message.channelId !== undefined && (obj.channelId = message.channelId);
         return obj;
     },
     fromPartial(object) {
         const message = createBaseMsgChannelOpenTryResponse();
         message.version = object.version ?? "";
+        message.channelId = object.channelId ?? "";
         return message;
     },
 };

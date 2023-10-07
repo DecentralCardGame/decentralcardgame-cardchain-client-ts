@@ -751,6 +751,8 @@ function createBaseProposal() {
         votingPeriodEnd: undefined,
         executorResult: 0,
         messages: [],
+        title: "",
+        summary: "",
     };
 }
 export const Proposal = {
@@ -790,6 +792,12 @@ export const Proposal = {
         }
         for (const v of message.messages) {
             Any.encode(v, writer.uint32(98).fork()).ldelim();
+        }
+        if (message.title !== "") {
+            writer.uint32(106).string(message.title);
+        }
+        if (message.summary !== "") {
+            writer.uint32(114).string(message.summary);
         }
         return writer;
     },
@@ -836,6 +844,12 @@ export const Proposal = {
                 case 12:
                     message.messages.push(Any.decode(reader, reader.uint32()));
                     break;
+                case 13:
+                    message.title = reader.string();
+                    break;
+                case 14:
+                    message.summary = reader.string();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -857,6 +871,8 @@ export const Proposal = {
             votingPeriodEnd: isSet(object.votingPeriodEnd) ? fromJsonTimestamp(object.votingPeriodEnd) : undefined,
             executorResult: isSet(object.executorResult) ? proposalExecutorResultFromJSON(object.executorResult) : 0,
             messages: Array.isArray(object?.messages) ? object.messages.map((e) => Any.fromJSON(e)) : [],
+            title: isSet(object.title) ? String(object.title) : "",
+            summary: isSet(object.summary) ? String(object.summary) : "",
         };
     },
     toJSON(message) {
@@ -884,6 +900,8 @@ export const Proposal = {
         else {
             obj.messages = [];
         }
+        message.title !== undefined && (obj.title = message.title);
+        message.summary !== undefined && (obj.summary = message.summary);
         return obj;
     },
     fromPartial(object) {
@@ -902,6 +920,8 @@ export const Proposal = {
         message.votingPeriodEnd = object.votingPeriodEnd ?? undefined;
         message.executorResult = object.executorResult ?? 0;
         message.messages = object.messages?.map((e) => Any.fromPartial(e)) || [];
+        message.title = object.title ?? "";
+        message.summary = object.summary ?? "";
         return message;
     },
 };

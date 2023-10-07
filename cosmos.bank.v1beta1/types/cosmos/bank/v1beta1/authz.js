@@ -3,12 +3,15 @@ import _m0 from "protobufjs/minimal";
 import { Coin } from "../../base/v1beta1/coin";
 export const protobufPackage = "cosmos.bank.v1beta1";
 function createBaseSendAuthorization() {
-    return { spendLimit: [] };
+    return { spendLimit: [], allowList: [] };
 }
 export const SendAuthorization = {
     encode(message, writer = _m0.Writer.create()) {
         for (const v of message.spendLimit) {
             Coin.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        for (const v of message.allowList) {
+            writer.uint32(18).string(v);
         }
         return writer;
     },
@@ -22,6 +25,9 @@ export const SendAuthorization = {
                 case 1:
                     message.spendLimit.push(Coin.decode(reader, reader.uint32()));
                     break;
+                case 2:
+                    message.allowList.push(reader.string());
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -30,7 +36,10 @@ export const SendAuthorization = {
         return message;
     },
     fromJSON(object) {
-        return { spendLimit: Array.isArray(object?.spendLimit) ? object.spendLimit.map((e) => Coin.fromJSON(e)) : [] };
+        return {
+            spendLimit: Array.isArray(object?.spendLimit) ? object.spendLimit.map((e) => Coin.fromJSON(e)) : [],
+            allowList: Array.isArray(object?.allowList) ? object.allowList.map((e) => String(e)) : [],
+        };
     },
     toJSON(message) {
         const obj = {};
@@ -40,11 +49,18 @@ export const SendAuthorization = {
         else {
             obj.spendLimit = [];
         }
+        if (message.allowList) {
+            obj.allowList = message.allowList.map((e) => e);
+        }
+        else {
+            obj.allowList = [];
+        }
         return obj;
     },
     fromPartial(object) {
         const message = createBaseSendAuthorization();
         message.spendLimit = object.spendLimit?.map((e) => Coin.fromPartial(e)) || [];
+        message.allowList = object.allowList?.map((e) => e) || [];
         return message;
     },
 };

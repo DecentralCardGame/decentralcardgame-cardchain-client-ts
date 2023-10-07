@@ -2,7 +2,7 @@
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { PageRequest, PageResponse } from "../../base/query/v1beta1/pagination";
-import { Deposit, DepositParams, Proposal, proposalStatusFromJSON, proposalStatusToJSON, TallyParams, TallyResult, Vote, VotingParams, } from "./gov";
+import { Deposit, DepositParams, Params, Proposal, proposalStatusFromJSON, proposalStatusToJSON, TallyParams, TallyResult, Vote, VotingParams, } from "./gov";
 export const protobufPackage = "cosmos.gov.v1";
 function createBaseQueryProposalRequest() {
     return { proposalId: 0 };
@@ -471,7 +471,7 @@ export const QueryParamsRequest = {
     },
 };
 function createBaseQueryParamsResponse() {
-    return { votingParams: undefined, depositParams: undefined, tallyParams: undefined };
+    return { votingParams: undefined, depositParams: undefined, tallyParams: undefined, params: undefined };
 }
 export const QueryParamsResponse = {
     encode(message, writer = _m0.Writer.create()) {
@@ -483,6 +483,9 @@ export const QueryParamsResponse = {
         }
         if (message.tallyParams !== undefined) {
             TallyParams.encode(message.tallyParams, writer.uint32(26).fork()).ldelim();
+        }
+        if (message.params !== undefined) {
+            Params.encode(message.params, writer.uint32(34).fork()).ldelim();
         }
         return writer;
     },
@@ -502,6 +505,9 @@ export const QueryParamsResponse = {
                 case 3:
                     message.tallyParams = TallyParams.decode(reader, reader.uint32());
                     break;
+                case 4:
+                    message.params = Params.decode(reader, reader.uint32());
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -514,6 +520,7 @@ export const QueryParamsResponse = {
             votingParams: isSet(object.votingParams) ? VotingParams.fromJSON(object.votingParams) : undefined,
             depositParams: isSet(object.depositParams) ? DepositParams.fromJSON(object.depositParams) : undefined,
             tallyParams: isSet(object.tallyParams) ? TallyParams.fromJSON(object.tallyParams) : undefined,
+            params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
         };
     },
     toJSON(message) {
@@ -524,6 +531,7 @@ export const QueryParamsResponse = {
             && (obj.depositParams = message.depositParams ? DepositParams.toJSON(message.depositParams) : undefined);
         message.tallyParams !== undefined
             && (obj.tallyParams = message.tallyParams ? TallyParams.toJSON(message.tallyParams) : undefined);
+        message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
         return obj;
     },
     fromPartial(object) {
@@ -536,6 +544,9 @@ export const QueryParamsResponse = {
             : undefined;
         message.tallyParams = (object.tallyParams !== undefined && object.tallyParams !== null)
             ? TallyParams.fromPartial(object.tallyParams)
+            : undefined;
+        message.params = (object.params !== undefined && object.params !== null)
+            ? Params.fromPartial(object.params)
             : undefined;
         return message;
     },

@@ -1,10 +1,10 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
 import { Coin } from "../../base/v1beta1/coin";
-import { Metadata, Params } from "./bank";
+import { Metadata, Params, SendEnabled } from "./bank";
 export const protobufPackage = "cosmos.bank.v1beta1";
 function createBaseGenesisState() {
-    return { params: undefined, balances: [], supply: [], denomMetadata: [] };
+    return { params: undefined, balances: [], supply: [], denomMetadata: [], sendEnabled: [] };
 }
 export const GenesisState = {
     encode(message, writer = _m0.Writer.create()) {
@@ -19,6 +19,9 @@ export const GenesisState = {
         }
         for (const v of message.denomMetadata) {
             Metadata.encode(v, writer.uint32(34).fork()).ldelim();
+        }
+        for (const v of message.sendEnabled) {
+            SendEnabled.encode(v, writer.uint32(42).fork()).ldelim();
         }
         return writer;
     },
@@ -41,6 +44,9 @@ export const GenesisState = {
                 case 4:
                     message.denomMetadata.push(Metadata.decode(reader, reader.uint32()));
                     break;
+                case 5:
+                    message.sendEnabled.push(SendEnabled.decode(reader, reader.uint32()));
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -55,6 +61,9 @@ export const GenesisState = {
             supply: Array.isArray(object?.supply) ? object.supply.map((e) => Coin.fromJSON(e)) : [],
             denomMetadata: Array.isArray(object?.denomMetadata)
                 ? object.denomMetadata.map((e) => Metadata.fromJSON(e))
+                : [],
+            sendEnabled: Array.isArray(object?.sendEnabled)
+                ? object.sendEnabled.map((e) => SendEnabled.fromJSON(e))
                 : [],
         };
     },
@@ -79,6 +88,12 @@ export const GenesisState = {
         else {
             obj.denomMetadata = [];
         }
+        if (message.sendEnabled) {
+            obj.sendEnabled = message.sendEnabled.map((e) => e ? SendEnabled.toJSON(e) : undefined);
+        }
+        else {
+            obj.sendEnabled = [];
+        }
         return obj;
     },
     fromPartial(object) {
@@ -89,6 +104,7 @@ export const GenesisState = {
         message.balances = object.balances?.map((e) => Balance.fromPartial(e)) || [];
         message.supply = object.supply?.map((e) => Coin.fromPartial(e)) || [];
         message.denomMetadata = object.denomMetadata?.map((e) => Metadata.fromPartial(e)) || [];
+        message.sendEnabled = object.sendEnabled?.map((e) => SendEnabled.fromPartial(e)) || [];
         return message;
     },
 };

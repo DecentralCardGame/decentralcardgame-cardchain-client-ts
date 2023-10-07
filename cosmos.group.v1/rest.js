@@ -172,7 +172,7 @@ export class Api extends HttpClient {
          *
          * @tags Query
          * @name QueryGroupMembers
-         * @summary GroupMembers queries members of a group
+         * @summary GroupMembers queries members of a group by group id.
          * @request GET:/cosmos/group/v1/group_members/{group_id}
          */
         this.queryGroupMembers = (groupId, query, params = {}) => this.request({
@@ -187,7 +187,7 @@ export class Api extends HttpClient {
          *
          * @tags Query
          * @name QueryGroupPoliciesByAdmin
-         * @summary GroupsByAdmin queries group policies by admin address.
+         * @summary GroupPoliciesByAdmin queries group policies by admin address.
          * @request GET:/cosmos/group/v1/group_policies_by_admin/{admin}
          */
         this.queryGroupPoliciesByAdmin = (admin, query, params = {}) => this.request({
@@ -337,7 +337,7 @@ export class Api extends HttpClient {
          *
          * @tags Query
          * @name QueryVotesByProposal
-         * @summary VotesByProposal queries a vote by proposal.
+         * @summary VotesByProposal queries a vote by proposal id.
          * @request GET:/cosmos/group/v1/votes_by_proposal/{proposal_id}
          */
         this.queryVotesByProposal = (proposalId, query, params = {}) => this.request({

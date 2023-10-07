@@ -269,6 +269,9 @@ function createBaseProposal() {
         votingStartTime: undefined,
         votingEndTime: undefined,
         metadata: "",
+        title: "",
+        summary: "",
+        proposer: "",
     };
 }
 export const Proposal = {
@@ -302,6 +305,15 @@ export const Proposal = {
         }
         if (message.metadata !== "") {
             writer.uint32(82).string(message.metadata);
+        }
+        if (message.title !== "") {
+            writer.uint32(90).string(message.title);
+        }
+        if (message.summary !== "") {
+            writer.uint32(98).string(message.summary);
+        }
+        if (message.proposer !== "") {
+            writer.uint32(106).string(message.proposer);
         }
         return writer;
     },
@@ -342,6 +354,15 @@ export const Proposal = {
                 case 10:
                     message.metadata = reader.string();
                     break;
+                case 11:
+                    message.title = reader.string();
+                    break;
+                case 12:
+                    message.summary = reader.string();
+                    break;
+                case 13:
+                    message.proposer = reader.string();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -361,6 +382,9 @@ export const Proposal = {
             votingStartTime: isSet(object.votingStartTime) ? fromJsonTimestamp(object.votingStartTime) : undefined,
             votingEndTime: isSet(object.votingEndTime) ? fromJsonTimestamp(object.votingEndTime) : undefined,
             metadata: isSet(object.metadata) ? String(object.metadata) : "",
+            title: isSet(object.title) ? String(object.title) : "",
+            summary: isSet(object.summary) ? String(object.summary) : "",
+            proposer: isSet(object.proposer) ? String(object.proposer) : "",
         };
     },
     toJSON(message) {
@@ -386,6 +410,9 @@ export const Proposal = {
         message.votingStartTime !== undefined && (obj.votingStartTime = message.votingStartTime.toISOString());
         message.votingEndTime !== undefined && (obj.votingEndTime = message.votingEndTime.toISOString());
         message.metadata !== undefined && (obj.metadata = message.metadata);
+        message.title !== undefined && (obj.title = message.title);
+        message.summary !== undefined && (obj.summary = message.summary);
+        message.proposer !== undefined && (obj.proposer = message.proposer);
         return obj;
     },
     fromPartial(object) {
@@ -402,6 +429,9 @@ export const Proposal = {
         message.votingStartTime = object.votingStartTime ?? undefined;
         message.votingEndTime = object.votingEndTime ?? undefined;
         message.metadata = object.metadata ?? "";
+        message.title = object.title ?? "";
+        message.summary = object.summary ?? "";
+        message.proposer = object.proposer ?? "";
         return message;
     },
 };
@@ -712,6 +742,155 @@ export const TallyParams = {
         message.quorum = object.quorum ?? "";
         message.threshold = object.threshold ?? "";
         message.vetoThreshold = object.vetoThreshold ?? "";
+        return message;
+    },
+};
+function createBaseParams() {
+    return {
+        minDeposit: [],
+        maxDepositPeriod: undefined,
+        votingPeriod: undefined,
+        quorum: "",
+        threshold: "",
+        vetoThreshold: "",
+        minInitialDepositRatio: "",
+        burnVoteQuorum: false,
+        burnProposalDepositPrevote: false,
+        burnVoteVeto: false,
+    };
+}
+export const Params = {
+    encode(message, writer = _m0.Writer.create()) {
+        for (const v of message.minDeposit) {
+            Coin.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        if (message.maxDepositPeriod !== undefined) {
+            Duration.encode(message.maxDepositPeriod, writer.uint32(18).fork()).ldelim();
+        }
+        if (message.votingPeriod !== undefined) {
+            Duration.encode(message.votingPeriod, writer.uint32(26).fork()).ldelim();
+        }
+        if (message.quorum !== "") {
+            writer.uint32(34).string(message.quorum);
+        }
+        if (message.threshold !== "") {
+            writer.uint32(42).string(message.threshold);
+        }
+        if (message.vetoThreshold !== "") {
+            writer.uint32(50).string(message.vetoThreshold);
+        }
+        if (message.minInitialDepositRatio !== "") {
+            writer.uint32(58).string(message.minInitialDepositRatio);
+        }
+        if (message.burnVoteQuorum === true) {
+            writer.uint32(104).bool(message.burnVoteQuorum);
+        }
+        if (message.burnProposalDepositPrevote === true) {
+            writer.uint32(112).bool(message.burnProposalDepositPrevote);
+        }
+        if (message.burnVoteVeto === true) {
+            writer.uint32(120).bool(message.burnVoteVeto);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseParams();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.minDeposit.push(Coin.decode(reader, reader.uint32()));
+                    break;
+                case 2:
+                    message.maxDepositPeriod = Duration.decode(reader, reader.uint32());
+                    break;
+                case 3:
+                    message.votingPeriod = Duration.decode(reader, reader.uint32());
+                    break;
+                case 4:
+                    message.quorum = reader.string();
+                    break;
+                case 5:
+                    message.threshold = reader.string();
+                    break;
+                case 6:
+                    message.vetoThreshold = reader.string();
+                    break;
+                case 7:
+                    message.minInitialDepositRatio = reader.string();
+                    break;
+                case 13:
+                    message.burnVoteQuorum = reader.bool();
+                    break;
+                case 14:
+                    message.burnProposalDepositPrevote = reader.bool();
+                    break;
+                case 15:
+                    message.burnVoteVeto = reader.bool();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            minDeposit: Array.isArray(object?.minDeposit) ? object.minDeposit.map((e) => Coin.fromJSON(e)) : [],
+            maxDepositPeriod: isSet(object.maxDepositPeriod) ? Duration.fromJSON(object.maxDepositPeriod) : undefined,
+            votingPeriod: isSet(object.votingPeriod) ? Duration.fromJSON(object.votingPeriod) : undefined,
+            quorum: isSet(object.quorum) ? String(object.quorum) : "",
+            threshold: isSet(object.threshold) ? String(object.threshold) : "",
+            vetoThreshold: isSet(object.vetoThreshold) ? String(object.vetoThreshold) : "",
+            minInitialDepositRatio: isSet(object.minInitialDepositRatio) ? String(object.minInitialDepositRatio) : "",
+            burnVoteQuorum: isSet(object.burnVoteQuorum) ? Boolean(object.burnVoteQuorum) : false,
+            burnProposalDepositPrevote: isSet(object.burnProposalDepositPrevote)
+                ? Boolean(object.burnProposalDepositPrevote)
+                : false,
+            burnVoteVeto: isSet(object.burnVoteVeto) ? Boolean(object.burnVoteVeto) : false,
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.minDeposit) {
+            obj.minDeposit = message.minDeposit.map((e) => e ? Coin.toJSON(e) : undefined);
+        }
+        else {
+            obj.minDeposit = [];
+        }
+        message.maxDepositPeriod !== undefined
+            && (obj.maxDepositPeriod = message.maxDepositPeriod ? Duration.toJSON(message.maxDepositPeriod) : undefined);
+        message.votingPeriod !== undefined
+            && (obj.votingPeriod = message.votingPeriod ? Duration.toJSON(message.votingPeriod) : undefined);
+        message.quorum !== undefined && (obj.quorum = message.quorum);
+        message.threshold !== undefined && (obj.threshold = message.threshold);
+        message.vetoThreshold !== undefined && (obj.vetoThreshold = message.vetoThreshold);
+        message.minInitialDepositRatio !== undefined && (obj.minInitialDepositRatio = message.minInitialDepositRatio);
+        message.burnVoteQuorum !== undefined && (obj.burnVoteQuorum = message.burnVoteQuorum);
+        message.burnProposalDepositPrevote !== undefined
+            && (obj.burnProposalDepositPrevote = message.burnProposalDepositPrevote);
+        message.burnVoteVeto !== undefined && (obj.burnVoteVeto = message.burnVoteVeto);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseParams();
+        message.minDeposit = object.minDeposit?.map((e) => Coin.fromPartial(e)) || [];
+        message.maxDepositPeriod = (object.maxDepositPeriod !== undefined && object.maxDepositPeriod !== null)
+            ? Duration.fromPartial(object.maxDepositPeriod)
+            : undefined;
+        message.votingPeriod = (object.votingPeriod !== undefined && object.votingPeriod !== null)
+            ? Duration.fromPartial(object.votingPeriod)
+            : undefined;
+        message.quorum = object.quorum ?? "";
+        message.threshold = object.threshold ?? "";
+        message.vetoThreshold = object.vetoThreshold ?? "";
+        message.minInitialDepositRatio = object.minInitialDepositRatio ?? "";
+        message.burnVoteQuorum = object.burnVoteQuorum ?? false;
+        message.burnProposalDepositPrevote = object.burnProposalDepositPrevote ?? false;
+        message.burnVoteVeto = object.burnVoteVeto ?? false;
         return message;
     },
 };

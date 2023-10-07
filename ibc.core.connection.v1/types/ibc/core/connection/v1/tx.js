@@ -136,6 +136,7 @@ function createBaseMsgConnectionOpenTry() {
         proofConsensus: new Uint8Array(),
         consensusHeight: undefined,
         signer: "",
+        hostConsensusStateProof: new Uint8Array(),
     };
 }
 export const MsgConnectionOpenTry = {
@@ -175,6 +176,9 @@ export const MsgConnectionOpenTry = {
         }
         if (message.signer !== "") {
             writer.uint32(98).string(message.signer);
+        }
+        if (message.hostConsensusStateProof.length !== 0) {
+            writer.uint32(106).bytes(message.hostConsensusStateProof);
         }
         return writer;
     },
@@ -221,6 +225,9 @@ export const MsgConnectionOpenTry = {
                 case 12:
                     message.signer = reader.string();
                     break;
+                case 13:
+                    message.hostConsensusStateProof = reader.bytes();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -244,6 +251,9 @@ export const MsgConnectionOpenTry = {
             proofConsensus: isSet(object.proofConsensus) ? bytesFromBase64(object.proofConsensus) : new Uint8Array(),
             consensusHeight: isSet(object.consensusHeight) ? Height.fromJSON(object.consensusHeight) : undefined,
             signer: isSet(object.signer) ? String(object.signer) : "",
+            hostConsensusStateProof: isSet(object.hostConsensusStateProof)
+                ? bytesFromBase64(object.hostConsensusStateProof)
+                : new Uint8Array(),
         };
     },
     toJSON(message) {
@@ -272,6 +282,8 @@ export const MsgConnectionOpenTry = {
         message.consensusHeight !== undefined
             && (obj.consensusHeight = message.consensusHeight ? Height.toJSON(message.consensusHeight) : undefined);
         message.signer !== undefined && (obj.signer = message.signer);
+        message.hostConsensusStateProof !== undefined
+            && (obj.hostConsensusStateProof = base64FromBytes(message.hostConsensusStateProof !== undefined ? message.hostConsensusStateProof : new Uint8Array()));
         return obj;
     },
     fromPartial(object) {
@@ -296,6 +308,7 @@ export const MsgConnectionOpenTry = {
             ? Height.fromPartial(object.consensusHeight)
             : undefined;
         message.signer = object.signer ?? "";
+        message.hostConsensusStateProof = object.hostConsensusStateProof ?? new Uint8Array();
         return message;
     },
 };
@@ -344,6 +357,7 @@ function createBaseMsgConnectionOpenAck() {
         proofConsensus: new Uint8Array(),
         consensusHeight: undefined,
         signer: "",
+        hostConsensusStateProof: new Uint8Array(),
     };
 }
 export const MsgConnectionOpenAck = {
@@ -377,6 +391,9 @@ export const MsgConnectionOpenAck = {
         }
         if (message.signer !== "") {
             writer.uint32(82).string(message.signer);
+        }
+        if (message.hostConsensusStateProof.length !== 0) {
+            writer.uint32(90).bytes(message.hostConsensusStateProof);
         }
         return writer;
     },
@@ -417,6 +434,9 @@ export const MsgConnectionOpenAck = {
                 case 10:
                     message.signer = reader.string();
                     break;
+                case 11:
+                    message.hostConsensusStateProof = reader.bytes();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -436,6 +456,9 @@ export const MsgConnectionOpenAck = {
             proofConsensus: isSet(object.proofConsensus) ? bytesFromBase64(object.proofConsensus) : new Uint8Array(),
             consensusHeight: isSet(object.consensusHeight) ? Height.fromJSON(object.consensusHeight) : undefined,
             signer: isSet(object.signer) ? String(object.signer) : "",
+            hostConsensusStateProof: isSet(object.hostConsensusStateProof)
+                ? bytesFromBase64(object.hostConsensusStateProof)
+                : new Uint8Array(),
         };
     },
     toJSON(message) {
@@ -456,6 +479,8 @@ export const MsgConnectionOpenAck = {
         message.consensusHeight !== undefined
             && (obj.consensusHeight = message.consensusHeight ? Height.toJSON(message.consensusHeight) : undefined);
         message.signer !== undefined && (obj.signer = message.signer);
+        message.hostConsensusStateProof !== undefined
+            && (obj.hostConsensusStateProof = base64FromBytes(message.hostConsensusStateProof !== undefined ? message.hostConsensusStateProof : new Uint8Array()));
         return obj;
     },
     fromPartial(object) {
@@ -478,6 +503,7 @@ export const MsgConnectionOpenAck = {
             ? Height.fromPartial(object.consensusHeight)
             : undefined;
         message.signer = object.signer ?? "";
+        message.hostConsensusStateProof = object.hostConsensusStateProof ?? new Uint8Array();
         return message;
     },
 };

@@ -3,7 +3,7 @@ import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Any } from "../../../google/protobuf/any";
 import { PageRequest, PageResponse } from "../../base/query/v1beta1/pagination";
-import { Params } from "./auth";
+import { BaseAccount, Params } from "./auth";
 export const protobufPackage = "cosmos.auth.v1beta1";
 function createBaseQueryAccountsRequest() {
     return { pagination: undefined };
@@ -673,12 +673,15 @@ export const AddressStringToBytesResponse = {
     },
 };
 function createBaseQueryAccountAddressByIDRequest() {
-    return { id: 0 };
+    return { id: 0, accountId: 0 };
 }
 export const QueryAccountAddressByIDRequest = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.id !== 0) {
             writer.uint32(8).int64(message.id);
+        }
+        if (message.accountId !== 0) {
+            writer.uint32(16).uint64(message.accountId);
         }
         return writer;
     },
@@ -692,6 +695,9 @@ export const QueryAccountAddressByIDRequest = {
                 case 1:
                     message.id = longToNumber(reader.int64());
                     break;
+                case 2:
+                    message.accountId = longToNumber(reader.uint64());
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -700,16 +706,21 @@ export const QueryAccountAddressByIDRequest = {
         return message;
     },
     fromJSON(object) {
-        return { id: isSet(object.id) ? Number(object.id) : 0 };
+        return {
+            id: isSet(object.id) ? Number(object.id) : 0,
+            accountId: isSet(object.accountId) ? Number(object.accountId) : 0,
+        };
     },
     toJSON(message) {
         const obj = {};
         message.id !== undefined && (obj.id = Math.round(message.id));
+        message.accountId !== undefined && (obj.accountId = Math.round(message.accountId));
         return obj;
     },
     fromPartial(object) {
         const message = createBaseQueryAccountAddressByIDRequest();
         message.id = object.id ?? 0;
+        message.accountId = object.accountId ?? 0;
         return message;
     },
 };
@@ -754,6 +765,90 @@ export const QueryAccountAddressByIDResponse = {
         return message;
     },
 };
+function createBaseQueryAccountInfoRequest() {
+    return { address: "" };
+}
+export const QueryAccountInfoRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.address !== "") {
+            writer.uint32(10).string(message.address);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryAccountInfoRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.address = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { address: isSet(object.address) ? String(object.address) : "" };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.address !== undefined && (obj.address = message.address);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryAccountInfoRequest();
+        message.address = object.address ?? "";
+        return message;
+    },
+};
+function createBaseQueryAccountInfoResponse() {
+    return { info: undefined };
+}
+export const QueryAccountInfoResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.info !== undefined) {
+            BaseAccount.encode(message.info, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryAccountInfoResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.info = BaseAccount.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { info: isSet(object.info) ? BaseAccount.fromJSON(object.info) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.info !== undefined && (obj.info = message.info ? BaseAccount.toJSON(message.info) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryAccountInfoResponse();
+        message.info = (object.info !== undefined && object.info !== null)
+            ? BaseAccount.fromPartial(object.info)
+            : undefined;
+        return message;
+    },
+};
 export class QueryClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -766,6 +861,7 @@ export class QueryClientImpl {
         this.Bech32Prefix = this.Bech32Prefix.bind(this);
         this.AddressBytesToString = this.AddressBytesToString.bind(this);
         this.AddressStringToBytes = this.AddressStringToBytes.bind(this);
+        this.AccountInfo = this.AccountInfo.bind(this);
     }
     Accounts(request) {
         const data = QueryAccountsRequest.encode(request).finish();
@@ -811,6 +907,11 @@ export class QueryClientImpl {
         const data = AddressStringToBytesRequest.encode(request).finish();
         const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "AddressStringToBytes", data);
         return promise.then((data) => AddressStringToBytesResponse.decode(new _m0.Reader(data)));
+    }
+    AccountInfo(request) {
+        const data = QueryAccountInfoRequest.encode(request).finish();
+        const promise = this.rpc.request("cosmos.auth.v1beta1.Query", "AccountInfo", data);
+        return promise.then((data) => QueryAccountInfoResponse.decode(new _m0.Reader(data)));
     }
 }
 var globalThis = (() => {

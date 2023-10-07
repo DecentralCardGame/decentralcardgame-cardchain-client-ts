@@ -98,7 +98,7 @@ export class Api extends HttpClient {
     constructor() {
         super(...arguments);
         /**
-         * No description
+         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
          *
          * @tags Query
          * @name QueryDelegatorDelegations
@@ -113,7 +113,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * No description
+         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
          *
          * @tags Query
          * @name QueryRedelegations
@@ -128,7 +128,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-       * No description
+       * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
        *
        * @tags Query
        * @name QueryDelegatorUnbondingDelegations
@@ -144,7 +144,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-       * No description
+       * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
        *
        * @tags Query
        * @name QueryDelegatorValidators
@@ -217,7 +217,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * No description
+         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
          *
          * @tags Query
          * @name QueryValidators
@@ -246,7 +246,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * No description
+         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
          *
          * @tags Query
          * @name QueryValidatorDelegations
@@ -290,7 +290,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * No description
+         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
          *
          * @tags Query
          * @name QueryValidatorUnbondingDelegations
