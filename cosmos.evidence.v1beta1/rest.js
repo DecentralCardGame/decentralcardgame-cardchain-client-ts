@@ -103,12 +103,11 @@ export class Api extends HttpClient {
          * @tags Query
          * @name QueryEvidence
          * @summary Evidence queries evidence based on evidence hash.
-         * @request GET:/cosmos/evidence/v1beta1/evidence/{hash}
+         * @request GET:/cosmos/evidence/v1beta1/evidence/{evidence_hash}
          */
-        this.queryEvidence = (hash, query, params = {}) => this.request({
-            path: `/cosmos/evidence/v1beta1/evidence/${hash}`,
+        this.queryEvidence = (evidenceHash, params = {}) => this.request({
+            path: `/cosmos/evidence/v1beta1/evidence/${evidenceHash}`,
             method: "GET",
-            query: query,
             format: "json",
             ...params,
         });

@@ -103,15 +103,15 @@ export const MsgCreateClientResponse = {
     },
 };
 function createBaseMsgUpdateClient() {
-    return { clientId: "", clientMessage: undefined, signer: "" };
+    return { clientId: "", header: undefined, signer: "" };
 }
 export const MsgUpdateClient = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.clientId !== "") {
             writer.uint32(10).string(message.clientId);
         }
-        if (message.clientMessage !== undefined) {
-            Any.encode(message.clientMessage, writer.uint32(18).fork()).ldelim();
+        if (message.header !== undefined) {
+            Any.encode(message.header, writer.uint32(18).fork()).ldelim();
         }
         if (message.signer !== "") {
             writer.uint32(26).string(message.signer);
@@ -129,7 +129,7 @@ export const MsgUpdateClient = {
                     message.clientId = reader.string();
                     break;
                 case 2:
-                    message.clientMessage = Any.decode(reader, reader.uint32());
+                    message.header = Any.decode(reader, reader.uint32());
                     break;
                 case 3:
                     message.signer = reader.string();
@@ -144,23 +144,22 @@ export const MsgUpdateClient = {
     fromJSON(object) {
         return {
             clientId: isSet(object.clientId) ? String(object.clientId) : "",
-            clientMessage: isSet(object.clientMessage) ? Any.fromJSON(object.clientMessage) : undefined,
+            header: isSet(object.header) ? Any.fromJSON(object.header) : undefined,
             signer: isSet(object.signer) ? String(object.signer) : "",
         };
     },
     toJSON(message) {
         const obj = {};
         message.clientId !== undefined && (obj.clientId = message.clientId);
-        message.clientMessage !== undefined
-            && (obj.clientMessage = message.clientMessage ? Any.toJSON(message.clientMessage) : undefined);
+        message.header !== undefined && (obj.header = message.header ? Any.toJSON(message.header) : undefined);
         message.signer !== undefined && (obj.signer = message.signer);
         return obj;
     },
     fromPartial(object) {
         const message = createBaseMsgUpdateClient();
         message.clientId = object.clientId ?? "";
-        message.clientMessage = (object.clientMessage !== undefined && object.clientMessage !== null)
-            ? Any.fromPartial(object.clientMessage)
+        message.header = (object.header !== undefined && object.header !== null)
+            ? Any.fromPartial(object.header)
             : undefined;
         message.signer = object.signer ?? "";
         return message;

@@ -32,8 +32,8 @@ export var TypesSignedMsgType;
 * BroadcastMode specifies the broadcast mode for the TxService.Broadcast RPC method.
 
  - BROADCAST_MODE_UNSPECIFIED: zero-value for mode ordering
- - BROADCAST_MODE_BLOCK: DEPRECATED: use BROADCAST_MODE_SYNC instead,
-BROADCAST_MODE_BLOCK is not supported by the SDK from v0.47.x onwards.
+ - BROADCAST_MODE_BLOCK: BROADCAST_MODE_BLOCK defines a tx broadcasting mode where the client waits for
+the tx to be committed in a block.
  - BROADCAST_MODE_SYNC: BROADCAST_MODE_SYNC defines a tx broadcasting mode where the client waits for
 a CheckTx execution response only.
  - BROADCAST_MODE_ASYNC: BROADCAST_MODE_ASYNC defines a tx broadcasting mode where the client returns
@@ -176,70 +176,6 @@ export class HttpClient {
 export class Api extends HttpClient {
     constructor() {
         super(...arguments);
-        /**
-         * @description Since: cosmos-sdk 0.47
-         *
-         * @tags Service
-         * @name ServiceTxDecode
-         * @summary TxDecode decodes the transaction.
-         * @request POST:/cosmos/tx/v1beta1/decode
-         */
-        this.serviceTxDecode = (body, params = {}) => this.request({
-            path: `/cosmos/tx/v1beta1/decode`,
-            method: "POST",
-            body: body,
-            type: ContentType.Json,
-            format: "json",
-            ...params,
-        });
-        /**
-         * @description Since: cosmos-sdk 0.47
-         *
-         * @tags Service
-         * @name ServiceTxDecodeAmino
-         * @summary TxDecodeAmino decodes an Amino transaction from encoded bytes to JSON.
-         * @request POST:/cosmos/tx/v1beta1/decode/amino
-         */
-        this.serviceTxDecodeAmino = (body, params = {}) => this.request({
-            path: `/cosmos/tx/v1beta1/decode/amino`,
-            method: "POST",
-            body: body,
-            type: ContentType.Json,
-            format: "json",
-            ...params,
-        });
-        /**
-         * @description Since: cosmos-sdk 0.47
-         *
-         * @tags Service
-         * @name ServiceTxEncode
-         * @summary TxEncode encodes the transaction.
-         * @request POST:/cosmos/tx/v1beta1/encode
-         */
-        this.serviceTxEncode = (body, params = {}) => this.request({
-            path: `/cosmos/tx/v1beta1/encode`,
-            method: "POST",
-            body: body,
-            type: ContentType.Json,
-            format: "json",
-            ...params,
-        });
-        /**
-         * @description Since: cosmos-sdk 0.47
-         *
-         * @tags Service
-         * @name ServiceTxEncodeAmino
-         * @summary TxEncodeAmino encodes an Amino transaction from JSON to encoded bytes.
-         * @request POST:/cosmos/tx/v1beta1/encode/amino
-         */
-        this.serviceTxEncodeAmino = (body, params = {}) => this.request({
-            path: `/cosmos/tx/v1beta1/encode/amino`,
-            method: "POST",
-            body: body,
-            type: ContentType.Json,
-            format: "json",
-            ...params,
-        });
         /**
          * No description
          *

@@ -83,7 +83,7 @@ export class Api extends HttpClient {
     constructor() {
         super(...arguments);
         /**
-         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+         * No description
          *
          * @tags Query
          * @name QueryAllBalances
@@ -113,7 +113,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-       * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set. Since: cosmos-sdk 0.46
+       * @description Since: cosmos-sdk 0.46
        *
        * @tags Query
        * @name QueryDenomOwners
@@ -173,26 +173,11 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * @description This query only returns denominations that have specific SendEnabled settings. Any denomination that does not have a specific setting will use the default params.default_send_enabled, and will not be returned by this query. Since: cosmos-sdk 0.47
-         *
-         * @tags Query
-         * @name QuerySendEnabled
-         * @summary SendEnabled queries for SendEnabled entries.
-         * @request GET:/cosmos/bank/v1beta1/send_enabled
-         */
-        this.querySendEnabled = (query, params = {}) => this.request({
-            path: `/cosmos/bank/v1beta1/send_enabled`,
-            method: "GET",
-            query: query,
-            format: "json",
-            ...params,
-        });
-        /**
-       * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set. Since: cosmos-sdk 0.46
+       * @description Since: cosmos-sdk 0.46
        *
        * @tags Query
        * @name QuerySpendableBalances
-       * @summary SpendableBalances queries the spendable balance of all coins for a single
+       * @summary SpendableBalances queries the spenable balance of all coins for a single
       account.
        * @request GET:/cosmos/bank/v1beta1/spendable_balances/{address}
        */
@@ -204,23 +189,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-       * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set. Since: cosmos-sdk 0.47
-       *
-       * @tags Query
-       * @name QuerySpendableBalanceByDenom
-       * @summary SpendableBalanceByDenom queries the spendable balance of a single denom for
-      a single account.
-       * @request GET:/cosmos/bank/v1beta1/spendable_balances/{address}/by_denom
-       */
-        this.querySpendableBalanceByDenom = (address, query, params = {}) => this.request({
-            path: `/cosmos/bank/v1beta1/spendable_balances/${address}/by_denom`,
-            method: "GET",
-            query: query,
-            format: "json",
-            ...params,
-        });
-        /**
-         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+         * No description
          *
          * @tags Query
          * @name QueryTotalSupply
@@ -235,7 +204,7 @@ export class Api extends HttpClient {
             ...params,
         });
         /**
-         * @description When called from another module, this query might consume a high amount of gas if the pagination field is incorrectly set.
+         * No description
          *
          * @tags Query
          * @name QuerySupplyOf

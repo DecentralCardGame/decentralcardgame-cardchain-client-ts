@@ -3,10 +3,10 @@ import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { Any } from "../../../google/protobuf/any";
 import { Coin } from "../../base/v1beta1/coin";
-import { Params, voteOptionFromJSON, voteOptionToJSON, WeightedVoteOption } from "./gov";
+import { voteOptionFromJSON, voteOptionToJSON, WeightedVoteOption } from "./gov";
 export const protobufPackage = "cosmos.gov.v1";
 function createBaseMsgSubmitProposal() {
-    return { messages: [], initialDeposit: [], proposer: "", metadata: "", title: "", summary: "" };
+    return { messages: [], initialDeposit: [], proposer: "", metadata: "" };
 }
 export const MsgSubmitProposal = {
     encode(message, writer = _m0.Writer.create()) {
@@ -21,12 +21,6 @@ export const MsgSubmitProposal = {
         }
         if (message.metadata !== "") {
             writer.uint32(34).string(message.metadata);
-        }
-        if (message.title !== "") {
-            writer.uint32(42).string(message.title);
-        }
-        if (message.summary !== "") {
-            writer.uint32(50).string(message.summary);
         }
         return writer;
     },
@@ -49,12 +43,6 @@ export const MsgSubmitProposal = {
                 case 4:
                     message.metadata = reader.string();
                     break;
-                case 5:
-                    message.title = reader.string();
-                    break;
-                case 6:
-                    message.summary = reader.string();
-                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -70,8 +58,6 @@ export const MsgSubmitProposal = {
                 : [],
             proposer: isSet(object.proposer) ? String(object.proposer) : "",
             metadata: isSet(object.metadata) ? String(object.metadata) : "",
-            title: isSet(object.title) ? String(object.title) : "",
-            summary: isSet(object.summary) ? String(object.summary) : "",
         };
     },
     toJSON(message) {
@@ -90,8 +76,6 @@ export const MsgSubmitProposal = {
         }
         message.proposer !== undefined && (obj.proposer = message.proposer);
         message.metadata !== undefined && (obj.metadata = message.metadata);
-        message.title !== undefined && (obj.title = message.title);
-        message.summary !== undefined && (obj.summary = message.summary);
         return obj;
     },
     fromPartial(object) {
@@ -100,8 +84,6 @@ export const MsgSubmitProposal = {
         message.initialDeposit = object.initialDeposit?.map((e) => Coin.fromPartial(e)) || [];
         message.proposer = object.proposer ?? "";
         message.metadata = object.metadata ?? "";
-        message.title = object.title ?? "";
-        message.summary = object.summary ?? "";
         return message;
     },
 };
@@ -543,93 +525,6 @@ export const MsgDepositResponse = {
         return message;
     },
 };
-function createBaseMsgUpdateParams() {
-    return { authority: "", params: undefined };
-}
-export const MsgUpdateParams = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.authority !== "") {
-            writer.uint32(10).string(message.authority);
-        }
-        if (message.params !== undefined) {
-            Params.encode(message.params, writer.uint32(18).fork()).ldelim();
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgUpdateParams();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.authority = reader.string();
-                    break;
-                case 2:
-                    message.params = Params.decode(reader, reader.uint32());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            authority: isSet(object.authority) ? String(object.authority) : "",
-            params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.authority !== undefined && (obj.authority = message.authority);
-        message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseMsgUpdateParams();
-        message.authority = object.authority ?? "";
-        message.params = (object.params !== undefined && object.params !== null)
-            ? Params.fromPartial(object.params)
-            : undefined;
-        return message;
-    },
-};
-function createBaseMsgUpdateParamsResponse() {
-    return {};
-}
-export const MsgUpdateParamsResponse = {
-    encode(_, writer = _m0.Writer.create()) {
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgUpdateParamsResponse();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(_) {
-        return {};
-    },
-    toJSON(_) {
-        const obj = {};
-        return obj;
-    },
-    fromPartial(_) {
-        const message = createBaseMsgUpdateParamsResponse();
-        return message;
-    },
-};
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -638,7 +533,6 @@ export class MsgClientImpl {
         this.Vote = this.Vote.bind(this);
         this.VoteWeighted = this.VoteWeighted.bind(this);
         this.Deposit = this.Deposit.bind(this);
-        this.UpdateParams = this.UpdateParams.bind(this);
     }
     SubmitProposal(request) {
         const data = MsgSubmitProposal.encode(request).finish();
@@ -664,11 +558,6 @@ export class MsgClientImpl {
         const data = MsgDeposit.encode(request).finish();
         const promise = this.rpc.request("cosmos.gov.v1.Msg", "Deposit", data);
         return promise.then((data) => MsgDepositResponse.decode(new _m0.Reader(data)));
-    }
-    UpdateParams(request) {
-        const data = MsgUpdateParams.encode(request).finish();
-        const promise = this.rpc.request("cosmos.gov.v1.Msg", "UpdateParams", data);
-        return promise.then((data) => MsgUpdateParamsResponse.decode(new _m0.Reader(data)));
     }
 }
 var globalThis = (() => {

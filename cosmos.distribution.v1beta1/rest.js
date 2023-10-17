@@ -171,20 +171,6 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
-         * @name QueryValidatorDistributionInfo
-         * @summary ValidatorDistributionInfo queries validator commission and self-delegation rewards for validator
-         * @request GET:/cosmos/distribution/v1beta1/validators/{validator_address}
-         */
-        this.queryValidatorDistributionInfo = (validatorAddress, params = {}) => this.request({
-            path: `/cosmos/distribution/v1beta1/validators/${validatorAddress}`,
-            method: "GET",
-            format: "json",
-            ...params,
-        });
-        /**
-         * No description
-         *
-         * @tags Query
          * @name QueryValidatorCommission
          * @summary ValidatorCommission queries accumulated commission for a validator.
          * @request GET:/cosmos/distribution/v1beta1/validators/{validator_address}/commission

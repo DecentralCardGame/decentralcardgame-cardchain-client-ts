@@ -368,10 +368,11 @@ export interface Tendermintv1Beta1Header {
 
 /**
 * ProofOp defines an operation used for calculating Merkle root. The data could
-be arbitrary format, providing necessary data for example neighbouring node
+be arbitrary format, providing nessecary data for example neighbouring node
 hash.
 
-Note: This type is a duplicate of the ProofOp proto type defined in Tendermint.
+Note: This type is a duplicate of the ProofOp proto type defined in
+Tendermint.
 */
 export interface Tendermintv1Beta1ProofOp {
   type?: string;
@@ -386,7 +387,8 @@ export interface Tendermintv1Beta1ProofOp {
 /**
 * ProofOps is Merkle proof defined by the list of ProofOps.
 
-Note: This type is a duplicate of the ProofOps proto type defined in Tendermint.
+Note: This type is a duplicate of the ProofOps proto type defined in
+Tendermint.
 */
 export interface Tendermintv1Beta1ProofOps {
   ops?: Tendermintv1Beta1ProofOp[];
@@ -649,7 +651,8 @@ export interface TypesVote {
 }
 
 /**
-* ABCIQueryResponse defines the response structure for the ABCIQuery gRPC query.
+* ABCIQueryResponse defines the response structure for the ABCIQuery gRPC
+query.
 
 Note: This type is a duplicate of the ResponseQuery proto type defined in
 Tendermint.
@@ -676,7 +679,8 @@ export interface V1Beta1ABCIQueryResponse {
   /**
    * ProofOps is Merkle proof defined by the list of ProofOps.
    *
-   * Note: This type is a duplicate of the ProofOps proto type defined in Tendermint.
+   * Note: This type is a duplicate of the ProofOps proto type defined in
+   * Tendermint.
    */
   proof_ops?: Tendermintv1Beta1ProofOps;
 
@@ -686,8 +690,9 @@ export interface V1Beta1ABCIQueryResponse {
 }
 
 /**
- * GetBlockByHeightResponse is the response type for the Query/GetBlockByHeight RPC method.
- */
+* GetBlockByHeightResponse is the response type for the Query/GetBlockByHeight
+RPC method.
+*/
 export interface V1Beta1GetBlockByHeightResponse {
   block_id?: TypesBlockID;
 
@@ -703,8 +708,9 @@ export interface V1Beta1GetBlockByHeightResponse {
 }
 
 /**
- * GetLatestBlockResponse is the response type for the Query/GetLatestBlock RPC method.
- */
+* GetLatestBlockResponse is the response type for the Query/GetLatestBlock RPC
+method.
+*/
 export interface V1Beta1GetLatestBlockResponse {
   block_id?: TypesBlockID;
 
@@ -720,8 +726,9 @@ export interface V1Beta1GetLatestBlockResponse {
 }
 
 /**
- * GetLatestValidatorSetResponse is the response type for the Query/GetValidatorSetByHeight RPC method.
- */
+* GetLatestValidatorSetResponse is the response type for the
+Query/GetValidatorSetByHeight RPC method.
+*/
 export interface V1Beta1GetLatestValidatorSetResponse {
   /** @format int64 */
   block_height?: string;
@@ -732,8 +739,9 @@ export interface V1Beta1GetLatestValidatorSetResponse {
 }
 
 /**
- * GetNodeInfoResponse is the response type for the Query/GetNodeInfo RPC method.
- */
+* GetNodeInfoResponse is the response type for the Query/GetNodeInfo RPC
+method.
+*/
 export interface V1Beta1GetNodeInfoResponse {
   default_node_info?: P2PDefaultNodeInfo;
 
@@ -749,8 +757,9 @@ export interface V1Beta1GetSyncingResponse {
 }
 
 /**
- * GetValidatorSetByHeightResponse is the response type for the Query/GetValidatorSetByHeight RPC method.
- */
+* GetValidatorSetByHeightResponse is the response type for the
+Query/GetValidatorSetByHeight RPC method.
+*/
 export interface V1Beta1GetValidatorSetByHeightResponse {
   /** @format int64 */
   block_height?: string;
@@ -1002,9 +1011,9 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
  * 
  * @tags Service
  * @name ServiceAbciQuery
- * @summary ABCIQuery defines a query handler that supports ABCI queries directly to the
-application, bypassing Tendermint completely. The ABCI query must contain
-a valid and supported path, including app, custom, p2p, and store.
+ * @summary ABCIQuery defines a query handler that supports ABCI queries directly to
+the application, bypassing Tendermint completely. The ABCI query must
+contain a valid and supported path, including app, custom, p2p, and store.
  * @request GET:/cosmos/base/tendermint/v1beta1/abci_query
  */
   serviceABCIQuery = (

@@ -85,7 +85,7 @@ export const ConsensusParams = {
     },
 };
 function createBaseBlockParams() {
-    return { maxBytes: 0, maxGas: 0 };
+    return { maxBytes: 0, maxGas: 0, timeIotaMs: 0 };
 }
 export const BlockParams = {
     encode(message, writer = _m0.Writer.create()) {
@@ -94,6 +94,9 @@ export const BlockParams = {
         }
         if (message.maxGas !== 0) {
             writer.uint32(16).int64(message.maxGas);
+        }
+        if (message.timeIotaMs !== 0) {
+            writer.uint32(24).int64(message.timeIotaMs);
         }
         return writer;
     },
@@ -110,6 +113,9 @@ export const BlockParams = {
                 case 2:
                     message.maxGas = longToNumber(reader.int64());
                     break;
+                case 3:
+                    message.timeIotaMs = longToNumber(reader.int64());
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -121,18 +127,21 @@ export const BlockParams = {
         return {
             maxBytes: isSet(object.maxBytes) ? Number(object.maxBytes) : 0,
             maxGas: isSet(object.maxGas) ? Number(object.maxGas) : 0,
+            timeIotaMs: isSet(object.timeIotaMs) ? Number(object.timeIotaMs) : 0,
         };
     },
     toJSON(message) {
         const obj = {};
         message.maxBytes !== undefined && (obj.maxBytes = Math.round(message.maxBytes));
         message.maxGas !== undefined && (obj.maxGas = Math.round(message.maxGas));
+        message.timeIotaMs !== undefined && (obj.timeIotaMs = Math.round(message.timeIotaMs));
         return obj;
     },
     fromPartial(object) {
         const message = createBaseBlockParams();
         message.maxBytes = object.maxBytes ?? 0;
         message.maxGas = object.maxGas ?? 0;
+        message.timeIotaMs = object.timeIotaMs ?? 0;
         return message;
     },
 };
@@ -247,12 +256,12 @@ export const ValidatorParams = {
     },
 };
 function createBaseVersionParams() {
-    return { app: 0 };
+    return { appVersion: 0 };
 }
 export const VersionParams = {
     encode(message, writer = _m0.Writer.create()) {
-        if (message.app !== 0) {
-            writer.uint32(8).uint64(message.app);
+        if (message.appVersion !== 0) {
+            writer.uint32(8).uint64(message.appVersion);
         }
         return writer;
     },
@@ -264,7 +273,7 @@ export const VersionParams = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.app = longToNumber(reader.uint64());
+                    message.appVersion = longToNumber(reader.uint64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -274,16 +283,16 @@ export const VersionParams = {
         return message;
     },
     fromJSON(object) {
-        return { app: isSet(object.app) ? Number(object.app) : 0 };
+        return { appVersion: isSet(object.appVersion) ? Number(object.appVersion) : 0 };
     },
     toJSON(message) {
         const obj = {};
-        message.app !== undefined && (obj.app = Math.round(message.app));
+        message.appVersion !== undefined && (obj.appVersion = Math.round(message.appVersion));
         return obj;
     },
     fromPartial(object) {
         const message = createBaseVersionParams();
-        message.app = object.app ?? 0;
+        message.appVersion = object.appVersion ?? 0;
         return message;
     },
 };

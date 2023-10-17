@@ -4,15 +4,12 @@ import { Any } from "../../../google/protobuf/any";
 import { PageRequest, PageResponse } from "../../base/query/v1beta1/pagination";
 export const protobufPackage = "cosmos.evidence.v1beta1";
 function createBaseQueryEvidenceRequest() {
-    return { evidenceHash: new Uint8Array(), hash: "" };
+    return { evidenceHash: new Uint8Array() };
 }
 export const QueryEvidenceRequest = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.evidenceHash.length !== 0) {
             writer.uint32(10).bytes(message.evidenceHash);
-        }
-        if (message.hash !== "") {
-            writer.uint32(18).string(message.hash);
         }
         return writer;
     },
@@ -26,9 +23,6 @@ export const QueryEvidenceRequest = {
                 case 1:
                     message.evidenceHash = reader.bytes();
                     break;
-                case 2:
-                    message.hash = reader.string();
-                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -37,22 +31,17 @@ export const QueryEvidenceRequest = {
         return message;
     },
     fromJSON(object) {
-        return {
-            evidenceHash: isSet(object.evidenceHash) ? bytesFromBase64(object.evidenceHash) : new Uint8Array(),
-            hash: isSet(object.hash) ? String(object.hash) : "",
-        };
+        return { evidenceHash: isSet(object.evidenceHash) ? bytesFromBase64(object.evidenceHash) : new Uint8Array() };
     },
     toJSON(message) {
         const obj = {};
         message.evidenceHash !== undefined
             && (obj.evidenceHash = base64FromBytes(message.evidenceHash !== undefined ? message.evidenceHash : new Uint8Array()));
-        message.hash !== undefined && (obj.hash = message.hash);
         return obj;
     },
     fromPartial(object) {
         const message = createBaseQueryEvidenceRequest();
         message.evidenceHash = object.evidenceHash ?? new Uint8Array();
-        message.hash = object.hash ?? "";
         return message;
     },
 };

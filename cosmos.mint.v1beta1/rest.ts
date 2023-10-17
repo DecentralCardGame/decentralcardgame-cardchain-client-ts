@@ -21,15 +21,7 @@ export interface RpcStatus {
 }
 
 /**
-* MsgUpdateParamsResponse defines the response structure for executing a
-MsgUpdateParams message.
-
-Since: cosmos-sdk 0.47
-*/
-export type V1Beta1MsgUpdateParamsResponse = object;
-
-/**
- * Params defines the parameters for the x/mint module.
+ * Params holds parameters for the mint module.
  */
 export interface V1Beta1Params {
   /** type of coin to mint */

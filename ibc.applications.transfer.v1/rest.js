@@ -76,7 +76,7 @@ export class HttpClient {
     }
 }
 /**
- * @title ibc/applications/transfer/v1/authz.proto
+ * @title ibc/applications/transfer/v1/genesis.proto
  * @version version not set
  */
 export class Api extends HttpClient {
@@ -135,20 +135,6 @@ export class Api extends HttpClient {
          */
         this.queryDenomTrace = (hash, params = {}) => this.request({
             path: `/ibc/apps/transfer/v1/denom_traces/${hash}`,
-            method: "GET",
-            format: "json",
-            ...params,
-        });
-        /**
-         * No description
-         *
-         * @tags Query
-         * @name QueryTotalEscrowForDenom
-         * @summary TotalEscrowForDenom returns the total amount of tokens in escrow based on the denom.
-         * @request GET:/ibc/apps/transfer/v1/denoms/{denom}/total_escrow
-         */
-        this.queryTotalEscrowForDenom = (denom, params = {}) => this.request({
-            path: `/ibc/apps/transfer/v1/denoms/${denom}/total_escrow`,
             method: "GET",
             format: "json",
             ...params,

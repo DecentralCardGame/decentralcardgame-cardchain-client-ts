@@ -3,16 +3,16 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { msgTypes } from './registry';
 import { Api } from "./rest";
+import { MsgGrant } from "./types/cosmos/authz/v1beta1/tx";
 import { MsgExec } from "./types/cosmos/authz/v1beta1/tx";
 import { MsgRevoke } from "./types/cosmos/authz/v1beta1/tx";
-import { MsgGrant } from "./types/cosmos/authz/v1beta1/tx";
 import { GenericAuthorization as typeGenericAuthorization } from "./types";
 import { Grant as typeGrant } from "./types";
 import { GrantAuthorization as typeGrantAuthorization } from "./types";
 import { GrantQueueItem as typeGrantQueueItem } from "./types";
 import { EventGrant as typeEventGrant } from "./types";
 import { EventRevoke as typeEventRevoke } from "./types";
-export { MsgExec, MsgRevoke, MsgGrant };
+export { MsgGrant, MsgExec, MsgRevoke };
 export const registry = new Registry(msgTypes);
 function getStructure(template) {
     const structure = { fields: [] };
@@ -28,6 +28,20 @@ const defaultFee = {
 };
 export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26657", prefix: "cosmos" }) => {
     return {
+        async sendMsgGrant({ value, fee, memo }) {
+            if (!signer) {
+                throw new Error('TxClient:sendMsgGrant: Unable to sign Tx. Signer is not present.');
+            }
+            try {
+                const { address } = (await signer.getAccounts())[0];
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                let msg = this.msgGrant({ value: MsgGrant.fromPartial(value) });
+                return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
+            }
+            catch (e) {
+                throw new Error('TxClient:sendMsgGrant: Could not broadcast Tx: ' + e.message);
+            }
+        },
         async sendMsgExec({ value, fee, memo }) {
             if (!signer) {
                 throw new Error('TxClient:sendMsgExec: Unable to sign Tx. Signer is not present.');
@@ -56,18 +70,12 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
                 throw new Error('TxClient:sendMsgRevoke: Could not broadcast Tx: ' + e.message);
             }
         },
-        async sendMsgGrant({ value, fee, memo }) {
-            if (!signer) {
-                throw new Error('TxClient:sendMsgGrant: Unable to sign Tx. Signer is not present.');
-            }
+        msgGrant({ value }) {
             try {
-                const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
-                let msg = this.msgGrant({ value: MsgGrant.fromPartial(value) });
-                return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
+                return { typeUrl: "/cosmos.authz.v1beta1.MsgGrant", value: MsgGrant.fromPartial(value) };
             }
             catch (e) {
-                throw new Error('TxClient:sendMsgGrant: Could not broadcast Tx: ' + e.message);
+                throw new Error('TxClient:MsgGrant: Could not create message: ' + e.message);
             }
         },
         msgExec({ value }) {
@@ -84,14 +92,6 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             catch (e) {
                 throw new Error('TxClient:MsgRevoke: Could not create message: ' + e.message);
-            }
-        },
-        msgGrant({ value }) {
-            try {
-                return { typeUrl: "/cosmos.authz.v1beta1.MsgGrant", value: MsgGrant.fromPartial(value) };
-            }
-            catch (e) {
-                throw new Error('TxClient:MsgGrant: Could not create message: ' + e.message);
             }
         },
     };

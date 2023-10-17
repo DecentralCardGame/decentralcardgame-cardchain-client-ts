@@ -156,7 +156,6 @@ export interface V1InterchainAccountPacketData {
 
 export interface V1MsgRegisterInterchainAccountResponse {
   channel_id?: string;
-  port_id?: string;
 }
 
 export interface V1MsgSendTxResponse {

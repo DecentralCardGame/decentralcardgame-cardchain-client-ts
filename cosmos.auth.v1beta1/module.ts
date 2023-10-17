@@ -10,7 +10,6 @@ import { Api } from "./rest";
 
 import { BaseAccount as typeBaseAccount} from "./types"
 import { ModuleAccount as typeModuleAccount} from "./types"
-import { ModuleCredential as typeModuleCredential} from "./types"
 import { Params as typeParams} from "./types"
 
 export {  };
@@ -71,7 +70,6 @@ class SDKModule {
 		this.structure =  {
 						BaseAccount: getStructure(typeBaseAccount.fromPartial({})),
 						ModuleAccount: getStructure(typeModuleAccount.fromPartial({})),
-						ModuleCredential: getStructure(typeModuleCredential.fromPartial({})),
 						Params: getStructure(typeParams.fromPartial({})),
 						
 		};

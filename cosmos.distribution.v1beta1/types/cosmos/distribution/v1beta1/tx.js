@@ -1,7 +1,6 @@
 /* eslint-disable */
 import _m0 from "protobufjs/minimal";
 import { Coin } from "../../base/v1beta1/coin";
-import { Params } from "./distribution";
 export const protobufPackage = "cosmos.distribution.v1beta1";
 function createBaseMsgSetWithdrawAddress() {
     return { delegatorAddress: "", withdrawAddress: "" };
@@ -363,192 +362,6 @@ export const MsgFundCommunityPoolResponse = {
         return message;
     },
 };
-function createBaseMsgUpdateParams() {
-    return { authority: "", params: undefined };
-}
-export const MsgUpdateParams = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.authority !== "") {
-            writer.uint32(10).string(message.authority);
-        }
-        if (message.params !== undefined) {
-            Params.encode(message.params, writer.uint32(18).fork()).ldelim();
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgUpdateParams();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.authority = reader.string();
-                    break;
-                case 2:
-                    message.params = Params.decode(reader, reader.uint32());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            authority: isSet(object.authority) ? String(object.authority) : "",
-            params: isSet(object.params) ? Params.fromJSON(object.params) : undefined,
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.authority !== undefined && (obj.authority = message.authority);
-        message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseMsgUpdateParams();
-        message.authority = object.authority ?? "";
-        message.params = (object.params !== undefined && object.params !== null)
-            ? Params.fromPartial(object.params)
-            : undefined;
-        return message;
-    },
-};
-function createBaseMsgUpdateParamsResponse() {
-    return {};
-}
-export const MsgUpdateParamsResponse = {
-    encode(_, writer = _m0.Writer.create()) {
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgUpdateParamsResponse();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(_) {
-        return {};
-    },
-    toJSON(_) {
-        const obj = {};
-        return obj;
-    },
-    fromPartial(_) {
-        const message = createBaseMsgUpdateParamsResponse();
-        return message;
-    },
-};
-function createBaseMsgCommunityPoolSpend() {
-    return { authority: "", recipient: "", amount: [] };
-}
-export const MsgCommunityPoolSpend = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.authority !== "") {
-            writer.uint32(10).string(message.authority);
-        }
-        if (message.recipient !== "") {
-            writer.uint32(18).string(message.recipient);
-        }
-        for (const v of message.amount) {
-            Coin.encode(v, writer.uint32(26).fork()).ldelim();
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgCommunityPoolSpend();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.authority = reader.string();
-                    break;
-                case 2:
-                    message.recipient = reader.string();
-                    break;
-                case 3:
-                    message.amount.push(Coin.decode(reader, reader.uint32()));
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            authority: isSet(object.authority) ? String(object.authority) : "",
-            recipient: isSet(object.recipient) ? String(object.recipient) : "",
-            amount: Array.isArray(object?.amount) ? object.amount.map((e) => Coin.fromJSON(e)) : [],
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.authority !== undefined && (obj.authority = message.authority);
-        message.recipient !== undefined && (obj.recipient = message.recipient);
-        if (message.amount) {
-            obj.amount = message.amount.map((e) => e ? Coin.toJSON(e) : undefined);
-        }
-        else {
-            obj.amount = [];
-        }
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseMsgCommunityPoolSpend();
-        message.authority = object.authority ?? "";
-        message.recipient = object.recipient ?? "";
-        message.amount = object.amount?.map((e) => Coin.fromPartial(e)) || [];
-        return message;
-    },
-};
-function createBaseMsgCommunityPoolSpendResponse() {
-    return {};
-}
-export const MsgCommunityPoolSpendResponse = {
-    encode(_, writer = _m0.Writer.create()) {
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgCommunityPoolSpendResponse();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(_) {
-        return {};
-    },
-    toJSON(_) {
-        const obj = {};
-        return obj;
-    },
-    fromPartial(_) {
-        const message = createBaseMsgCommunityPoolSpendResponse();
-        return message;
-    },
-};
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -556,8 +369,6 @@ export class MsgClientImpl {
         this.WithdrawDelegatorReward = this.WithdrawDelegatorReward.bind(this);
         this.WithdrawValidatorCommission = this.WithdrawValidatorCommission.bind(this);
         this.FundCommunityPool = this.FundCommunityPool.bind(this);
-        this.UpdateParams = this.UpdateParams.bind(this);
-        this.CommunityPoolSpend = this.CommunityPoolSpend.bind(this);
     }
     SetWithdrawAddress(request) {
         const data = MsgSetWithdrawAddress.encode(request).finish();
@@ -578,16 +389,6 @@ export class MsgClientImpl {
         const data = MsgFundCommunityPool.encode(request).finish();
         const promise = this.rpc.request("cosmos.distribution.v1beta1.Msg", "FundCommunityPool", data);
         return promise.then((data) => MsgFundCommunityPoolResponse.decode(new _m0.Reader(data)));
-    }
-    UpdateParams(request) {
-        const data = MsgUpdateParams.encode(request).finish();
-        const promise = this.rpc.request("cosmos.distribution.v1beta1.Msg", "UpdateParams", data);
-        return promise.then((data) => MsgUpdateParamsResponse.decode(new _m0.Reader(data)));
-    }
-    CommunityPoolSpend(request) {
-        const data = MsgCommunityPoolSpend.encode(request).finish();
-        const promise = this.rpc.request("cosmos.distribution.v1beta1.Msg", "CommunityPoolSpend", data);
-        return promise.then((data) => MsgCommunityPoolSpendResponse.decode(new _m0.Reader(data)));
     }
 }
 function isSet(value) {

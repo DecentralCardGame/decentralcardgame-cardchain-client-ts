@@ -210,11 +210,7 @@ export interface V1GroupPolicyInfo {
   /** admin is the account address of the group admin. */
   admin?: string;
 
-  /**
-   * metadata is any arbitrary metadata attached to the group policy.
-   * the recommended format of the metadata is to be found here:
-   * https://docs.cosmos.network/v0.47/modules/group#decision-policy-1
-   */
+  /** metadata is any arbitrary metadata to attached to the group policy. */
   metadata?: string;
 
   /**
@@ -384,11 +380,7 @@ export interface V1Proposal {
   /** group_policy_address is the account address of group policy. */
   group_policy_address?: string;
 
-  /**
-   * metadata is any arbitrary metadata attached to the proposal.
-   * the recommended format of the metadata is to be found here:
-   * https://docs.cosmos.network/v0.47/modules/group#proposal-4
-   */
+  /** metadata is any arbitrary metadata to attached to the proposal. */
   metadata?: string;
 
   /** proposers are the account addresses of the proposers. */
@@ -429,7 +421,7 @@ export interface V1Proposal {
 
   /**
    * voting_period_end is the timestamp before which voting must be done.
-   * Unless a successful MsgExec is called before (to execute a proposal whose
+   * Unless a successfull MsgExec is called before (to execute a proposal whose
    * tally is successful before the voting period ends), tallying will be done
    * at this point, and the `final_tally_result`and `status` fields will be
    * accordingly updated.
@@ -442,18 +434,6 @@ export interface V1Proposal {
 
   /** messages is a list of `sdk.Msg`s that will be executed if the proposal passes. */
   messages?: ProtobufAny[];
-
-  /**
-   * title is the title of the proposal
-   * Since: cosmos-sdk 0.47
-   */
-  title?: string;
-
-  /**
-   * summary is a short summary of the proposal
-   * Since: cosmos-sdk 0.47
-   */
-  summary?: string;
 }
 
 /**
@@ -498,7 +478,7 @@ export enum V1ProposalStatus {
  * QueryGroupInfoResponse is the Query/GroupInfo response type.
  */
 export interface V1QueryGroupInfoResponse {
-  /** info is the GroupInfo of the group. */
+  /** info is the GroupInfo for the group. */
   info?: V1GroupInfo;
 }
 
@@ -539,7 +519,7 @@ export interface V1QueryGroupPoliciesByGroupResponse {
  * QueryGroupPolicyInfoResponse is the Query/GroupPolicyInfo response type.
  */
 export interface V1QueryGroupPolicyInfoResponse {
-  /** info is the GroupPolicyInfo of the group policy. */
+  /** info is the GroupPolicyInfo for the group policy. */
   info?: V1GroupPolicyInfo;
 }
 
@@ -668,7 +648,7 @@ export interface V1Vote {
   /** option is the voter's choice on the proposal. */
   option?: V1VoteOption;
 
-  /** metadata is any arbitrary metadata attached to the vote. */
+  /** metadata is any arbitrary metadata to attached to the vote. */
   metadata?: string;
 
   /**
@@ -914,7 +894,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryGroupMembers
-   * @summary GroupMembers queries members of a group by group id.
+   * @summary GroupMembers queries members of a group
    * @request GET:/cosmos/group/v1/group_members/{group_id}
    */
   queryGroupMembers = (
@@ -941,7 +921,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    *
    * @tags Query
    * @name QueryGroupPoliciesByAdmin
-   * @summary GroupPoliciesByAdmin queries group policies by admin address.
+   * @summary GroupsByAdmin queries group policies by admin address.
    * @request GET:/cosmos/group/v1/group_policies_by_admin/{admin}
    */
   queryGroupPoliciesByAdmin = (
@@ -1170,7 +1150,7 @@ proposal itself.
    *
    * @tags Query
    * @name QueryVotesByProposal
-   * @summary VotesByProposal queries a vote by proposal id.
+   * @summary VotesByProposal queries a vote by proposal.
    * @request GET:/cosmos/group/v1/votes_by_proposal/{proposal_id}
    */
   queryVotesByProposal = (

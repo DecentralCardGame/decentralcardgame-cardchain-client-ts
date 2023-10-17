@@ -144,65 +144,6 @@ export const ModuleAccount = {
         return message;
     },
 };
-function createBaseModuleCredential() {
-    return { moduleName: "", derivationKeys: [] };
-}
-export const ModuleCredential = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.moduleName !== "") {
-            writer.uint32(10).string(message.moduleName);
-        }
-        for (const v of message.derivationKeys) {
-            writer.uint32(18).bytes(v);
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseModuleCredential();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.moduleName = reader.string();
-                    break;
-                case 2:
-                    message.derivationKeys.push(reader.bytes());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            moduleName: isSet(object.moduleName) ? String(object.moduleName) : "",
-            derivationKeys: Array.isArray(object?.derivationKeys)
-                ? object.derivationKeys.map((e) => bytesFromBase64(e))
-                : [],
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.moduleName !== undefined && (obj.moduleName = message.moduleName);
-        if (message.derivationKeys) {
-            obj.derivationKeys = message.derivationKeys.map((e) => base64FromBytes(e !== undefined ? e : new Uint8Array()));
-        }
-        else {
-            obj.derivationKeys = [];
-        }
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseModuleCredential();
-        message.moduleName = object.moduleName ?? "";
-        message.derivationKeys = object.derivationKeys?.map((e) => e) || [];
-        return message;
-    },
-};
 function createBaseParams() {
     return {
         maxMemoCharacters: 0,
@@ -304,31 +245,6 @@ var globalThis = (() => {
     }
     throw "Unable to locate global object";
 })();
-function bytesFromBase64(b64) {
-    if (globalThis.Buffer) {
-        return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
-    }
-    else {
-        const bin = globalThis.atob(b64);
-        const arr = new Uint8Array(bin.length);
-        for (let i = 0; i < bin.length; ++i) {
-            arr[i] = bin.charCodeAt(i);
-        }
-        return arr;
-    }
-}
-function base64FromBytes(arr) {
-    if (globalThis.Buffer) {
-        return globalThis.Buffer.from(arr).toString("base64");
-    }
-    else {
-        const bin = [];
-        arr.forEach((byte) => {
-            bin.push(String.fromCharCode(byte));
-        });
-        return globalThis.btoa(bin.join(""));
-    }
-}
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
         throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");

@@ -368,7 +368,6 @@ export interface V1MsgChannelOpenInitResponse {
  */
 export interface V1MsgChannelOpenTryResponse {
   version?: string;
-  channel_id?: string;
 }
 
 /**
