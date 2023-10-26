@@ -41,36 +41,32 @@ export function responseToJSON(object) {
 }
 export var CouncelingStatus;
 (function (CouncelingStatus) {
-    CouncelingStatus[CouncelingStatus["councilDoesNotExist"] = 0] = "councilDoesNotExist";
-    CouncelingStatus[CouncelingStatus["councilOpen"] = 1] = "councilOpen";
-    CouncelingStatus[CouncelingStatus["councilCreated"] = 2] = "councilCreated";
-    CouncelingStatus[CouncelingStatus["councilClosed"] = 3] = "councilClosed";
-    CouncelingStatus[CouncelingStatus["commited"] = 4] = "commited";
-    CouncelingStatus[CouncelingStatus["revealed"] = 5] = "revealed";
-    CouncelingStatus[CouncelingStatus["suggestionsMade"] = 6] = "suggestionsMade";
+    CouncelingStatus[CouncelingStatus["councilOpen"] = 0] = "councilOpen";
+    CouncelingStatus[CouncelingStatus["councilCreated"] = 1] = "councilCreated";
+    CouncelingStatus[CouncelingStatus["councilClosed"] = 2] = "councilClosed";
+    CouncelingStatus[CouncelingStatus["commited"] = 3] = "commited";
+    CouncelingStatus[CouncelingStatus["revealed"] = 4] = "revealed";
+    CouncelingStatus[CouncelingStatus["suggestionsMade"] = 5] = "suggestionsMade";
     CouncelingStatus[CouncelingStatus["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
 })(CouncelingStatus || (CouncelingStatus = {}));
 export function councelingStatusFromJSON(object) {
     switch (object) {
         case 0:
-        case "councilDoesNotExist":
-            return CouncelingStatus.councilDoesNotExist;
-        case 1:
         case "councilOpen":
             return CouncelingStatus.councilOpen;
-        case 2:
+        case 1:
         case "councilCreated":
             return CouncelingStatus.councilCreated;
-        case 3:
+        case 2:
         case "councilClosed":
             return CouncelingStatus.councilClosed;
-        case 4:
+        case 3:
         case "commited":
             return CouncelingStatus.commited;
-        case 5:
+        case 4:
         case "revealed":
             return CouncelingStatus.revealed;
-        case 6:
+        case 5:
         case "suggestionsMade":
             return CouncelingStatus.suggestionsMade;
         case -1:
@@ -81,8 +77,6 @@ export function councelingStatusFromJSON(object) {
 }
 export function councelingStatusToJSON(object) {
     switch (object) {
-        case CouncelingStatus.councilDoesNotExist:
-            return "councilDoesNotExist";
         case CouncelingStatus.councilOpen:
             return "councilOpen";
         case CouncelingStatus.councilCreated:

@@ -47,7 +47,6 @@ export enum CardchainCardRarity {
 }
 
 export enum CardchainCouncelingStatus {
-  CouncilDoesNotExist = "councilDoesNotExist",
   CouncilOpen = "councilOpen",
   CouncilCreated = "councilCreated",
   CouncilClosed = "councilClosed",
@@ -69,23 +68,11 @@ export interface CardchainCouncil {
   trialStart?: string;
 }
 
-export interface CardchainCouncilParticipation {
-  status?: CardchainCouncilStatus;
-
-  /** @format uint64 */
-  council?: string;
-}
-
 export enum CardchainCouncilStatus {
   Available = "available",
   Unavailable = "unavailable",
   OpenCouncil = "openCouncil",
   StartedCouncil = "startedCouncil",
-}
-
-export interface CardchainIgnoreCouncils {
-  status?: boolean;
-  card?: boolean;
 }
 
 export interface CardchainIgnoreMatches {
@@ -327,12 +314,6 @@ export interface CardchainParams {
 
   /** @format uint64 */
   uniqueDropRatio?: string;
-
-  /**
-   * seconds till the council ends
-   * @format uint64
-   */
-  councilVotingTimeLimit?: string;
 }
 
 /**
@@ -386,11 +367,6 @@ export interface CardchainQueryQCardsResponse {
   cardsList?: string[];
 }
 
-export interface CardchainQueryQCouncilsResponse {
-  councilssIds?: string[];
-  councils?: CardchainCouncil[];
-}
-
 export interface CardchainQueryQMatchesResponse {
   matchesList?: string[];
   matches?: CardchainMatch[];
@@ -403,12 +379,6 @@ export interface CardchainQueryQSellOffersResponse {
 
 export interface CardchainQueryQSetsResponse {
   setIds?: string[];
-}
-
-export interface CardchainQueryQVotableCardsResponse {
-  unregistered?: boolean;
-  noVoteRights?: boolean;
-  voteRights?: CardchainVoteRight[];
 }
 
 export interface CardchainQueryQVotingResultsResponse {
@@ -455,7 +425,7 @@ export interface CardchainServer {
 export interface CardchainSingleVote {
   /** @format uint64 */
   cardId?: string;
-  voteType?: string;
+  voteType?: CardchainVoteType;
 }
 
 export interface CardchainUser {
@@ -463,8 +433,7 @@ export interface CardchainUser {
   ownedCardSchemes?: string[];
   ownedPrototypes?: string[];
   cards?: string[];
-  voteRights?: CardchainVoteRight[];
-  councilParticipation?: CardchainCouncilParticipation;
+  CouncilStatus?: CardchainCouncilStatus;
   ReportMatches?: boolean;
 
   /** @format uint64 */
@@ -473,14 +442,15 @@ export interface CardchainUser {
   boosterPacks?: CardchainBoosterPack[];
   website?: string;
   biography?: string;
+  votableCards?: string[];
+  votedCards?: string[];
 }
 
-export interface CardchainVoteRight {
-  /** @format uint64 */
-  cardId?: string;
-
-  /** @format int64 */
-  expireBlock?: string;
+export enum CardchainVoteType {
+  FairEnough = "fairEnough",
+  Inappropriate = "inappropriate",
+  Overpowered = "overpowered",
+  Underpowered = "underpowered",
 }
 
 export interface CardchainVotingResult {
@@ -541,7 +511,6 @@ export enum CardchaincardchainStatus {
   BannedSoon = "bannedSoon",
   BannedVerySoon = "bannedVerySoon",
   None = "none",
-  InCouncil = "inCouncil",
 }
 
 export interface GooglerpcStatus {
@@ -816,34 +785,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * No description
    *
    * @tags Query
-   * @name QueryQCouncils
-   * @summary Queries a list of QCouncils items.
-   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_councils/{status}
-   */
-  queryQCouncils = (
-    status:
-      | "councilDoesNotExist"
-      | "councilOpen"
-      | "councilCreated"
-      | "councilClosed"
-      | "commited"
-      | "revealed"
-      | "suggestionsMade",
-    query?: { voters?: string[]; card?: string; creator?: string; "ignore.status"?: boolean; "ignore.card"?: boolean },
-    params: RequestParams = {},
-  ) =>
-    this.request<CardchainQueryQCouncilsResponse, GooglerpcStatus>({
-      path: `/DecentralCardGame/Cardchain/cardchain/q_councils/${status}`,
-      method: "GET",
-      query: query,
-      format: "json",
-      ...params,
-    });
-
-  /**
-   * No description
-   *
-   * @tags Query
    * @name QueryQMatch
    * @summary Queries a list of QMatch items.
    * @request GET:/DecentralCardGame/Cardchain/cardchain/q_match/{matchId}
@@ -994,22 +935,6 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryQUser = (address: string, params: RequestParams = {}) =>
     this.request<CardchainUser, GooglerpcStatus>({
       path: `/DecentralCardGame/Cardchain/cardchain/q_user/${address}`,
-      method: "GET",
-      format: "json",
-      ...params,
-    });
-
-  /**
-   * No description
-   *
-   * @tags Query
-   * @name QueryQVotableCards
-   * @summary Queries a list of QVotableCards items.
-   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_votable_cards/{address}
-   */
-  queryQVotableCards = (address: string, params: RequestParams = {}) =>
-    this.request<CardchainQueryQVotableCardsResponse, GooglerpcStatus>({
-      path: `/DecentralCardGame/Cardchain/cardchain/q_votable_cards/${address}`,
       method: "GET",
       format: "json",
       ...params,

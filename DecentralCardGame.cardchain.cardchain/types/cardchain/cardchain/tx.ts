@@ -5,7 +5,7 @@ import { Coin } from "../../cosmos/base/v1beta1/coin";
 import { CardRarity, cardRarityFromJSON, cardRarityToJSON } from "./card";
 import { Response, responseFromJSON, responseToJSON } from "./council";
 import { Outcome, outcomeFromJSON, outcomeToJSON } from "./match";
-import { SingleVote } from "./voting";
+import { SingleVote, VoteType, voteTypeFromJSON, voteTypeToJSON } from "./voting";
 
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 
@@ -30,7 +30,7 @@ export interface MsgBuyCardSchemeResponse {
 export interface MsgVoteCard {
   creator: string;
   cardId: number;
-  voteType: string;
+  voteType: VoteType;
 }
 
 export interface MsgVoteCardResponse {
@@ -591,7 +591,7 @@ export const MsgBuyCardSchemeResponse = {
 };
 
 function createBaseMsgVoteCard(): MsgVoteCard {
-  return { creator: "", cardId: 0, voteType: "" };
+  return { creator: "", cardId: 0, voteType: 0 };
 }
 
 export const MsgVoteCard = {
@@ -602,8 +602,8 @@ export const MsgVoteCard = {
     if (message.cardId !== 0) {
       writer.uint32(16).uint64(message.cardId);
     }
-    if (message.voteType !== "") {
-      writer.uint32(26).string(message.voteType);
+    if (message.voteType !== 0) {
+      writer.uint32(24).int32(message.voteType);
     }
     return writer;
   },
@@ -622,7 +622,7 @@ export const MsgVoteCard = {
           message.cardId = longToNumber(reader.uint64() as Long);
           break;
         case 3:
-          message.voteType = reader.string();
+          message.voteType = reader.int32() as any;
           break;
         default:
           reader.skipType(tag & 7);
@@ -636,7 +636,7 @@ export const MsgVoteCard = {
     return {
       creator: isSet(object.creator) ? String(object.creator) : "",
       cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
-      voteType: isSet(object.voteType) ? String(object.voteType) : "",
+      voteType: isSet(object.voteType) ? voteTypeFromJSON(object.voteType) : 0,
     };
   },
 
@@ -644,7 +644,7 @@ export const MsgVoteCard = {
     const obj: any = {};
     message.creator !== undefined && (obj.creator = message.creator);
     message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-    message.voteType !== undefined && (obj.voteType = message.voteType);
+    message.voteType !== undefined && (obj.voteType = voteTypeToJSON(message.voteType));
     return obj;
   },
 
@@ -652,7 +652,7 @@ export const MsgVoteCard = {
     const message = createBaseMsgVoteCard();
     message.creator = object.creator ?? "";
     message.cardId = object.cardId ?? 0;
-    message.voteType = object.voteType ?? "";
+    message.voteType = object.voteType ?? 0;
     return message;
   },
 };

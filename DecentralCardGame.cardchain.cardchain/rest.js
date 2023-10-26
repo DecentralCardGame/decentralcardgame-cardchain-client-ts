@@ -25,7 +25,6 @@ export var CardchainCardRarity;
 })(CardchainCardRarity || (CardchainCardRarity = {}));
 export var CardchainCouncelingStatus;
 (function (CardchainCouncelingStatus) {
-    CardchainCouncelingStatus["CouncilDoesNotExist"] = "councilDoesNotExist";
     CardchainCouncelingStatus["CouncilOpen"] = "councilOpen";
     CardchainCouncelingStatus["CouncilCreated"] = "councilCreated";
     CardchainCouncelingStatus["CouncilClosed"] = "councilClosed";
@@ -73,6 +72,13 @@ export var CardchainSellOfferStatus;
     CardchainSellOfferStatus["Sold"] = "sold";
     CardchainSellOfferStatus["Removed"] = "removed";
 })(CardchainSellOfferStatus || (CardchainSellOfferStatus = {}));
+export var CardchainVoteType;
+(function (CardchainVoteType) {
+    CardchainVoteType["FairEnough"] = "fairEnough";
+    CardchainVoteType["Inappropriate"] = "inappropriate";
+    CardchainVoteType["Overpowered"] = "overpowered";
+    CardchainVoteType["Underpowered"] = "underpowered";
+})(CardchainVoteType || (CardchainVoteType = {}));
 export var CardchaincardchainStatus;
 (function (CardchaincardchainStatus) {
     CardchaincardchainStatus["Scheme"] = "scheme";
@@ -84,7 +90,6 @@ export var CardchaincardchainStatus;
     CardchaincardchainStatus["BannedSoon"] = "bannedSoon";
     CardchaincardchainStatus["BannedVerySoon"] = "bannedVerySoon";
     CardchaincardchainStatus["None"] = "none";
-    CardchaincardchainStatus["InCouncil"] = "inCouncil";
 })(CardchaincardchainStatus || (CardchaincardchainStatus = {}));
 import axios from "axios";
 export var ContentType;
@@ -249,21 +254,6 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
-         * @name QueryQCouncils
-         * @summary Queries a list of QCouncils items.
-         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_councils/{status}
-         */
-        this.queryQCouncils = (status, query, params = {}) => this.request({
-            path: `/DecentralCardGame/Cardchain/cardchain/q_councils/${status}`,
-            method: "GET",
-            query: query,
-            format: "json",
-            ...params,
-        });
-        /**
-         * No description
-         *
-         * @tags Query
          * @name QueryQMatch
          * @summary Queries a list of QMatch items.
          * @request GET:/DecentralCardGame/Cardchain/cardchain/q_match/{matchId}
@@ -371,20 +361,6 @@ export class Api extends HttpClient {
          */
         this.queryQUser = (address, params = {}) => this.request({
             path: `/DecentralCardGame/Cardchain/cardchain/q_user/${address}`,
-            method: "GET",
-            format: "json",
-            ...params,
-        });
-        /**
-         * No description
-         *
-         * @tags Query
-         * @name QueryQVotableCards
-         * @summary Queries a list of QVotableCards items.
-         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_votable_cards/{address}
-         */
-        this.queryQVotableCards = (address, params = {}) => this.request({
-            path: `/DecentralCardGame/Cardchain/cardchain/q_votable_cards/${address}`,
             method: "GET",
             format: "json",
             ...params,

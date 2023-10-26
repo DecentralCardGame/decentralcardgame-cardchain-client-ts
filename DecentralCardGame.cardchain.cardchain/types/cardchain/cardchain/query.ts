@@ -2,14 +2,14 @@
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { OutpCard } from "./card";
-import { CouncelingStatus, councelingStatusFromJSON, councelingStatusToJSON, Council } from "./council";
+import { Council } from "./council";
 import { Match, Outcome, outcomeFromJSON, outcomeToJSON } from "./match";
 import { Params } from "./params";
 import { SellOffer, SellOfferStatus, sellOfferStatusFromJSON, sellOfferStatusToJSON } from "./sell_offer";
 import { Server } from "./server";
 import { CStatus, cStatusFromJSON, cStatusToJSON, OutpSet } from "./set";
 import { User } from "./user";
-import { VoteRight, VotingResults } from "./voting";
+import { VotingResults } from "./voting";
 
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 
@@ -58,16 +58,6 @@ export interface QueryQVotingResultsRequest {
 
 export interface QueryQVotingResultsResponse {
   lastVotingResults: VotingResults | undefined;
-}
-
-export interface QueryQVotableCardsRequest {
-  address: string;
-}
-
-export interface QueryQVotableCardsResponse {
-  unregistered: boolean;
-  noVoteRights: boolean;
-  voteRights: VoteRight[];
 }
 
 export interface QueryQCardsRequest {
@@ -254,24 +244,6 @@ export interface QueryRarityDistributionRequest {
 export interface QueryRarityDistributionResponse {
   current: number[];
   wanted: number[];
-}
-
-export interface QueryQCouncilsRequest {
-  status: CouncelingStatus;
-  voters: string[];
-  card: number;
-  creator: string;
-  ignore: IgnoreCouncils | undefined;
-}
-
-export interface IgnoreCouncils {
-  status: boolean;
-  card: boolean;
-}
-
-export interface QueryQCouncilsResponse {
-  councilssIds: number[];
-  councils: Council[];
 }
 
 function createBaseQueryParamsRequest(): QueryParamsRequest {
@@ -812,124 +784,6 @@ export const QueryQVotingResultsResponse = {
     message.lastVotingResults = (object.lastVotingResults !== undefined && object.lastVotingResults !== null)
       ? VotingResults.fromPartial(object.lastVotingResults)
       : undefined;
-    return message;
-  },
-};
-
-function createBaseQueryQVotableCardsRequest(): QueryQVotableCardsRequest {
-  return { address: "" };
-}
-
-export const QueryQVotableCardsRequest = {
-  encode(message: QueryQVotableCardsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.address !== "") {
-      writer.uint32(10).string(message.address);
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQVotableCardsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryQVotableCardsRequest();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.address = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): QueryQVotableCardsRequest {
-    return { address: isSet(object.address) ? String(object.address) : "" };
-  },
-
-  toJSON(message: QueryQVotableCardsRequest): unknown {
-    const obj: any = {};
-    message.address !== undefined && (obj.address = message.address);
-    return obj;
-  },
-
-  fromPartial<I extends Exact<DeepPartial<QueryQVotableCardsRequest>, I>>(object: I): QueryQVotableCardsRequest {
-    const message = createBaseQueryQVotableCardsRequest();
-    message.address = object.address ?? "";
-    return message;
-  },
-};
-
-function createBaseQueryQVotableCardsResponse(): QueryQVotableCardsResponse {
-  return { unregistered: false, noVoteRights: false, voteRights: [] };
-}
-
-export const QueryQVotableCardsResponse = {
-  encode(message: QueryQVotableCardsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.unregistered === true) {
-      writer.uint32(8).bool(message.unregistered);
-    }
-    if (message.noVoteRights === true) {
-      writer.uint32(16).bool(message.noVoteRights);
-    }
-    for (const v of message.voteRights) {
-      VoteRight.encode(v!, writer.uint32(26).fork()).ldelim();
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQVotableCardsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryQVotableCardsResponse();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.unregistered = reader.bool();
-          break;
-        case 2:
-          message.noVoteRights = reader.bool();
-          break;
-        case 3:
-          message.voteRights.push(VoteRight.decode(reader, reader.uint32()));
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): QueryQVotableCardsResponse {
-    return {
-      unregistered: isSet(object.unregistered) ? Boolean(object.unregistered) : false,
-      noVoteRights: isSet(object.noVoteRights) ? Boolean(object.noVoteRights) : false,
-      voteRights: Array.isArray(object?.voteRights) ? object.voteRights.map((e: any) => VoteRight.fromJSON(e)) : [],
-    };
-  },
-
-  toJSON(message: QueryQVotableCardsResponse): unknown {
-    const obj: any = {};
-    message.unregistered !== undefined && (obj.unregistered = message.unregistered);
-    message.noVoteRights !== undefined && (obj.noVoteRights = message.noVoteRights);
-    if (message.voteRights) {
-      obj.voteRights = message.voteRights.map((e) => e ? VoteRight.toJSON(e) : undefined);
-    } else {
-      obj.voteRights = [];
-    }
-    return obj;
-  },
-
-  fromPartial<I extends Exact<DeepPartial<QueryQVotableCardsResponse>, I>>(object: I): QueryQVotableCardsResponse {
-    const message = createBaseQueryQVotableCardsResponse();
-    message.unregistered = object.unregistered ?? false;
-    message.noVoteRights = object.noVoteRights ?? false;
-    message.voteRights = object.voteRights?.map((e) => VoteRight.fromPartial(e)) || [];
     return message;
   },
 };
@@ -2186,230 +2040,6 @@ export const QueryRarityDistributionResponse = {
   },
 };
 
-function createBaseQueryQCouncilsRequest(): QueryQCouncilsRequest {
-  return { status: 0, voters: [], card: 0, creator: "", ignore: undefined };
-}
-
-export const QueryQCouncilsRequest = {
-  encode(message: QueryQCouncilsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.status !== 0) {
-      writer.uint32(8).int32(message.status);
-    }
-    for (const v of message.voters) {
-      writer.uint32(26).string(v!);
-    }
-    if (message.card !== 0) {
-      writer.uint32(32).uint64(message.card);
-    }
-    if (message.creator !== "") {
-      writer.uint32(42).string(message.creator);
-    }
-    if (message.ignore !== undefined) {
-      IgnoreCouncils.encode(message.ignore, writer.uint32(18).fork()).ldelim();
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCouncilsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryQCouncilsRequest();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.status = reader.int32() as any;
-          break;
-        case 3:
-          message.voters.push(reader.string());
-          break;
-        case 4:
-          message.card = longToNumber(reader.uint64() as Long);
-          break;
-        case 5:
-          message.creator = reader.string();
-          break;
-        case 2:
-          message.ignore = IgnoreCouncils.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): QueryQCouncilsRequest {
-    return {
-      status: isSet(object.status) ? councelingStatusFromJSON(object.status) : 0,
-      voters: Array.isArray(object?.voters) ? object.voters.map((e: any) => String(e)) : [],
-      card: isSet(object.card) ? Number(object.card) : 0,
-      creator: isSet(object.creator) ? String(object.creator) : "",
-      ignore: isSet(object.ignore) ? IgnoreCouncils.fromJSON(object.ignore) : undefined,
-    };
-  },
-
-  toJSON(message: QueryQCouncilsRequest): unknown {
-    const obj: any = {};
-    message.status !== undefined && (obj.status = councelingStatusToJSON(message.status));
-    if (message.voters) {
-      obj.voters = message.voters.map((e) => e);
-    } else {
-      obj.voters = [];
-    }
-    message.card !== undefined && (obj.card = Math.round(message.card));
-    message.creator !== undefined && (obj.creator = message.creator);
-    message.ignore !== undefined && (obj.ignore = message.ignore ? IgnoreCouncils.toJSON(message.ignore) : undefined);
-    return obj;
-  },
-
-  fromPartial<I extends Exact<DeepPartial<QueryQCouncilsRequest>, I>>(object: I): QueryQCouncilsRequest {
-    const message = createBaseQueryQCouncilsRequest();
-    message.status = object.status ?? 0;
-    message.voters = object.voters?.map((e) => e) || [];
-    message.card = object.card ?? 0;
-    message.creator = object.creator ?? "";
-    message.ignore = (object.ignore !== undefined && object.ignore !== null)
-      ? IgnoreCouncils.fromPartial(object.ignore)
-      : undefined;
-    return message;
-  },
-};
-
-function createBaseIgnoreCouncils(): IgnoreCouncils {
-  return { status: false, card: false };
-}
-
-export const IgnoreCouncils = {
-  encode(message: IgnoreCouncils, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.status === true) {
-      writer.uint32(8).bool(message.status);
-    }
-    if (message.card === true) {
-      writer.uint32(16).bool(message.card);
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): IgnoreCouncils {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseIgnoreCouncils();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.status = reader.bool();
-          break;
-        case 2:
-          message.card = reader.bool();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): IgnoreCouncils {
-    return {
-      status: isSet(object.status) ? Boolean(object.status) : false,
-      card: isSet(object.card) ? Boolean(object.card) : false,
-    };
-  },
-
-  toJSON(message: IgnoreCouncils): unknown {
-    const obj: any = {};
-    message.status !== undefined && (obj.status = message.status);
-    message.card !== undefined && (obj.card = message.card);
-    return obj;
-  },
-
-  fromPartial<I extends Exact<DeepPartial<IgnoreCouncils>, I>>(object: I): IgnoreCouncils {
-    const message = createBaseIgnoreCouncils();
-    message.status = object.status ?? false;
-    message.card = object.card ?? false;
-    return message;
-  },
-};
-
-function createBaseQueryQCouncilsResponse(): QueryQCouncilsResponse {
-  return { councilssIds: [], councils: [] };
-}
-
-export const QueryQCouncilsResponse = {
-  encode(message: QueryQCouncilsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    writer.uint32(10).fork();
-    for (const v of message.councilssIds) {
-      writer.uint64(v);
-    }
-    writer.ldelim();
-    for (const v of message.councils) {
-      Council.encode(v!, writer.uint32(18).fork()).ldelim();
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCouncilsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryQCouncilsResponse();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          if ((tag & 7) === 2) {
-            const end2 = reader.uint32() + reader.pos;
-            while (reader.pos < end2) {
-              message.councilssIds.push(longToNumber(reader.uint64() as Long));
-            }
-          } else {
-            message.councilssIds.push(longToNumber(reader.uint64() as Long));
-          }
-          break;
-        case 2:
-          message.councils.push(Council.decode(reader, reader.uint32()));
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): QueryQCouncilsResponse {
-    return {
-      councilssIds: Array.isArray(object?.councilssIds) ? object.councilssIds.map((e: any) => Number(e)) : [],
-      councils: Array.isArray(object?.councils) ? object.councils.map((e: any) => Council.fromJSON(e)) : [],
-    };
-  },
-
-  toJSON(message: QueryQCouncilsResponse): unknown {
-    const obj: any = {};
-    if (message.councilssIds) {
-      obj.councilssIds = message.councilssIds.map((e) => Math.round(e));
-    } else {
-      obj.councilssIds = [];
-    }
-    if (message.councils) {
-      obj.councils = message.councils.map((e) => e ? Council.toJSON(e) : undefined);
-    } else {
-      obj.councils = [];
-    }
-    return obj;
-  },
-
-  fromPartial<I extends Exact<DeepPartial<QueryQCouncilsResponse>, I>>(object: I): QueryQCouncilsResponse {
-    const message = createBaseQueryQCouncilsResponse();
-    message.councilssIds = object.councilssIds?.map((e) => e) || [];
-    message.councils = object.councils?.map((e) => Council.fromPartial(e)) || [];
-    return message;
-  },
-};
-
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -2424,8 +2054,6 @@ export interface Query {
   QCardchainInfo(request: QueryQCardchainInfoRequest): Promise<QueryQCardchainInfoResponse>;
   /** Queries a list of QVotingResults items. */
   QVotingResults(request: QueryQVotingResultsRequest): Promise<QueryQVotingResultsResponse>;
-  /** Queries a list of QVotableCards items. */
-  QVotableCards(request: QueryQVotableCardsRequest): Promise<QueryQVotableCardsResponse>;
   /** Queries a list of QCards items. */
   QCards(request: QueryQCardsRequest): Promise<QueryQCardsResponse>;
   /** Queries a list of QMatch items. */
@@ -2446,8 +2074,6 @@ export interface Query {
   QSets(request: QueryQSetsRequest): Promise<QueryQSetsResponse>;
   /** Queries a list of RarityDistribution items. */
   RarityDistribution(request: QueryRarityDistributionRequest): Promise<QueryRarityDistributionResponse>;
-  /** Queries a list of QCouncils items. */
-  QCouncils(request: QueryQCouncilsRequest): Promise<QueryQCouncilsResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -2460,7 +2086,6 @@ export class QueryClientImpl implements Query {
     this.QUser = this.QUser.bind(this);
     this.QCardchainInfo = this.QCardchainInfo.bind(this);
     this.QVotingResults = this.QVotingResults.bind(this);
-    this.QVotableCards = this.QVotableCards.bind(this);
     this.QCards = this.QCards.bind(this);
     this.QMatch = this.QMatch.bind(this);
     this.QSet = this.QSet.bind(this);
@@ -2471,7 +2096,6 @@ export class QueryClientImpl implements Query {
     this.QServer = this.QServer.bind(this);
     this.QSets = this.QSets.bind(this);
     this.RarityDistribution = this.RarityDistribution.bind(this);
-    this.QCouncils = this.QCouncils.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -2507,12 +2131,6 @@ export class QueryClientImpl implements Query {
     const data = QueryQVotingResultsRequest.encode(request).finish();
     const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QVotingResults", data);
     return promise.then((data) => QueryQVotingResultsResponse.decode(new _m0.Reader(data)));
-  }
-
-  QVotableCards(request: QueryQVotableCardsRequest): Promise<QueryQVotableCardsResponse> {
-    const data = QueryQVotableCardsRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QVotableCards", data);
-    return promise.then((data) => QueryQVotableCardsResponse.decode(new _m0.Reader(data)));
   }
 
   QCards(request: QueryQCardsRequest): Promise<QueryQCardsResponse> {
@@ -2573,12 +2191,6 @@ export class QueryClientImpl implements Query {
     const data = QueryRarityDistributionRequest.encode(request).finish();
     const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "RarityDistribution", data);
     return promise.then((data) => QueryRarityDistributionResponse.decode(new _m0.Reader(data)));
-  }
-
-  QCouncils(request: QueryQCouncilsRequest): Promise<QueryQCouncilsResponse> {
-    const data = QueryQCouncilsRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCouncils", data);
-    return promise.then((data) => QueryQCouncilsResponse.decode(new _m0.Reader(data)));
   }
 }
 

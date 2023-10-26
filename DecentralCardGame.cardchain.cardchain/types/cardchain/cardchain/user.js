@@ -1,7 +1,6 @@
 /* eslint-disable */
 import Long from "long";
 import _m0 from "protobufjs/minimal";
-import { VoteRight } from "./voting";
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 export var CouncilStatus;
 (function (CouncilStatus) {
@@ -101,14 +100,15 @@ function createBaseUser() {
         ownedCardSchemes: [],
         ownedPrototypes: [],
         cards: [],
-        voteRights: [],
-        councilParticipation: undefined,
+        CouncilStatus: 0,
         ReportMatches: false,
         profileCard: 0,
         airDrops: undefined,
         boosterPacks: [],
         website: "",
         biography: "",
+        votableCards: [],
+        votedCards: [],
     };
 }
 export const User = {
@@ -131,11 +131,8 @@ export const User = {
             writer.uint64(v);
         }
         writer.ldelim();
-        for (const v of message.voteRights) {
-            VoteRight.encode(v, writer.uint32(42).fork()).ldelim();
-        }
-        if (message.councilParticipation !== undefined) {
-            CouncilParticipation.encode(message.councilParticipation, writer.uint32(50).fork()).ldelim();
+        if (message.CouncilStatus !== 0) {
+            writer.uint32(48).int32(message.CouncilStatus);
         }
         if (message.ReportMatches === true) {
             writer.uint32(56).bool(message.ReportMatches);
@@ -155,6 +152,16 @@ export const User = {
         if (message.biography !== "") {
             writer.uint32(98).string(message.biography);
         }
+        writer.uint32(106).fork();
+        for (const v of message.votableCards) {
+            writer.uint64(v);
+        }
+        writer.ldelim();
+        writer.uint32(114).fork();
+        for (const v of message.votedCards) {
+            writer.uint64(v);
+        }
+        writer.ldelim();
         return writer;
     },
     decode(input, length) {
@@ -200,11 +207,8 @@ export const User = {
                         message.cards.push(longToNumber(reader.uint64()));
                     }
                     break;
-                case 5:
-                    message.voteRights.push(VoteRight.decode(reader, reader.uint32()));
-                    break;
                 case 6:
-                    message.councilParticipation = CouncilParticipation.decode(reader, reader.uint32());
+                    message.CouncilStatus = reader.int32();
                     break;
                 case 7:
                     message.ReportMatches = reader.bool();
@@ -224,6 +228,28 @@ export const User = {
                 case 12:
                     message.biography = reader.string();
                     break;
+                case 13:
+                    if ((tag & 7) === 2) {
+                        const end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2) {
+                            message.votableCards.push(longToNumber(reader.uint64()));
+                        }
+                    }
+                    else {
+                        message.votableCards.push(longToNumber(reader.uint64()));
+                    }
+                    break;
+                case 14:
+                    if ((tag & 7) === 2) {
+                        const end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2) {
+                            message.votedCards.push(longToNumber(reader.uint64()));
+                        }
+                    }
+                    else {
+                        message.votedCards.push(longToNumber(reader.uint64()));
+                    }
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -239,10 +265,7 @@ export const User = {
                 : [],
             ownedPrototypes: Array.isArray(object?.ownedPrototypes) ? object.ownedPrototypes.map((e) => Number(e)) : [],
             cards: Array.isArray(object?.cards) ? object.cards.map((e) => Number(e)) : [],
-            voteRights: Array.isArray(object?.voteRights) ? object.voteRights.map((e) => VoteRight.fromJSON(e)) : [],
-            councilParticipation: isSet(object.councilParticipation)
-                ? CouncilParticipation.fromJSON(object.councilParticipation)
-                : undefined,
+            CouncilStatus: isSet(object.CouncilStatus) ? councilStatusFromJSON(object.CouncilStatus) : 0,
             ReportMatches: isSet(object.ReportMatches) ? Boolean(object.ReportMatches) : false,
             profileCard: isSet(object.profileCard) ? Number(object.profileCard) : 0,
             airDrops: isSet(object.airDrops) ? AirDrops.fromJSON(object.airDrops) : undefined,
@@ -251,6 +274,8 @@ export const User = {
                 : [],
             website: isSet(object.website) ? String(object.website) : "",
             biography: isSet(object.biography) ? String(object.biography) : "",
+            votableCards: Array.isArray(object?.votableCards) ? object.votableCards.map((e) => Number(e)) : [],
+            votedCards: Array.isArray(object?.votedCards) ? object.votedCards.map((e) => Number(e)) : [],
         };
     },
     toJSON(message) {
@@ -274,15 +299,7 @@ export const User = {
         else {
             obj.cards = [];
         }
-        if (message.voteRights) {
-            obj.voteRights = message.voteRights.map((e) => e ? VoteRight.toJSON(e) : undefined);
-        }
-        else {
-            obj.voteRights = [];
-        }
-        message.councilParticipation !== undefined && (obj.councilParticipation = message.councilParticipation
-            ? CouncilParticipation.toJSON(message.councilParticipation)
-            : undefined);
+        message.CouncilStatus !== undefined && (obj.CouncilStatus = councilStatusToJSON(message.CouncilStatus));
         message.ReportMatches !== undefined && (obj.ReportMatches = message.ReportMatches);
         message.profileCard !== undefined && (obj.profileCard = Math.round(message.profileCard));
         message.airDrops !== undefined && (obj.airDrops = message.airDrops ? AirDrops.toJSON(message.airDrops) : undefined);
@@ -294,6 +311,18 @@ export const User = {
         }
         message.website !== undefined && (obj.website = message.website);
         message.biography !== undefined && (obj.biography = message.biography);
+        if (message.votableCards) {
+            obj.votableCards = message.votableCards.map((e) => Math.round(e));
+        }
+        else {
+            obj.votableCards = [];
+        }
+        if (message.votedCards) {
+            obj.votedCards = message.votedCards.map((e) => Math.round(e));
+        }
+        else {
+            obj.votedCards = [];
+        }
         return obj;
     },
     fromPartial(object) {
@@ -302,10 +331,7 @@ export const User = {
         message.ownedCardSchemes = object.ownedCardSchemes?.map((e) => e) || [];
         message.ownedPrototypes = object.ownedPrototypes?.map((e) => e) || [];
         message.cards = object.cards?.map((e) => e) || [];
-        message.voteRights = object.voteRights?.map((e) => VoteRight.fromPartial(e)) || [];
-        message.councilParticipation = (object.councilParticipation !== undefined && object.councilParticipation !== null)
-            ? CouncilParticipation.fromPartial(object.councilParticipation)
-            : undefined;
+        message.CouncilStatus = object.CouncilStatus ?? 0;
         message.ReportMatches = object.ReportMatches ?? false;
         message.profileCard = object.profileCard ?? 0;
         message.airDrops = (object.airDrops !== undefined && object.airDrops !== null)
@@ -314,58 +340,8 @@ export const User = {
         message.boosterPacks = object.boosterPacks?.map((e) => BoosterPack.fromPartial(e)) || [];
         message.website = object.website ?? "";
         message.biography = object.biography ?? "";
-        return message;
-    },
-};
-function createBaseCouncilParticipation() {
-    return { status: 0, council: 0 };
-}
-export const CouncilParticipation = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.status !== 0) {
-            writer.uint32(8).int32(message.status);
-        }
-        if (message.council !== 0) {
-            writer.uint32(16).uint64(message.council);
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseCouncilParticipation();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.status = reader.int32();
-                    break;
-                case 2:
-                    message.council = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            status: isSet(object.status) ? councilStatusFromJSON(object.status) : 0,
-            council: isSet(object.council) ? Number(object.council) : 0,
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.status !== undefined && (obj.status = councilStatusToJSON(message.status));
-        message.council !== undefined && (obj.council = Math.round(message.council));
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseCouncilParticipation();
-        message.status = object.status ?? 0;
-        message.council = object.council ?? 0;
+        message.votableCards = object.votableCards?.map((e) => e) || [];
+        message.votedCards = object.votedCards?.map((e) => e) || [];
         return message;
     },
 };

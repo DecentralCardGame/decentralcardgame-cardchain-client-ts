@@ -30,8 +30,6 @@ export interface Params {
   rareDropRatio: number;
   exceptionalDropRatio: number;
   uniqueDropRatio: number;
-  /** seconds till the council ends */
-  councilVotingTimeLimit: number;
 }
 
 function createBaseParams(): Params {
@@ -60,7 +58,6 @@ function createBaseParams(): Params {
     rareDropRatio: 0,
     exceptionalDropRatio: 0,
     uniqueDropRatio: 0,
-    councilVotingTimeLimit: 0,
   };
 }
 
@@ -137,9 +134,6 @@ export const Params = {
     }
     if (message.uniqueDropRatio !== 0) {
       writer.uint32(192).uint64(message.uniqueDropRatio);
-    }
-    if (message.councilVotingTimeLimit !== 0) {
-      writer.uint32(200).uint64(message.councilVotingTimeLimit);
     }
     return writer;
   },
@@ -223,9 +217,6 @@ export const Params = {
         case 24:
           message.uniqueDropRatio = longToNumber(reader.uint64() as Long);
           break;
-        case 25:
-          message.councilVotingTimeLimit = longToNumber(reader.uint64() as Long);
-          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -264,7 +255,6 @@ export const Params = {
       rareDropRatio: isSet(object.rareDropRatio) ? Number(object.rareDropRatio) : 0,
       exceptionalDropRatio: isSet(object.exceptionalDropRatio) ? Number(object.exceptionalDropRatio) : 0,
       uniqueDropRatio: isSet(object.uniqueDropRatio) ? Number(object.uniqueDropRatio) : 0,
-      councilVotingTimeLimit: isSet(object.councilVotingTimeLimit) ? Number(object.councilVotingTimeLimit) : 0,
     };
   },
 
@@ -297,8 +287,6 @@ export const Params = {
     message.rareDropRatio !== undefined && (obj.rareDropRatio = Math.round(message.rareDropRatio));
     message.exceptionalDropRatio !== undefined && (obj.exceptionalDropRatio = Math.round(message.exceptionalDropRatio));
     message.uniqueDropRatio !== undefined && (obj.uniqueDropRatio = Math.round(message.uniqueDropRatio));
-    message.councilVotingTimeLimit !== undefined
-      && (obj.councilVotingTimeLimit = Math.round(message.councilVotingTimeLimit));
     return obj;
   },
 
@@ -328,7 +316,6 @@ export const Params = {
     message.rareDropRatio = object.rareDropRatio ?? 0;
     message.exceptionalDropRatio = object.exceptionalDropRatio ?? 0;
     message.uniqueDropRatio = object.uniqueDropRatio ?? 0;
-    message.councilVotingTimeLimit = object.councilVotingTimeLimit ?? 0;
     return message;
   },
 };

@@ -13,7 +13,6 @@ export var Status;
     Status[Status["bannedSoon"] = 6] = "bannedSoon";
     Status[Status["bannedVerySoon"] = 7] = "bannedVerySoon";
     Status[Status["none"] = 8] = "none";
-    Status[Status["inCouncil"] = 9] = "inCouncil";
     Status[Status["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
 })(Status || (Status = {}));
 export function statusFromJSON(object) {
@@ -45,9 +44,6 @@ export function statusFromJSON(object) {
         case 8:
         case "none":
             return Status.none;
-        case 9:
-        case "inCouncil":
-            return Status.inCouncil;
         case -1:
         case "UNRECOGNIZED":
         default:
@@ -74,8 +70,6 @@ export function statusToJSON(object) {
             return "bannedVerySoon";
         case Status.none:
             return "none";
-        case Status.inCouncil:
-            return "inCouncil";
         case Status.UNRECOGNIZED:
         default:
             return "UNRECOGNIZED";

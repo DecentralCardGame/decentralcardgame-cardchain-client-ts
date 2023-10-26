@@ -14,7 +14,6 @@ export enum Status {
   bannedSoon = 6,
   bannedVerySoon = 7,
   none = 8,
-  inCouncil = 9,
   UNRECOGNIZED = -1,
 }
 
@@ -47,9 +46,6 @@ export function statusFromJSON(object: any): Status {
     case 8:
     case "none":
       return Status.none;
-    case 9:
-    case "inCouncil":
-      return Status.inCouncil;
     case -1:
     case "UNRECOGNIZED":
     default:
@@ -77,8 +73,6 @@ export function statusToJSON(object: Status): string {
       return "bannedVerySoon";
     case Status.none:
       return "none";
-    case Status.inCouncil:
-      return "inCouncil";
     case Status.UNRECOGNIZED:
     default:
       return "UNRECOGNIZED";

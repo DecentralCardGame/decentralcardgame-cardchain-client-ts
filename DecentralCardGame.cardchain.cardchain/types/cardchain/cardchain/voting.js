@@ -2,6 +2,49 @@
 import Long from "long";
 import _m0 from "protobufjs/minimal";
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
+export var VoteType;
+(function (VoteType) {
+    VoteType[VoteType["fairEnough"] = 0] = "fairEnough";
+    VoteType[VoteType["inappropriate"] = 1] = "inappropriate";
+    VoteType[VoteType["overpowered"] = 2] = "overpowered";
+    VoteType[VoteType["underpowered"] = 3] = "underpowered";
+    VoteType[VoteType["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
+})(VoteType || (VoteType = {}));
+export function voteTypeFromJSON(object) {
+    switch (object) {
+        case 0:
+        case "fairEnough":
+            return VoteType.fairEnough;
+        case 1:
+        case "inappropriate":
+            return VoteType.inappropriate;
+        case 2:
+        case "overpowered":
+            return VoteType.overpowered;
+        case 3:
+        case "underpowered":
+            return VoteType.underpowered;
+        case -1:
+        case "UNRECOGNIZED":
+        default:
+            return VoteType.UNRECOGNIZED;
+    }
+}
+export function voteTypeToJSON(object) {
+    switch (object) {
+        case VoteType.fairEnough:
+            return "fairEnough";
+        case VoteType.inappropriate:
+            return "inappropriate";
+        case VoteType.overpowered:
+            return "overpowered";
+        case VoteType.underpowered:
+            return "underpowered";
+        case VoteType.UNRECOGNIZED:
+        default:
+            return "UNRECOGNIZED";
+    }
+}
 function createBaseVotingResults() {
     return {
         totalVotes: 0,
@@ -213,15 +256,15 @@ export const VotingResult = {
     },
 };
 function createBaseSingleVote() {
-    return { cardId: 0, voteType: "" };
+    return { cardId: 0, voteType: 0 };
 }
 export const SingleVote = {
     encode(message, writer = _m0.Writer.create()) {
         if (message.cardId !== 0) {
             writer.uint32(8).uint64(message.cardId);
         }
-        if (message.voteType !== "") {
-            writer.uint32(18).string(message.voteType);
+        if (message.voteType !== 0) {
+            writer.uint32(16).int32(message.voteType);
         }
         return writer;
     },
@@ -236,7 +279,7 @@ export const SingleVote = {
                     message.cardId = longToNumber(reader.uint64());
                     break;
                 case 2:
-                    message.voteType = reader.string();
+                    message.voteType = reader.int32();
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -248,71 +291,19 @@ export const SingleVote = {
     fromJSON(object) {
         return {
             cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
-            voteType: isSet(object.voteType) ? String(object.voteType) : "",
+            voteType: isSet(object.voteType) ? voteTypeFromJSON(object.voteType) : 0,
         };
     },
     toJSON(message) {
         const obj = {};
         message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        message.voteType !== undefined && (obj.voteType = message.voteType);
+        message.voteType !== undefined && (obj.voteType = voteTypeToJSON(message.voteType));
         return obj;
     },
     fromPartial(object) {
         const message = createBaseSingleVote();
         message.cardId = object.cardId ?? 0;
-        message.voteType = object.voteType ?? "";
-        return message;
-    },
-};
-function createBaseVoteRight() {
-    return { cardId: 0, expireBlock: 0 };
-}
-export const VoteRight = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.cardId !== 0) {
-            writer.uint32(8).uint64(message.cardId);
-        }
-        if (message.expireBlock !== 0) {
-            writer.uint32(16).int64(message.expireBlock);
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseVoteRight();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.cardId = longToNumber(reader.uint64());
-                    break;
-                case 2:
-                    message.expireBlock = longToNumber(reader.int64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
-            expireBlock: isSet(object.expireBlock) ? Number(object.expireBlock) : 0,
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        message.expireBlock !== undefined && (obj.expireBlock = Math.round(message.expireBlock));
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseVoteRight();
-        message.cardId = object.cardId ?? 0;
-        message.expireBlock = object.expireBlock ?? 0;
+        message.voteType = object.voteType ?? 0;
         return message;
     },
 };

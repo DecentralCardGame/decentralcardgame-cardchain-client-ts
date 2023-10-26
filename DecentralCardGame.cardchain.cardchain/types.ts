@@ -11,17 +11,14 @@ import { Params } from "./types/cardchain/cardchain/params"
 import { IgnoreMatches } from "./types/cardchain/cardchain/query"
 import { IgnoreSellOffers } from "./types/cardchain/cardchain/query"
 import { QueryQServerResponse } from "./types/cardchain/cardchain/query"
-import { IgnoreCouncils } from "./types/cardchain/cardchain/query"
 import { RunningAverage } from "./types/cardchain/cardchain/running_average"
 import { Set } from "./types/cardchain/cardchain/set"
 import { SetProposal } from "./types/cardchain/cardchain/set_proposal"
-import { CouncilParticipation } from "./types/cardchain/cardchain/user"
 import { BoosterPack } from "./types/cardchain/cardchain/user"
 import { AirDrops } from "./types/cardchain/cardchain/user"
 import { VotingResults } from "./types/cardchain/cardchain/voting"
 import { VotingResult } from "./types/cardchain/cardchain/voting"
 import { SingleVote } from "./types/cardchain/cardchain/voting"
-import { VoteRight } from "./types/cardchain/cardchain/voting"
 
 
 export {     
@@ -38,16 +35,13 @@ export {
     IgnoreMatches,
     IgnoreSellOffers,
     QueryQServerResponse,
-    IgnoreCouncils,
     RunningAverage,
     Set,
     SetProposal,
-    CouncilParticipation,
     BoosterPack,
     AirDrops,
     VotingResults,
     VotingResult,
     SingleVote,
-    VoteRight,
     
  }
