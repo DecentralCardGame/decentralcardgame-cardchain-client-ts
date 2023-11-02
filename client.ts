@@ -26,6 +26,7 @@ export class IgniteClient extends EventEmitter {
     env: Env;
     signer?: OfflineSigner;
     registry: Array<[string, GeneratedType]> = [];
+    aminoTypes?: AminoTypes
 
     static plugin<T extends Module | Module[]>(plugin: T) {
         const currentPlugins = this.plugins;
@@ -62,6 +63,7 @@ export class IgniteClient extends EventEmitter {
         this.env = env;
         this.setMaxListeners(0);
         this.signer = signer;
+        this.aminoTypes = new AminoTypes({...createDecentralCardgameAminoConverters()})
         const classConstructor = this.constructor as typeof IgniteClient;
         classConstructor.plugins.forEach(plugin => {
             const pluginInstance = plugin(this);

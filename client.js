@@ -38,6 +38,7 @@ export class IgniteClient extends EventEmitter {
         this.env = env;
         this.setMaxListeners(0);
         this.signer = signer;
+        this.aminoTypes = new AminoTypes({ ...createDecentralCardgameAminoConverters() });
         const classConstructor = this.constructor;
         classConstructor.plugins.forEach(plugin => {
             const pluginInstance = plugin(this);

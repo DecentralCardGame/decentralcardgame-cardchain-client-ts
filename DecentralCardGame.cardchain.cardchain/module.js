@@ -78,7 +78,7 @@ const defaultFee = {
     amount: [],
     gas: "200000",
 };
-export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26657", prefix: "cosmos" }) => {
+export const txClient = ({ signer, prefix, addr, aminoTypes } = { addr: "http://localhost:26657", prefix: "cosmos" }) => {
     return {
         async sendMsgBuyBoosterPack({ value, fee, memo }) {
             if (!signer) {
@@ -86,7 +86,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgBuyBoosterPack({ value: MsgBuyBoosterPack.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -100,7 +100,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgAddCardToSet({ value: MsgAddCardToSet.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -114,7 +114,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgRemoveCardFromSet({ value: MsgRemoveCardFromSet.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -128,7 +128,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgBuyCard({ value: MsgBuyCard.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -142,7 +142,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgChangeArtist({ value: MsgChangeArtist.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -156,7 +156,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgTransferCard({ value: MsgTransferCard.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -170,7 +170,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgRemoveSellOffer({ value: MsgRemoveSellOffer.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -184,7 +184,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgRemoveContributorFromSet({ value: MsgRemoveContributorFromSet.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -198,7 +198,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgOpenMatch({ value: MsgOpenMatch.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -212,7 +212,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgRestartCouncil({ value: MsgRestartCouncil.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -226,7 +226,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgAddContributorToSet({ value: MsgAddContributorToSet.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -240,7 +240,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgFinalizeSet({ value: MsgFinalizeSet.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -254,7 +254,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgSetSetStoryWriter({ value: MsgSetSetStoryWriter.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -268,7 +268,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgReportMatch({ value: MsgReportMatch.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -282,7 +282,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgRevealCouncilResponse({ value: MsgRevealCouncilResponse.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -296,7 +296,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgSetUserWebsite({ value: MsgSetUserWebsite.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -310,7 +310,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgCreateCouncil({ value: MsgCreateCouncil.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -324,7 +324,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgDonateToCard({ value: MsgDonateToCard.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -338,7 +338,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgRegisterForCouncil({ value: MsgRegisterForCouncil.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -352,7 +352,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgSetSetArtist({ value: MsgSetSetArtist.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -366,7 +366,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgSetSetName({ value: MsgSetSetName.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -380,7 +380,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgVoteCard({ value: MsgVoteCard.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -394,7 +394,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgAddStoryToSet({ value: MsgAddStoryToSet.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -408,7 +408,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgBuyCardScheme({ value: MsgBuyCardScheme.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -422,7 +422,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgAddArtwork({ value: MsgAddArtwork.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -436,7 +436,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgMultiVoteCard({ value: MsgMultiVoteCard.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -450,7 +450,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgSetUserBiography({ value: MsgSetUserBiography.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -464,7 +464,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgRewokeCouncilRegistration({ value: MsgRewokeCouncilRegistration.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -478,7 +478,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgCreateSellOffer({ value: MsgCreateSellOffer.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -492,7 +492,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgSetProfileCard({ value: MsgSetProfileCard.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -506,7 +506,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgCommitCouncilResponse({ value: MsgCommitCouncilResponse.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -520,7 +520,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgConfirmMatch({ value: MsgConfirmMatch.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -534,7 +534,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgAddArtworkToSet({ value: MsgAddArtworkToSet.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -548,7 +548,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgSetCardRarity({ value: MsgSetCardRarity.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -562,7 +562,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgSaveCardContent({ value: MsgSaveCardContent.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -576,7 +576,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgApointMatchReporter({ value: MsgApointMatchReporter.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -590,7 +590,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgOpenBoosterPack({ value: MsgOpenBoosterPack.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -604,7 +604,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgCreateuser({ value: MsgCreateuser.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -618,7 +618,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgCreateSet({ value: MsgCreateSet.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -632,7 +632,7 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             try {
                 const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix, aminoTypes });
                 let msg = this.msgTransferBoosterPack({ value: MsgTransferBoosterPack.fromPartial(value) });
                 return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
@@ -1002,6 +1002,7 @@ class SDKModule {
             signer: client.signer,
             addr: client.env.rpcURL,
             prefix: client.env.prefix ?? "cosmos",
+            aminoTypes: client.aminoTypes
         });
         this.tx = methods;
         for (let m in methods) {
