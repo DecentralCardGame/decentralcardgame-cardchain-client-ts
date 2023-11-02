@@ -1,18 +1,18 @@
 export function isAminoMsgTransferCard(msg) {
-    return msg.type === "decentral-cardgame/MsgTransferCard";
+    return msg.type === "cardchain/MsgTransferCard";
 }
 export function isAminoMsgRegisterForCouncil(msg) {
-    return msg.type === "decentral-cardgame/MsgRegisterForCouncil";
+    return msg.type === "cardchain/MsgRegisterForCouncil";
 }
 export function createDecentralCardgameAminoConverters() {
     return {
         "/DecentralCardGame.cardchain.cardchain.MsgTransferCard": {
-            aminoType: "decentral-cardgame/MsgTransferCard",
+            aminoType: "cardchain/MsgTransferCard",
             toAmino: (msg) => (msg),
             fromAmino: (msg) => (msg),
         },
         "/DecentralCardGame.cardchain.cardchain.MsgRegisterForCouncil": {
-            aminoType: "decentral-cardgame/MsgRegisterForCouncil",
+            aminoType: "cardchain/MsgRegisterForCouncil",
             toAmino: (msg) => {
                 console.log("Hier hier, was da los?", msg);
                 return msg;

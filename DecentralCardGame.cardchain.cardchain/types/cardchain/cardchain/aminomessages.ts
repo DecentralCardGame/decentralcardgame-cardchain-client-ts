@@ -9,7 +9,7 @@ type AminoConverters = Record<string, AminoConverter>;
 
 /** A high level transaction of the coin module */
 export interface AminoMsgTransferCard extends AminoMsg {
-  readonly type: "decentral-cardgame/MsgTransferCard";
+  readonly type: "cardchain/MsgTransferCard";
   readonly value: {
     readonly creator: string;
     readonly cardId: number;
@@ -18,30 +18,30 @@ export interface AminoMsgTransferCard extends AminoMsg {
 }
 
 export interface AminoMsgRegisterForCouncil extends AminoMsg {
-  readonly type: "decentral-cardgame/MsgRegisterForCouncil";
+  readonly type: "cardchain/MsgRegisterForCouncil";
   readonly value: {
     readonly creator: string;
   };
 }
 
 export function isAminoMsgTransferCard(msg: AminoMsg): msg is AminoMsgTransferCard {
-  return msg.type === "decentral-cardgame/MsgTransferCard";
+  return msg.type === "cardchain/MsgTransferCard";
 }
 
 export function isAminoMsgRegisterForCouncil(msg: AminoMsg): msg is AminoMsgRegisterForCouncil {
-  return msg.type === "decentral-cardgame/MsgRegisterForCouncil";
+  return msg.type === "cardchain/MsgRegisterForCouncil";
 }
 
 
 export function createDecentralCardgameAminoConverters(): AminoConverters {
   return {
     "/DecentralCardGame.cardchain.cardchain.MsgTransferCard": {
-      aminoType: "decentral-cardgame/MsgTransferCard",
+      aminoType: "cardchain/MsgTransferCard",
       toAmino: (msg: MsgTransferCard): AminoMsgTransferCard["value"] => (msg),
       fromAmino: (msg: AminoMsgTransferCard["value"]): MsgTransferCard => (msg),
     },
     "/DecentralCardGame.cardchain.cardchain.MsgRegisterForCouncil": {
-      aminoType: "decentral-cardgame/MsgRegisterForCouncil",
+      aminoType: "cardchain/MsgRegisterForCouncil",
       toAmino: (msg: MsgRegisterForCouncil): AminoMsgRegisterForCouncil["value"] => {
           console.log("Hier hier, was da los?", msg)
           return msg
