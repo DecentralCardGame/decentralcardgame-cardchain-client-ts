@@ -22,7 +22,7 @@ export class IgniteClient extends EventEmitter {
         if (this.signer) {
             const { address } = (await this.signer.getAccounts())[0];
             const signingClient = await SigningStargateClient.connectWithSigner(this.env.rpcURL, this.signer, {
-                aminoTypes: new AminoTypes({ ...createDecentralCardgameAminoConverters() }),
+                aminoTypes: this.aminoTypes,
                 registry: new Registry(this.registry),
                 prefix: this.env.prefix
             });
@@ -38,7 +38,7 @@ export class IgniteClient extends EventEmitter {
         this.env = env;
         this.setMaxListeners(0);
         this.signer = signer;
-        this.aminoTypes = new AminoTypes({ ...createDecentralCardgameAminoConverters() });
+        this.aminoTypes = new AminoTypes({ additions: createDecentralCardgameAminoConverters(), prefix: "cc" });
         const classConstructor = this.constructor;
         classConstructor.plugins.forEach(plugin => {
             const pluginInstance = plugin(this);
