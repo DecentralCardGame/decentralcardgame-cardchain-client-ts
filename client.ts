@@ -171,7 +171,7 @@ export class IgniteClient extends EventEmitter {
                 };
             }
             await window.keplr.enable(chainId);
-            this.signer = await window.keplr.getOfflineSignerAuto(chainId);
+            this.signer = window.keplr.getOfflineSignerOnlyAmino(chainId)  //.getOfflineSignerAuto(chainId);
             this.emit("signer-changed", this.signer);
         } catch (e) {
             throw new Error(
