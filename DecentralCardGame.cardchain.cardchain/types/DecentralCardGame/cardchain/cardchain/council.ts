@@ -152,37 +152,66 @@ export const Council = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Council {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCouncil();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.cardId = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.voters.push(reader.string());
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.hashResponses.push(WrapHashResponse.decode(reader, reader.uint32()));
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.clearResponses.push(WrapClearResponse.decode(reader, reader.uint32()));
-          break;
+          continue;
         case 5:
+          if (tag !== 42) {
+            break;
+          }
+
           message.treasury = reader.string();
-          break;
+          continue;
         case 6:
+          if (tag !== 48) {
+            break;
+          }
+
           message.status = reader.int32() as any;
-          break;
+          continue;
         case 7:
+          if (tag !== 56) {
+            break;
+          }
+
           message.trialStart = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -205,28 +234,33 @@ export const Council = {
 
   toJSON(message: Council): unknown {
     const obj: any = {};
-    message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-    if (message.voters) {
-      obj.voters = message.voters.map((e) => e);
-    } else {
-      obj.voters = [];
+    if (message.cardId !== 0) {
+      obj.cardId = Math.round(message.cardId);
     }
-    if (message.hashResponses) {
-      obj.hashResponses = message.hashResponses.map((e) => e ? WrapHashResponse.toJSON(e) : undefined);
-    } else {
-      obj.hashResponses = [];
+    if (message.voters?.length) {
+      obj.voters = message.voters;
     }
-    if (message.clearResponses) {
-      obj.clearResponses = message.clearResponses.map((e) => e ? WrapClearResponse.toJSON(e) : undefined);
-    } else {
-      obj.clearResponses = [];
+    if (message.hashResponses?.length) {
+      obj.hashResponses = message.hashResponses.map((e) => WrapHashResponse.toJSON(e));
     }
-    message.treasury !== undefined && (obj.treasury = message.treasury);
-    message.status !== undefined && (obj.status = councelingStatusToJSON(message.status));
-    message.trialStart !== undefined && (obj.trialStart = Math.round(message.trialStart));
+    if (message.clearResponses?.length) {
+      obj.clearResponses = message.clearResponses.map((e) => WrapClearResponse.toJSON(e));
+    }
+    if (message.treasury !== "") {
+      obj.treasury = message.treasury;
+    }
+    if (message.status !== 0) {
+      obj.status = councelingStatusToJSON(message.status);
+    }
+    if (message.trialStart !== 0) {
+      obj.trialStart = Math.round(message.trialStart);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Council>, I>>(base?: I): Council {
+    return Council.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<Council>, I>>(object: I): Council {
     const message = createBaseCouncil();
     message.cardId = object.cardId ?? 0;
@@ -259,25 +293,38 @@ export const WrapClearResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): WrapClearResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseWrapClearResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.user = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.response = reader.int32() as any;
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.suggestion = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -292,12 +339,21 @@ export const WrapClearResponse = {
 
   toJSON(message: WrapClearResponse): unknown {
     const obj: any = {};
-    message.user !== undefined && (obj.user = message.user);
-    message.response !== undefined && (obj.response = responseToJSON(message.response));
-    message.suggestion !== undefined && (obj.suggestion = message.suggestion);
+    if (message.user !== "") {
+      obj.user = message.user;
+    }
+    if (message.response !== 0) {
+      obj.response = responseToJSON(message.response);
+    }
+    if (message.suggestion !== "") {
+      obj.suggestion = message.suggestion;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<WrapClearResponse>, I>>(base?: I): WrapClearResponse {
+    return WrapClearResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<WrapClearResponse>, I>>(object: I): WrapClearResponse {
     const message = createBaseWrapClearResponse();
     message.user = object.user ?? "";
@@ -323,22 +379,31 @@ export const WrapHashResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): WrapHashResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseWrapHashResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.user = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.hash = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -349,11 +414,18 @@ export const WrapHashResponse = {
 
   toJSON(message: WrapHashResponse): unknown {
     const obj: any = {};
-    message.user !== undefined && (obj.user = message.user);
-    message.hash !== undefined && (obj.hash = message.hash);
+    if (message.user !== "") {
+      obj.user = message.user;
+    }
+    if (message.hash !== "") {
+      obj.hash = message.hash;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<WrapHashResponse>, I>>(base?: I): WrapHashResponse {
+    return WrapHashResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<WrapHashResponse>, I>>(object: I): WrapHashResponse {
     const message = createBaseWrapHashResponse();
     message.user = object.user ?? "";
@@ -362,10 +434,10 @@ export const WrapHashResponse = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -394,7 +466,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

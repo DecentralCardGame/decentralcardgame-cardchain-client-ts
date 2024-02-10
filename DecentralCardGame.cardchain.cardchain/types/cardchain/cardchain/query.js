@@ -1,7 +1,7 @@
 /* eslint-disable */
 import Long from "long";
 import _m0 from "protobufjs/minimal";
-import { OutpCard } from "./card";
+import { cardClassFromJSON, cardClassToJSON, cardRarityFromJSON, cardRarityToJSON, cardTypeFromJSON, cardTypeToJSON, OutpCard, statusFromJSON, statusToJSON, } from "./card";
 import { Council } from "./council";
 import { Match, outcomeFromJSON, outcomeToJSON } from "./match";
 import { Params } from "./params";
@@ -11,91 +11,6 @@ import { cStatusFromJSON, cStatusToJSON, OutpSet } from "./set";
 import { User } from "./user";
 import { VotingResults } from "./voting";
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
-export var QueryQCardsRequest_Status;
-(function (QueryQCardsRequest_Status) {
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["scheme"] = 0] = "scheme";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["prototype"] = 1] = "prototype";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["trial"] = 2] = "trial";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["permanent"] = 3] = "permanent";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["suspended"] = 4] = "suspended";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["banned"] = 5] = "banned";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["bannedSoon"] = 6] = "bannedSoon";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["bannedVerySoon"] = 7] = "bannedVerySoon";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["none"] = 8] = "none";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["playable"] = 9] = "playable";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["unplayable"] = 10] = "unplayable";
-    QueryQCardsRequest_Status[QueryQCardsRequest_Status["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
-})(QueryQCardsRequest_Status || (QueryQCardsRequest_Status = {}));
-export function queryQCardsRequest_StatusFromJSON(object) {
-    switch (object) {
-        case 0:
-        case "scheme":
-            return QueryQCardsRequest_Status.scheme;
-        case 1:
-        case "prototype":
-            return QueryQCardsRequest_Status.prototype;
-        case 2:
-        case "trial":
-            return QueryQCardsRequest_Status.trial;
-        case 3:
-        case "permanent":
-            return QueryQCardsRequest_Status.permanent;
-        case 4:
-        case "suspended":
-            return QueryQCardsRequest_Status.suspended;
-        case 5:
-        case "banned":
-            return QueryQCardsRequest_Status.banned;
-        case 6:
-        case "bannedSoon":
-            return QueryQCardsRequest_Status.bannedSoon;
-        case 7:
-        case "bannedVerySoon":
-            return QueryQCardsRequest_Status.bannedVerySoon;
-        case 8:
-        case "none":
-            return QueryQCardsRequest_Status.none;
-        case 9:
-        case "playable":
-            return QueryQCardsRequest_Status.playable;
-        case 10:
-        case "unplayable":
-            return QueryQCardsRequest_Status.unplayable;
-        case -1:
-        case "UNRECOGNIZED":
-        default:
-            return QueryQCardsRequest_Status.UNRECOGNIZED;
-    }
-}
-export function queryQCardsRequest_StatusToJSON(object) {
-    switch (object) {
-        case QueryQCardsRequest_Status.scheme:
-            return "scheme";
-        case QueryQCardsRequest_Status.prototype:
-            return "prototype";
-        case QueryQCardsRequest_Status.trial:
-            return "trial";
-        case QueryQCardsRequest_Status.permanent:
-            return "permanent";
-        case QueryQCardsRequest_Status.suspended:
-            return "suspended";
-        case QueryQCardsRequest_Status.banned:
-            return "banned";
-        case QueryQCardsRequest_Status.bannedSoon:
-            return "bannedSoon";
-        case QueryQCardsRequest_Status.bannedVerySoon:
-            return "bannedVerySoon";
-        case QueryQCardsRequest_Status.none:
-            return "none";
-        case QueryQCardsRequest_Status.playable:
-            return "playable";
-        case QueryQCardsRequest_Status.unplayable:
-            return "unplayable";
-        case QueryQCardsRequest_Status.UNRECOGNIZED:
-        default:
-            return "UNRECOGNIZED";
-    }
-}
 function createBaseQueryParamsRequest() {
     return {};
 }
@@ -214,12 +129,12 @@ export const QueryQCardRequest = {
     },
 };
 function createBaseQueryQCardContentRequest() {
-    return { cardId: "" };
+    return { cardId: 0 };
 }
 export const QueryQCardContentRequest = {
     encode(message, writer = _m0.Writer.create()) {
-        if (message.cardId !== "") {
-            writer.uint32(10).string(message.cardId);
+        if (message.cardId !== 0) {
+            writer.uint32(8).uint64(message.cardId);
         }
         return writer;
     },
@@ -231,7 +146,7 @@ export const QueryQCardContentRequest = {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    message.cardId = reader.string();
+                    message.cardId = longToNumber(reader.uint64());
                     break;
                 default:
                     reader.skipType(tag & 7);
@@ -241,16 +156,16 @@ export const QueryQCardContentRequest = {
         return message;
     },
     fromJSON(object) {
-        return { cardId: isSet(object.cardId) ? String(object.cardId) : "" };
+        return { cardId: isSet(object.cardId) ? Number(object.cardId) : 0 };
     },
     toJSON(message) {
         const obj = {};
-        message.cardId !== undefined && (obj.cardId = message.cardId);
+        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
         return obj;
     },
     fromPartial(object) {
         const message = createBaseQueryQCardContentRequest();
-        message.cardId = object.cardId ?? "";
+        message.cardId = object.cardId ?? 0;
         return message;
     },
 };
@@ -583,14 +498,16 @@ export const QueryQVotingResultsResponse = {
 function createBaseQueryQCardsRequest() {
     return {
         owner: "",
-        status: 0,
-        cardType: "",
-        classes: "",
+        statuses: [],
+        cardTypes: [],
+        classes: [],
         sortBy: "",
         nameContains: "",
         keywordsContains: "",
         notesContains: "",
         onlyStarterCard: false,
+        onlyBalanceAnchors: false,
+        rarities: [],
     };
 }
 export const QueryQCardsRequest = {
@@ -598,15 +515,21 @@ export const QueryQCardsRequest = {
         if (message.owner !== "") {
             writer.uint32(10).string(message.owner);
         }
-        if (message.status !== 0) {
-            writer.uint32(16).int32(message.status);
+        writer.uint32(18).fork();
+        for (const v of message.statuses) {
+            writer.int32(v);
         }
-        if (message.cardType !== "") {
-            writer.uint32(26).string(message.cardType);
+        writer.ldelim();
+        writer.uint32(26).fork();
+        for (const v of message.cardTypes) {
+            writer.int32(v);
         }
-        if (message.classes !== "") {
-            writer.uint32(34).string(message.classes);
+        writer.ldelim();
+        writer.uint32(34).fork();
+        for (const v of message.classes) {
+            writer.int32(v);
         }
+        writer.ldelim();
         if (message.sortBy !== "") {
             writer.uint32(42).string(message.sortBy);
         }
@@ -622,6 +545,14 @@ export const QueryQCardsRequest = {
         if (message.onlyStarterCard === true) {
             writer.uint32(72).bool(message.onlyStarterCard);
         }
+        if (message.onlyBalanceAnchors === true) {
+            writer.uint32(80).bool(message.onlyBalanceAnchors);
+        }
+        writer.uint32(90).fork();
+        for (const v of message.rarities) {
+            writer.int32(v);
+        }
+        writer.ldelim();
         return writer;
     },
     decode(input, length) {
@@ -635,13 +566,37 @@ export const QueryQCardsRequest = {
                     message.owner = reader.string();
                     break;
                 case 2:
-                    message.status = reader.int32();
+                    if ((tag & 7) === 2) {
+                        const end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2) {
+                            message.statuses.push(reader.int32());
+                        }
+                    }
+                    else {
+                        message.statuses.push(reader.int32());
+                    }
                     break;
                 case 3:
-                    message.cardType = reader.string();
+                    if ((tag & 7) === 2) {
+                        const end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2) {
+                            message.cardTypes.push(reader.int32());
+                        }
+                    }
+                    else {
+                        message.cardTypes.push(reader.int32());
+                    }
                     break;
                 case 4:
-                    message.classes = reader.string();
+                    if ((tag & 7) === 2) {
+                        const end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2) {
+                            message.classes.push(reader.int32());
+                        }
+                    }
+                    else {
+                        message.classes.push(reader.int32());
+                    }
                     break;
                 case 5:
                     message.sortBy = reader.string();
@@ -658,6 +613,20 @@ export const QueryQCardsRequest = {
                 case 9:
                     message.onlyStarterCard = reader.bool();
                     break;
+                case 10:
+                    message.onlyBalanceAnchors = reader.bool();
+                    break;
+                case 11:
+                    if ((tag & 7) === 2) {
+                        const end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2) {
+                            message.rarities.push(reader.int32());
+                        }
+                    }
+                    else {
+                        message.rarities.push(reader.int32());
+                    }
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -668,40 +637,66 @@ export const QueryQCardsRequest = {
     fromJSON(object) {
         return {
             owner: isSet(object.owner) ? String(object.owner) : "",
-            status: isSet(object.status) ? queryQCardsRequest_StatusFromJSON(object.status) : 0,
-            cardType: isSet(object.cardType) ? String(object.cardType) : "",
-            classes: isSet(object.classes) ? String(object.classes) : "",
+            statuses: Array.isArray(object?.statuses) ? object.statuses.map((e) => statusFromJSON(e)) : [],
+            cardTypes: Array.isArray(object?.cardTypes) ? object.cardTypes.map((e) => cardTypeFromJSON(e)) : [],
+            classes: Array.isArray(object?.classes) ? object.classes.map((e) => cardClassFromJSON(e)) : [],
             sortBy: isSet(object.sortBy) ? String(object.sortBy) : "",
             nameContains: isSet(object.nameContains) ? String(object.nameContains) : "",
             keywordsContains: isSet(object.keywordsContains) ? String(object.keywordsContains) : "",
             notesContains: isSet(object.notesContains) ? String(object.notesContains) : "",
             onlyStarterCard: isSet(object.onlyStarterCard) ? Boolean(object.onlyStarterCard) : false,
+            onlyBalanceAnchors: isSet(object.onlyBalanceAnchors) ? Boolean(object.onlyBalanceAnchors) : false,
+            rarities: Array.isArray(object?.rarities) ? object.rarities.map((e) => cardRarityFromJSON(e)) : [],
         };
     },
     toJSON(message) {
         const obj = {};
         message.owner !== undefined && (obj.owner = message.owner);
-        message.status !== undefined && (obj.status = queryQCardsRequest_StatusToJSON(message.status));
-        message.cardType !== undefined && (obj.cardType = message.cardType);
-        message.classes !== undefined && (obj.classes = message.classes);
+        if (message.statuses) {
+            obj.statuses = message.statuses.map((e) => statusToJSON(e));
+        }
+        else {
+            obj.statuses = [];
+        }
+        if (message.cardTypes) {
+            obj.cardTypes = message.cardTypes.map((e) => cardTypeToJSON(e));
+        }
+        else {
+            obj.cardTypes = [];
+        }
+        if (message.classes) {
+            obj.classes = message.classes.map((e) => cardClassToJSON(e));
+        }
+        else {
+            obj.classes = [];
+        }
         message.sortBy !== undefined && (obj.sortBy = message.sortBy);
         message.nameContains !== undefined && (obj.nameContains = message.nameContains);
         message.keywordsContains !== undefined && (obj.keywordsContains = message.keywordsContains);
         message.notesContains !== undefined && (obj.notesContains = message.notesContains);
         message.onlyStarterCard !== undefined && (obj.onlyStarterCard = message.onlyStarterCard);
+        message.onlyBalanceAnchors !== undefined && (obj.onlyBalanceAnchors = message.onlyBalanceAnchors);
+        if (message.rarities) {
+            obj.rarities = message.rarities.map((e) => cardRarityToJSON(e));
+        }
+        else {
+            obj.rarities = [];
+        }
         return obj;
     },
     fromPartial(object) {
         const message = createBaseQueryQCardsRequest();
         message.owner = object.owner ?? "";
-        message.status = object.status ?? 0;
-        message.cardType = object.cardType ?? "";
-        message.classes = object.classes ?? "";
+        message.statuses = object.statuses?.map((e) => e) || [];
+        message.cardTypes = object.cardTypes?.map((e) => e) || [];
+        message.classes = object.classes?.map((e) => e) || [];
         message.sortBy = object.sortBy ?? "";
         message.nameContains = object.nameContains ?? "";
         message.keywordsContains = object.keywordsContains ?? "";
         message.notesContains = object.notesContains ?? "";
         message.onlyStarterCard = object.onlyStarterCard ?? false;
+        message.onlyBalanceAnchors = object.onlyBalanceAnchors ?? false;
+        message.rarities = object.rarities?.map((e) => e) || [];
         return message;
     },
 };
@@ -1740,6 +1735,110 @@ export const QueryRarityDistributionResponse = {
         return message;
     },
 };
+function createBaseQueryQCardContentsRequest() {
+    return { cardIds: [] };
+}
+export const QueryQCardContentsRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        writer.uint32(10).fork();
+        for (const v of message.cardIds) {
+            writer.uint64(v);
+        }
+        writer.ldelim();
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQCardContentsRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    if ((tag & 7) === 2) {
+                        const end2 = reader.uint32() + reader.pos;
+                        while (reader.pos < end2) {
+                            message.cardIds.push(longToNumber(reader.uint64()));
+                        }
+                    }
+                    else {
+                        message.cardIds.push(longToNumber(reader.uint64()));
+                    }
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { cardIds: Array.isArray(object?.cardIds) ? object.cardIds.map((e) => Number(e)) : [] };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.cardIds) {
+            obj.cardIds = message.cardIds.map((e) => Math.round(e));
+        }
+        else {
+            obj.cardIds = [];
+        }
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQCardContentsRequest();
+        message.cardIds = object.cardIds?.map((e) => e) || [];
+        return message;
+    },
+};
+function createBaseQueryQCardContentsResponse() {
+    return { cards: [] };
+}
+export const QueryQCardContentsResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        for (const v of message.cards) {
+            QueryQCardContentResponse.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQCardContentsResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.cards.push(QueryQCardContentResponse.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            cards: Array.isArray(object?.cards) ? object.cards.map((e) => QueryQCardContentResponse.fromJSON(e)) : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.cards) {
+            obj.cards = message.cards.map((e) => e ? QueryQCardContentResponse.toJSON(e) : undefined);
+        }
+        else {
+            obj.cards = [];
+        }
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQCardContentsResponse();
+        message.cards = object.cards?.map((e) => QueryQCardContentResponse.fromPartial(e)) || [];
+        return message;
+    },
+};
 export class QueryClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -1759,6 +1858,7 @@ export class QueryClientImpl {
         this.QServer = this.QServer.bind(this);
         this.QSets = this.QSets.bind(this);
         this.RarityDistribution = this.RarityDistribution.bind(this);
+        this.QCardContents = this.QCardContents.bind(this);
     }
     Params(request) {
         const data = QueryParamsRequest.encode(request).finish();
@@ -1839,6 +1939,11 @@ export class QueryClientImpl {
         const data = QueryRarityDistributionRequest.encode(request).finish();
         const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "RarityDistribution", data);
         return promise.then((data) => QueryRarityDistributionResponse.decode(new _m0.Reader(data)));
+    }
+    QCardContents(request) {
+        const data = QueryQCardContentsRequest.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCardContents", data);
+        return promise.then((data) => QueryQCardContentsResponse.decode(new _m0.Reader(data)));
     }
 }
 var globalThis = (() => {

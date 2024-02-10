@@ -9,6 +9,11 @@
  * ---------------------------------------------------------------
  */
 
+/**
+ * Params defines the parameters for the module.
+ */
+export type CardchainfeatureflagParams = object;
+
 export interface FeatureflagFlag {
   Module?: string;
   Name?: string;
@@ -16,16 +21,11 @@ export interface FeatureflagFlag {
 }
 
 /**
- * Params defines the parameters for the module.
- */
-export type FeatureflagParams = object;
-
-/**
  * QueryParamsResponse is response type for the Query/Params RPC method.
  */
 export interface FeatureflagQueryParamsResponse {
   /** params holds all the parameters of this module. */
-  params?: FeatureflagParams;
+  params?: CardchainfeatureflagParams;
 }
 
 export interface FeatureflagQueryQFlagResponse {

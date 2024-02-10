@@ -18,25 +18,35 @@ export const MatchReporterProposal = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMatchReporterProposal();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.title = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.description = reader.string();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.reporter = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -49,10 +59,19 @@ export const MatchReporterProposal = {
     },
     toJSON(message) {
         const obj = {};
-        message.title !== undefined && (obj.title = message.title);
-        message.description !== undefined && (obj.description = message.description);
-        message.reporter !== undefined && (obj.reporter = message.reporter);
+        if (message.title !== "") {
+            obj.title = message.title;
+        }
+        if (message.description !== "") {
+            obj.description = message.description;
+        }
+        if (message.reporter !== "") {
+            obj.reporter = message.reporter;
+        }
         return obj;
+    },
+    create(base) {
+        return MatchReporterProposal.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMatchReporterProposal();

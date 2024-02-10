@@ -77,58 +77,101 @@ export const GenesisState = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseGenesisState();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.params = Params.decode(reader, reader.uint32());
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.cardRecords.push(Card.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.users.push(User.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.addresses.push(reader.string());
-                    break;
+                    continue;
                 case 6:
+                    if (tag !== 50) {
+                        break;
+                    }
                     message.matches.push(Match.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 7:
+                    if (tag !== 58) {
+                        break;
+                    }
                     message.sets.push(Set.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 8:
+                    if (tag !== 66) {
+                        break;
+                    }
                     message.sellOffers.push(SellOffer.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 9:
+                    if (tag !== 74) {
+                        break;
+                    }
                     message.pools.push(Coin.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 11:
+                    if (tag !== 90) {
+                        break;
+                    }
                     message.cardAuctionPrice = reader.string();
-                    break;
+                    continue;
                 case 12:
+                    if (tag !== 98) {
+                        break;
+                    }
                     message.councils.push(Council.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 13:
+                    if (tag !== 106) {
+                        break;
+                    }
                     message.RunningAverages.push(RunningAverage.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 14:
+                    if (tag !== 114) {
+                        break;
+                    }
                     message.images.push(Image.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 15:
+                    if (tag !== 122) {
+                        break;
+                    }
                     message.Servers.push(Server.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 16:
+                    if (tag !== 130) {
+                        break;
+                    }
                     message.lastCardModified = TimeStamp.decode(reader, reader.uint32());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -154,77 +197,52 @@ export const GenesisState = {
     },
     toJSON(message) {
         const obj = {};
-        message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
-        if (message.cardRecords) {
-            obj.cardRecords = message.cardRecords.map((e) => e ? Card.toJSON(e) : undefined);
+        if (message.params !== undefined) {
+            obj.params = Params.toJSON(message.params);
         }
-        else {
-            obj.cardRecords = [];
+        if (message.cardRecords?.length) {
+            obj.cardRecords = message.cardRecords.map((e) => Card.toJSON(e));
         }
-        if (message.users) {
-            obj.users = message.users.map((e) => e ? User.toJSON(e) : undefined);
+        if (message.users?.length) {
+            obj.users = message.users.map((e) => User.toJSON(e));
         }
-        else {
-            obj.users = [];
+        if (message.addresses?.length) {
+            obj.addresses = message.addresses;
         }
-        if (message.addresses) {
-            obj.addresses = message.addresses.map((e) => e);
+        if (message.matches?.length) {
+            obj.matches = message.matches.map((e) => Match.toJSON(e));
         }
-        else {
-            obj.addresses = [];
+        if (message.sets?.length) {
+            obj.sets = message.sets.map((e) => Set.toJSON(e));
         }
-        if (message.matches) {
-            obj.matches = message.matches.map((e) => e ? Match.toJSON(e) : undefined);
+        if (message.sellOffers?.length) {
+            obj.sellOffers = message.sellOffers.map((e) => SellOffer.toJSON(e));
         }
-        else {
-            obj.matches = [];
+        if (message.pools?.length) {
+            obj.pools = message.pools.map((e) => Coin.toJSON(e));
         }
-        if (message.sets) {
-            obj.sets = message.sets.map((e) => e ? Set.toJSON(e) : undefined);
+        if (message.cardAuctionPrice !== "") {
+            obj.cardAuctionPrice = message.cardAuctionPrice;
         }
-        else {
-            obj.sets = [];
+        if (message.councils?.length) {
+            obj.councils = message.councils.map((e) => Council.toJSON(e));
         }
-        if (message.sellOffers) {
-            obj.sellOffers = message.sellOffers.map((e) => e ? SellOffer.toJSON(e) : undefined);
+        if (message.RunningAverages?.length) {
+            obj.RunningAverages = message.RunningAverages.map((e) => RunningAverage.toJSON(e));
         }
-        else {
-            obj.sellOffers = [];
+        if (message.images?.length) {
+            obj.images = message.images.map((e) => Image.toJSON(e));
         }
-        if (message.pools) {
-            obj.pools = message.pools.map((e) => e ? Coin.toJSON(e) : undefined);
+        if (message.Servers?.length) {
+            obj.Servers = message.Servers.map((e) => Server.toJSON(e));
         }
-        else {
-            obj.pools = [];
+        if (message.lastCardModified !== undefined) {
+            obj.lastCardModified = TimeStamp.toJSON(message.lastCardModified);
         }
-        message.cardAuctionPrice !== undefined && (obj.cardAuctionPrice = message.cardAuctionPrice);
-        if (message.councils) {
-            obj.councils = message.councils.map((e) => e ? Council.toJSON(e) : undefined);
-        }
-        else {
-            obj.councils = [];
-        }
-        if (message.RunningAverages) {
-            obj.RunningAverages = message.RunningAverages.map((e) => e ? RunningAverage.toJSON(e) : undefined);
-        }
-        else {
-            obj.RunningAverages = [];
-        }
-        if (message.images) {
-            obj.images = message.images.map((e) => e ? Image.toJSON(e) : undefined);
-        }
-        else {
-            obj.images = [];
-        }
-        if (message.Servers) {
-            obj.Servers = message.Servers.map((e) => e ? Server.toJSON(e) : undefined);
-        }
-        else {
-            obj.Servers = [];
-        }
-        message.lastCardModified !== undefined
-            && (obj.lastCardModified = message.lastCardModified ? TimeStamp.toJSON(message.lastCardModified) : undefined);
         return obj;
+    },
+    create(base) {
+        return GenesisState.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseGenesisState();

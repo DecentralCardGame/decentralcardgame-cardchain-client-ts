@@ -13,6 +13,8 @@ import { IgnoreSellOffers } from "./types/cardchain/cardchain/query"
 import { QueryQServerResponse } from "./types/cardchain/cardchain/query"
 import { RunningAverage } from "./types/cardchain/cardchain/running_average"
 import { Set } from "./types/cardchain/cardchain/set"
+import { InnerRarities } from "./types/cardchain/cardchain/set"
+import { AddrWithQuantity } from "./types/cardchain/cardchain/set"
 import { SetProposal } from "./types/cardchain/cardchain/set_proposal"
 import { BoosterPack } from "./types/cardchain/cardchain/user"
 import { AirDrops } from "./types/cardchain/cardchain/user"
@@ -37,6 +39,8 @@ export {
     QueryQServerResponse,
     RunningAverage,
     Set,
+    InnerRarities,
+    AddrWithQuantity,
     SetProposal,
     BoosterPack,
     AirDrops,

@@ -1,7 +1,6 @@
 /* eslint-disable */
 import Long from "long";
 import _m0 from "protobufjs/minimal";
-import { VoteRight } from "./voting";
 
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 
@@ -106,7 +105,6 @@ export interface User {
   ownedCardSchemes: number[];
   ownedPrototypes: number[];
   cards: number[];
-  voteRights: VoteRight[];
   CouncilStatus: CouncilStatus;
   ReportMatches: boolean;
   profileCard: number;
@@ -114,6 +112,8 @@ export interface User {
   boosterPacks: BoosterPack[];
   website: string;
   biography: string;
+  votableCards: number[];
+  votedCards: number[];
 }
 
 export interface BoosterPack {
@@ -139,7 +139,6 @@ function createBaseUser(): User {
     ownedCardSchemes: [],
     ownedPrototypes: [],
     cards: [],
-    voteRights: [],
     CouncilStatus: 0,
     ReportMatches: false,
     profileCard: 0,
@@ -147,6 +146,8 @@ function createBaseUser(): User {
     boosterPacks: [],
     website: "",
     biography: "",
+    votableCards: [],
+    votedCards: [],
   };
 }
 
@@ -170,9 +171,6 @@ export const User = {
       writer.uint64(v);
     }
     writer.ldelim();
-    for (const v of message.voteRights) {
-      VoteRight.encode(v!, writer.uint32(42).fork()).ldelim();
-    }
     if (message.CouncilStatus !== 0) {
       writer.uint32(48).int32(message.CouncilStatus);
     }
@@ -194,77 +192,172 @@ export const User = {
     if (message.biography !== "") {
       writer.uint32(98).string(message.biography);
     }
+    writer.uint32(106).fork();
+    for (const v of message.votableCards) {
+      writer.uint64(v);
+    }
+    writer.ldelim();
+    writer.uint32(114).fork();
+    for (const v of message.votedCards) {
+      writer.uint64(v);
+    }
+    writer.ldelim();
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): User {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseUser();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.alias = reader.string();
-          break;
+          continue;
         case 2:
-          if ((tag & 7) === 2) {
+          if (tag === 16) {
+            message.ownedCardSchemes.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 18) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.ownedCardSchemes.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.ownedCardSchemes.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 3:
-          if ((tag & 7) === 2) {
+          if (tag === 24) {
+            message.ownedPrototypes.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 26) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.ownedPrototypes.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.ownedPrototypes.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 4:
-          if ((tag & 7) === 2) {
+          if (tag === 32) {
+            message.cards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 34) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.cards.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.cards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
-          break;
-        case 5:
-          message.voteRights.push(VoteRight.decode(reader, reader.uint32()));
+
           break;
         case 6:
+          if (tag !== 48) {
+            break;
+          }
+
           message.CouncilStatus = reader.int32() as any;
-          break;
+          continue;
         case 7:
+          if (tag !== 56) {
+            break;
+          }
+
           message.ReportMatches = reader.bool();
-          break;
+          continue;
         case 8:
+          if (tag !== 64) {
+            break;
+          }
+
           message.profileCard = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 9:
+          if (tag !== 74) {
+            break;
+          }
+
           message.airDrops = AirDrops.decode(reader, reader.uint32());
-          break;
+          continue;
         case 10:
+          if (tag !== 82) {
+            break;
+          }
+
           message.boosterPacks.push(BoosterPack.decode(reader, reader.uint32()));
-          break;
+          continue;
         case 11:
+          if (tag !== 90) {
+            break;
+          }
+
           message.website = reader.string();
-          break;
+          continue;
         case 12:
+          if (tag !== 98) {
+            break;
+          }
+
           message.biography = reader.string();
+          continue;
+        case 13:
+          if (tag === 104) {
+            message.votableCards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 106) {
+            const end2 = reader.uint32() + reader.pos;
+            while (reader.pos < end2) {
+              message.votableCards.push(longToNumber(reader.uint64() as Long));
+            }
+
+            continue;
+          }
+
           break;
-        default:
-          reader.skipType(tag & 7);
+        case 14:
+          if (tag === 112) {
+            message.votedCards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 114) {
+            const end2 = reader.uint32() + reader.pos;
+            while (reader.pos < end2) {
+              message.votedCards.push(longToNumber(reader.uint64() as Long));
+            }
+
+            continue;
+          }
+
           break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -277,7 +370,6 @@ export const User = {
         : [],
       ownedPrototypes: Array.isArray(object?.ownedPrototypes) ? object.ownedPrototypes.map((e: any) => Number(e)) : [],
       cards: Array.isArray(object?.cards) ? object.cards.map((e: any) => Number(e)) : [],
-      voteRights: Array.isArray(object?.voteRights) ? object.voteRights.map((e: any) => VoteRight.fromJSON(e)) : [],
       CouncilStatus: isSet(object.CouncilStatus) ? councilStatusFromJSON(object.CouncilStatus) : 0,
       ReportMatches: isSet(object.ReportMatches) ? Boolean(object.ReportMatches) : false,
       profileCard: isSet(object.profileCard) ? Number(object.profileCard) : 0,
@@ -287,53 +379,64 @@ export const User = {
         : [],
       website: isSet(object.website) ? String(object.website) : "",
       biography: isSet(object.biography) ? String(object.biography) : "",
+      votableCards: Array.isArray(object?.votableCards) ? object.votableCards.map((e: any) => Number(e)) : [],
+      votedCards: Array.isArray(object?.votedCards) ? object.votedCards.map((e: any) => Number(e)) : [],
     };
   },
 
   toJSON(message: User): unknown {
     const obj: any = {};
-    message.alias !== undefined && (obj.alias = message.alias);
-    if (message.ownedCardSchemes) {
+    if (message.alias !== "") {
+      obj.alias = message.alias;
+    }
+    if (message.ownedCardSchemes?.length) {
       obj.ownedCardSchemes = message.ownedCardSchemes.map((e) => Math.round(e));
-    } else {
-      obj.ownedCardSchemes = [];
     }
-    if (message.ownedPrototypes) {
+    if (message.ownedPrototypes?.length) {
       obj.ownedPrototypes = message.ownedPrototypes.map((e) => Math.round(e));
-    } else {
-      obj.ownedPrototypes = [];
     }
-    if (message.cards) {
+    if (message.cards?.length) {
       obj.cards = message.cards.map((e) => Math.round(e));
-    } else {
-      obj.cards = [];
     }
-    if (message.voteRights) {
-      obj.voteRights = message.voteRights.map((e) => e ? VoteRight.toJSON(e) : undefined);
-    } else {
-      obj.voteRights = [];
+    if (message.CouncilStatus !== 0) {
+      obj.CouncilStatus = councilStatusToJSON(message.CouncilStatus);
     }
-    message.CouncilStatus !== undefined && (obj.CouncilStatus = councilStatusToJSON(message.CouncilStatus));
-    message.ReportMatches !== undefined && (obj.ReportMatches = message.ReportMatches);
-    message.profileCard !== undefined && (obj.profileCard = Math.round(message.profileCard));
-    message.airDrops !== undefined && (obj.airDrops = message.airDrops ? AirDrops.toJSON(message.airDrops) : undefined);
-    if (message.boosterPacks) {
-      obj.boosterPacks = message.boosterPacks.map((e) => e ? BoosterPack.toJSON(e) : undefined);
-    } else {
-      obj.boosterPacks = [];
+    if (message.ReportMatches === true) {
+      obj.ReportMatches = message.ReportMatches;
     }
-    message.website !== undefined && (obj.website = message.website);
-    message.biography !== undefined && (obj.biography = message.biography);
+    if (message.profileCard !== 0) {
+      obj.profileCard = Math.round(message.profileCard);
+    }
+    if (message.airDrops !== undefined) {
+      obj.airDrops = AirDrops.toJSON(message.airDrops);
+    }
+    if (message.boosterPacks?.length) {
+      obj.boosterPacks = message.boosterPacks.map((e) => BoosterPack.toJSON(e));
+    }
+    if (message.website !== "") {
+      obj.website = message.website;
+    }
+    if (message.biography !== "") {
+      obj.biography = message.biography;
+    }
+    if (message.votableCards?.length) {
+      obj.votableCards = message.votableCards.map((e) => Math.round(e));
+    }
+    if (message.votedCards?.length) {
+      obj.votedCards = message.votedCards.map((e) => Math.round(e));
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<User>, I>>(base?: I): User {
+    return User.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<User>, I>>(object: I): User {
     const message = createBaseUser();
     message.alias = object.alias ?? "";
     message.ownedCardSchemes = object.ownedCardSchemes?.map((e) => e) || [];
     message.ownedPrototypes = object.ownedPrototypes?.map((e) => e) || [];
     message.cards = object.cards?.map((e) => e) || [];
-    message.voteRights = object.voteRights?.map((e) => VoteRight.fromPartial(e)) || [];
     message.CouncilStatus = object.CouncilStatus ?? 0;
     message.ReportMatches = object.ReportMatches ?? false;
     message.profileCard = object.profileCard ?? 0;
@@ -343,6 +446,8 @@ export const User = {
     message.boosterPacks = object.boosterPacks?.map((e) => BoosterPack.fromPartial(e)) || [];
     message.website = object.website ?? "";
     message.biography = object.biography ?? "";
+    message.votableCards = object.votableCards?.map((e) => e) || [];
+    message.votedCards = object.votedCards?.map((e) => e) || [];
     return message;
   },
 };
@@ -373,42 +478,65 @@ export const BoosterPack = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): BoosterPack {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseBoosterPack();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.setId = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.timeStamp = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 3:
-          if ((tag & 7) === 2) {
+          if (tag === 24) {
+            message.raritiesPerPack.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 26) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.raritiesPerPack.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.raritiesPerPack.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 4:
-          if ((tag & 7) === 2) {
+          if (tag === 32) {
+            message.dropRatiosPerPack.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 34) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.dropRatiosPerPack.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.dropRatiosPerPack.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
-          break;
-        default:
-          reader.skipType(tag & 7);
+
           break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -426,21 +554,24 @@ export const BoosterPack = {
 
   toJSON(message: BoosterPack): unknown {
     const obj: any = {};
-    message.setId !== undefined && (obj.setId = Math.round(message.setId));
-    message.timeStamp !== undefined && (obj.timeStamp = Math.round(message.timeStamp));
-    if (message.raritiesPerPack) {
-      obj.raritiesPerPack = message.raritiesPerPack.map((e) => Math.round(e));
-    } else {
-      obj.raritiesPerPack = [];
+    if (message.setId !== 0) {
+      obj.setId = Math.round(message.setId);
     }
-    if (message.dropRatiosPerPack) {
+    if (message.timeStamp !== 0) {
+      obj.timeStamp = Math.round(message.timeStamp);
+    }
+    if (message.raritiesPerPack?.length) {
+      obj.raritiesPerPack = message.raritiesPerPack.map((e) => Math.round(e));
+    }
+    if (message.dropRatiosPerPack?.length) {
       obj.dropRatiosPerPack = message.dropRatiosPerPack.map((e) => Math.round(e));
-    } else {
-      obj.dropRatiosPerPack = [];
     }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<BoosterPack>, I>>(base?: I): BoosterPack {
+    return BoosterPack.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<BoosterPack>, I>>(object: I): BoosterPack {
     const message = createBaseBoosterPack();
     message.setId = object.setId ?? 0;
@@ -476,31 +607,52 @@ export const AirDrops = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): AirDrops {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseAirDrops();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.vote = reader.bool();
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.create = reader.bool();
-          break;
+          continue;
         case 3:
+          if (tag !== 24) {
+            break;
+          }
+
           message.buy = reader.bool();
-          break;
+          continue;
         case 4:
+          if (tag !== 32) {
+            break;
+          }
+
           message.play = reader.bool();
-          break;
+          continue;
         case 5:
+          if (tag !== 40) {
+            break;
+          }
+
           message.user = reader.bool();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -517,14 +669,27 @@ export const AirDrops = {
 
   toJSON(message: AirDrops): unknown {
     const obj: any = {};
-    message.vote !== undefined && (obj.vote = message.vote);
-    message.create !== undefined && (obj.create = message.create);
-    message.buy !== undefined && (obj.buy = message.buy);
-    message.play !== undefined && (obj.play = message.play);
-    message.user !== undefined && (obj.user = message.user);
+    if (message.vote === true) {
+      obj.vote = message.vote;
+    }
+    if (message.create === true) {
+      obj.create = message.create;
+    }
+    if (message.buy === true) {
+      obj.buy = message.buy;
+    }
+    if (message.play === true) {
+      obj.play = message.play;
+    }
+    if (message.user === true) {
+      obj.user = message.user;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<AirDrops>, I>>(base?: I): AirDrops {
+    return AirDrops.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<AirDrops>, I>>(object: I): AirDrops {
     const message = createBaseAirDrops();
     message.vote = object.vote ?? false;
@@ -536,10 +701,10 @@ export const AirDrops = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -568,7 +733,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

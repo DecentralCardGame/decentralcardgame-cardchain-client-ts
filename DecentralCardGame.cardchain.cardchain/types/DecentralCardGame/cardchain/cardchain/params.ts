@@ -139,88 +139,185 @@ export const Params = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Params {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseParams();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.votingRightsExpirationTime = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.setSize = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.setPrice = reader.string();
-          break;
+          continue;
         case 4:
+          if (tag !== 32) {
+            break;
+          }
+
           message.activeSetsAmount = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 5:
+          if (tag !== 42) {
+            break;
+          }
+
           message.setCreationFee = reader.string();
-          break;
+          continue;
         case 6:
+          if (tag !== 50) {
+            break;
+          }
+
           message.collateralDeposit = reader.string();
-          break;
+          continue;
         case 7:
+          if (tag !== 56) {
+            break;
+          }
+
           message.winnerReward = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 9:
+          if (tag !== 74) {
+            break;
+          }
+
           message.hourlyFaucet = reader.string();
-          break;
+          continue;
         case 10:
+          if (tag !== 82) {
+            break;
+          }
+
           message.inflationRate = reader.string();
-          break;
+          continue;
         case 11:
+          if (tag !== 88) {
+            break;
+          }
+
           message.raresPerPack = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 12:
+          if (tag !== 96) {
+            break;
+          }
+
           message.commonsPerPack = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 13:
+          if (tag !== 104) {
+            break;
+          }
+
           message.unCommonsPerPack = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 14:
+          if (tag !== 112) {
+            break;
+          }
+
           message.trialPeriod = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 15:
+          if (tag !== 120) {
+            break;
+          }
+
           message.gameVoteRatio = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 16:
+          if (tag !== 128) {
+            break;
+          }
+
           message.cardAuctionPriceReductionPeriod = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 17:
+          if (tag !== 138) {
+            break;
+          }
+
           message.airDropValue = reader.string();
-          break;
+          continue;
         case 18:
+          if (tag !== 144) {
+            break;
+          }
+
           message.airDropMaxBlockHeight = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 19:
+          if (tag !== 154) {
+            break;
+          }
+
           message.trialVoteReward = reader.string();
-          break;
+          continue;
         case 20:
+          if (tag !== 160) {
+            break;
+          }
+
           message.votePoolFraction = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 8:
+          if (tag !== 64) {
+            break;
+          }
+
           message.votingRewardCap = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 21:
+          if (tag !== 168) {
+            break;
+          }
+
           message.matchWorkerDelay = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 22:
+          if (tag !== 176) {
+            break;
+          }
+
           message.rareDropRatio = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 23:
+          if (tag !== 184) {
+            break;
+          }
+
           message.exceptionalDropRatio = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 24:
+          if (tag !== 192) {
+            break;
+          }
+
           message.uniqueDropRatio = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -260,36 +357,84 @@ export const Params = {
 
   toJSON(message: Params): unknown {
     const obj: any = {};
-    message.votingRightsExpirationTime !== undefined
-      && (obj.votingRightsExpirationTime = Math.round(message.votingRightsExpirationTime));
-    message.setSize !== undefined && (obj.setSize = Math.round(message.setSize));
-    message.setPrice !== undefined && (obj.setPrice = message.setPrice);
-    message.activeSetsAmount !== undefined && (obj.activeSetsAmount = Math.round(message.activeSetsAmount));
-    message.setCreationFee !== undefined && (obj.setCreationFee = message.setCreationFee);
-    message.collateralDeposit !== undefined && (obj.collateralDeposit = message.collateralDeposit);
-    message.winnerReward !== undefined && (obj.winnerReward = Math.round(message.winnerReward));
-    message.hourlyFaucet !== undefined && (obj.hourlyFaucet = message.hourlyFaucet);
-    message.inflationRate !== undefined && (obj.inflationRate = message.inflationRate);
-    message.raresPerPack !== undefined && (obj.raresPerPack = Math.round(message.raresPerPack));
-    message.commonsPerPack !== undefined && (obj.commonsPerPack = Math.round(message.commonsPerPack));
-    message.unCommonsPerPack !== undefined && (obj.unCommonsPerPack = Math.round(message.unCommonsPerPack));
-    message.trialPeriod !== undefined && (obj.trialPeriod = Math.round(message.trialPeriod));
-    message.gameVoteRatio !== undefined && (obj.gameVoteRatio = Math.round(message.gameVoteRatio));
-    message.cardAuctionPriceReductionPeriod !== undefined
-      && (obj.cardAuctionPriceReductionPeriod = Math.round(message.cardAuctionPriceReductionPeriod));
-    message.airDropValue !== undefined && (obj.airDropValue = message.airDropValue);
-    message.airDropMaxBlockHeight !== undefined
-      && (obj.airDropMaxBlockHeight = Math.round(message.airDropMaxBlockHeight));
-    message.trialVoteReward !== undefined && (obj.trialVoteReward = message.trialVoteReward);
-    message.votePoolFraction !== undefined && (obj.votePoolFraction = Math.round(message.votePoolFraction));
-    message.votingRewardCap !== undefined && (obj.votingRewardCap = Math.round(message.votingRewardCap));
-    message.matchWorkerDelay !== undefined && (obj.matchWorkerDelay = Math.round(message.matchWorkerDelay));
-    message.rareDropRatio !== undefined && (obj.rareDropRatio = Math.round(message.rareDropRatio));
-    message.exceptionalDropRatio !== undefined && (obj.exceptionalDropRatio = Math.round(message.exceptionalDropRatio));
-    message.uniqueDropRatio !== undefined && (obj.uniqueDropRatio = Math.round(message.uniqueDropRatio));
+    if (message.votingRightsExpirationTime !== 0) {
+      obj.votingRightsExpirationTime = Math.round(message.votingRightsExpirationTime);
+    }
+    if (message.setSize !== 0) {
+      obj.setSize = Math.round(message.setSize);
+    }
+    if (message.setPrice !== "") {
+      obj.setPrice = message.setPrice;
+    }
+    if (message.activeSetsAmount !== 0) {
+      obj.activeSetsAmount = Math.round(message.activeSetsAmount);
+    }
+    if (message.setCreationFee !== "") {
+      obj.setCreationFee = message.setCreationFee;
+    }
+    if (message.collateralDeposit !== "") {
+      obj.collateralDeposit = message.collateralDeposit;
+    }
+    if (message.winnerReward !== 0) {
+      obj.winnerReward = Math.round(message.winnerReward);
+    }
+    if (message.hourlyFaucet !== "") {
+      obj.hourlyFaucet = message.hourlyFaucet;
+    }
+    if (message.inflationRate !== "") {
+      obj.inflationRate = message.inflationRate;
+    }
+    if (message.raresPerPack !== 0) {
+      obj.raresPerPack = Math.round(message.raresPerPack);
+    }
+    if (message.commonsPerPack !== 0) {
+      obj.commonsPerPack = Math.round(message.commonsPerPack);
+    }
+    if (message.unCommonsPerPack !== 0) {
+      obj.unCommonsPerPack = Math.round(message.unCommonsPerPack);
+    }
+    if (message.trialPeriod !== 0) {
+      obj.trialPeriod = Math.round(message.trialPeriod);
+    }
+    if (message.gameVoteRatio !== 0) {
+      obj.gameVoteRatio = Math.round(message.gameVoteRatio);
+    }
+    if (message.cardAuctionPriceReductionPeriod !== 0) {
+      obj.cardAuctionPriceReductionPeriod = Math.round(message.cardAuctionPriceReductionPeriod);
+    }
+    if (message.airDropValue !== "") {
+      obj.airDropValue = message.airDropValue;
+    }
+    if (message.airDropMaxBlockHeight !== 0) {
+      obj.airDropMaxBlockHeight = Math.round(message.airDropMaxBlockHeight);
+    }
+    if (message.trialVoteReward !== "") {
+      obj.trialVoteReward = message.trialVoteReward;
+    }
+    if (message.votePoolFraction !== 0) {
+      obj.votePoolFraction = Math.round(message.votePoolFraction);
+    }
+    if (message.votingRewardCap !== 0) {
+      obj.votingRewardCap = Math.round(message.votingRewardCap);
+    }
+    if (message.matchWorkerDelay !== 0) {
+      obj.matchWorkerDelay = Math.round(message.matchWorkerDelay);
+    }
+    if (message.rareDropRatio !== 0) {
+      obj.rareDropRatio = Math.round(message.rareDropRatio);
+    }
+    if (message.exceptionalDropRatio !== 0) {
+      obj.exceptionalDropRatio = Math.round(message.exceptionalDropRatio);
+    }
+    if (message.uniqueDropRatio !== 0) {
+      obj.uniqueDropRatio = Math.round(message.uniqueDropRatio);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Params>, I>>(base?: I): Params {
+    return Params.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<Params>, I>>(object: I): Params {
     const message = createBaseParams();
     message.votingRightsExpirationTime = object.votingRightsExpirationTime ?? 0;
@@ -320,10 +465,10 @@ export const Params = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -352,7 +497,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

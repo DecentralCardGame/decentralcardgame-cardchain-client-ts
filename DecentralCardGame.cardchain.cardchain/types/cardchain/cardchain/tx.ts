@@ -379,6 +379,14 @@ export interface MsgSetSetName {
 export interface MsgSetSetNameResponse {
 }
 
+export interface MsgChangeAlias {
+  creator: string;
+  alias: string;
+}
+
+export interface MsgChangeAliasResponse {
+}
+
 function createBaseMsgCreateuser(): MsgCreateuser {
   return { creator: "", newUser: "", alias: "" };
 }
@@ -4732,6 +4740,103 @@ export const MsgSetSetNameResponse = {
   },
 };
 
+function createBaseMsgChangeAlias(): MsgChangeAlias {
+  return { creator: "", alias: "" };
+}
+
+export const MsgChangeAlias = {
+  encode(message: MsgChangeAlias, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.alias !== "") {
+      writer.uint32(18).string(message.alias);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChangeAlias {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgChangeAlias();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.alias = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgChangeAlias {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      alias: isSet(object.alias) ? String(object.alias) : "",
+    };
+  },
+
+  toJSON(message: MsgChangeAlias): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.alias !== undefined && (obj.alias = message.alias);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgChangeAlias>, I>>(object: I): MsgChangeAlias {
+    const message = createBaseMsgChangeAlias();
+    message.creator = object.creator ?? "";
+    message.alias = object.alias ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgChangeAliasResponse(): MsgChangeAliasResponse {
+  return {};
+}
+
+export const MsgChangeAliasResponse = {
+  encode(_: MsgChangeAliasResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgChangeAliasResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgChangeAliasResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgChangeAliasResponse {
+    return {};
+  },
+
+  toJSON(_: MsgChangeAliasResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgChangeAliasResponse>, I>>(_: I): MsgChangeAliasResponse {
+    const message = createBaseMsgChangeAliasResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   Createuser(request: MsgCreateuser): Promise<MsgCreateuserResponse>;
@@ -4775,6 +4880,7 @@ export interface Msg {
   MultiVoteCard(request: MsgMultiVoteCard): Promise<MsgMultiVoteCardResponse>;
   OpenMatch(request: MsgOpenMatch): Promise<MsgOpenMatchResponse>;
   SetSetName(request: MsgSetSetName): Promise<MsgSetSetNameResponse>;
+  ChangeAlias(request: MsgChangeAlias): Promise<MsgChangeAliasResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -4821,6 +4927,7 @@ export class MsgClientImpl implements Msg {
     this.MultiVoteCard = this.MultiVoteCard.bind(this);
     this.OpenMatch = this.OpenMatch.bind(this);
     this.SetSetName = this.SetSetName.bind(this);
+    this.ChangeAlias = this.ChangeAlias.bind(this);
   }
   Createuser(request: MsgCreateuser): Promise<MsgCreateuserResponse> {
     const data = MsgCreateuser.encode(request).finish();
@@ -5060,6 +5167,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgSetSetName.encode(request).finish();
     const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetSetName", data);
     return promise.then((data) => MsgSetSetNameResponse.decode(new _m0.Reader(data)));
+  }
+
+  ChangeAlias(request: MsgChangeAlias): Promise<MsgChangeAliasResponse> {
+    const data = MsgChangeAlias.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "ChangeAlias", data);
+    return promise.then((data) => MsgChangeAliasResponse.decode(new _m0.Reader(data)));
   }
 }
 

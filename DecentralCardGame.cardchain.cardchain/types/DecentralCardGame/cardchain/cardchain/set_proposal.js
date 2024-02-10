@@ -19,25 +19,35 @@ export const SetProposal = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseSetProposal();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.title = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.description = reader.string();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -50,10 +60,19 @@ export const SetProposal = {
     },
     toJSON(message) {
         const obj = {};
-        message.title !== undefined && (obj.title = message.title);
-        message.description !== undefined && (obj.description = message.description);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
+        if (message.title !== "") {
+            obj.title = message.title;
+        }
+        if (message.description !== "") {
+            obj.description = message.description;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
         return obj;
+    },
+    create(base) {
+        return SetProposal.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseSetProposal();
@@ -63,7 +82,7 @@ export const SetProposal = {
         return message;
     },
 };
-var globalThis = (() => {
+const tsProtoGlobalThis = (() => {
     if (typeof globalThis !== "undefined") {
         return globalThis;
     }
@@ -80,7 +99,7 @@ var globalThis = (() => {
 })();
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+        throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
     }
     return long.toNumber();
 }

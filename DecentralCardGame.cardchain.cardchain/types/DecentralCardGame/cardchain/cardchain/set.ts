@@ -122,50 +122,90 @@ export const Set = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Set {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSet();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.name = reader.string();
-          break;
+          continue;
         case 2:
-          if ((tag & 7) === 2) {
+          if (tag === 16) {
+            message.cards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 18) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.cards.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.cards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.artist = reader.string();
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.storyWriter = reader.string();
-          break;
+          continue;
         case 5:
+          if (tag !== 42) {
+            break;
+          }
+
           message.contributors.push(reader.string());
-          break;
+          continue;
         case 6:
+          if (tag !== 50) {
+            break;
+          }
+
           message.story = reader.string();
-          break;
+          continue;
         case 7:
+          if (tag !== 56) {
+            break;
+          }
+
           message.artworkId = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 8:
+          if (tag !== 64) {
+            break;
+          }
+
           message.status = reader.int32() as any;
-          break;
+          continue;
         case 9:
+          if (tag !== 72) {
+            break;
+          }
+
           message.timeStamp = longToNumber(reader.int64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -186,26 +226,39 @@ export const Set = {
 
   toJSON(message: Set): unknown {
     const obj: any = {};
-    message.name !== undefined && (obj.name = message.name);
-    if (message.cards) {
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    if (message.cards?.length) {
       obj.cards = message.cards.map((e) => Math.round(e));
-    } else {
-      obj.cards = [];
     }
-    message.artist !== undefined && (obj.artist = message.artist);
-    message.storyWriter !== undefined && (obj.storyWriter = message.storyWriter);
-    if (message.contributors) {
-      obj.contributors = message.contributors.map((e) => e);
-    } else {
-      obj.contributors = [];
+    if (message.artist !== "") {
+      obj.artist = message.artist;
     }
-    message.story !== undefined && (obj.story = message.story);
-    message.artworkId !== undefined && (obj.artworkId = Math.round(message.artworkId));
-    message.status !== undefined && (obj.status = cStatusToJSON(message.status));
-    message.timeStamp !== undefined && (obj.timeStamp = Math.round(message.timeStamp));
+    if (message.storyWriter !== "") {
+      obj.storyWriter = message.storyWriter;
+    }
+    if (message.contributors?.length) {
+      obj.contributors = message.contributors;
+    }
+    if (message.story !== "") {
+      obj.story = message.story;
+    }
+    if (message.artworkId !== 0) {
+      obj.artworkId = Math.round(message.artworkId);
+    }
+    if (message.status !== 0) {
+      obj.status = cStatusToJSON(message.status);
+    }
+    if (message.timeStamp !== 0) {
+      obj.timeStamp = Math.round(message.timeStamp);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Set>, I>>(base?: I): Set {
+    return Set.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<Set>, I>>(object: I): Set {
     const message = createBaseSet();
     message.name = object.name ?? "";
@@ -270,50 +323,90 @@ export const OutpSet = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): OutpSet {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOutpSet();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.name = reader.string();
-          break;
+          continue;
         case 2:
-          if ((tag & 7) === 2) {
+          if (tag === 16) {
+            message.cards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 18) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.cards.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.cards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.artist = reader.string();
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.storyWriter = reader.string();
-          break;
+          continue;
         case 5:
+          if (tag !== 42) {
+            break;
+          }
+
           message.contributors.push(reader.string());
-          break;
+          continue;
         case 6:
+          if (tag !== 50) {
+            break;
+          }
+
           message.story = reader.string();
-          break;
+          continue;
         case 7:
+          if (tag !== 58) {
+            break;
+          }
+
           message.artwork = reader.string();
-          break;
+          continue;
         case 8:
+          if (tag !== 64) {
+            break;
+          }
+
           message.status = reader.int32() as any;
-          break;
+          continue;
         case 9:
+          if (tag !== 72) {
+            break;
+          }
+
           message.timeStamp = longToNumber(reader.int64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -334,26 +427,39 @@ export const OutpSet = {
 
   toJSON(message: OutpSet): unknown {
     const obj: any = {};
-    message.name !== undefined && (obj.name = message.name);
-    if (message.cards) {
+    if (message.name !== "") {
+      obj.name = message.name;
+    }
+    if (message.cards?.length) {
       obj.cards = message.cards.map((e) => Math.round(e));
-    } else {
-      obj.cards = [];
     }
-    message.artist !== undefined && (obj.artist = message.artist);
-    message.storyWriter !== undefined && (obj.storyWriter = message.storyWriter);
-    if (message.contributors) {
-      obj.contributors = message.contributors.map((e) => e);
-    } else {
-      obj.contributors = [];
+    if (message.artist !== "") {
+      obj.artist = message.artist;
     }
-    message.story !== undefined && (obj.story = message.story);
-    message.artwork !== undefined && (obj.artwork = message.artwork);
-    message.status !== undefined && (obj.status = cStatusToJSON(message.status));
-    message.timeStamp !== undefined && (obj.timeStamp = Math.round(message.timeStamp));
+    if (message.storyWriter !== "") {
+      obj.storyWriter = message.storyWriter;
+    }
+    if (message.contributors?.length) {
+      obj.contributors = message.contributors;
+    }
+    if (message.story !== "") {
+      obj.story = message.story;
+    }
+    if (message.artwork !== "") {
+      obj.artwork = message.artwork;
+    }
+    if (message.status !== 0) {
+      obj.status = cStatusToJSON(message.status);
+    }
+    if (message.timeStamp !== 0) {
+      obj.timeStamp = Math.round(message.timeStamp);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<OutpSet>, I>>(base?: I): OutpSet {
+    return OutpSet.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<OutpSet>, I>>(object: I): OutpSet {
     const message = createBaseOutpSet();
     message.name = object.name ?? "";
@@ -369,10 +475,10 @@ export const OutpSet = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -401,7 +507,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

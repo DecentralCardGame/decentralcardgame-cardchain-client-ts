@@ -21,19 +21,24 @@ export const Num = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Num {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseNum();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.num = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -44,10 +49,15 @@ export const Num = {
 
   toJSON(message: Num): unknown {
     const obj: any = {};
-    message.num !== undefined && (obj.num = Math.round(message.num));
+    if (message.num !== 0) {
+      obj.num = Math.round(message.num);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Num>, I>>(base?: I): Num {
+    return Num.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<Num>, I>>(object: I): Num {
     const message = createBaseNum();
     message.num = object.num ?? 0;
@@ -55,10 +65,10 @@ export const Num = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -87,7 +97,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

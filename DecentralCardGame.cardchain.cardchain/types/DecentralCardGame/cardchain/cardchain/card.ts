@@ -179,7 +179,7 @@ function createBaseCard(): Card {
   return {
     owner: "",
     artist: "",
-    content: new Uint8Array(),
+    content: new Uint8Array(0),
     imageId: 0,
     fullArt: false,
     notes: "",
@@ -254,67 +254,136 @@ export const Card = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Card {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseCard();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.owner = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.artist = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.content = reader.bytes();
-          break;
+          continue;
         case 4:
+          if (tag !== 32) {
+            break;
+          }
+
           message.imageId = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 5:
+          if (tag !== 40) {
+            break;
+          }
+
           message.fullArt = reader.bool();
-          break;
+          continue;
         case 6:
+          if (tag !== 50) {
+            break;
+          }
+
           message.notes = reader.string();
-          break;
+          continue;
         case 7:
+          if (tag !== 56) {
+            break;
+          }
+
           message.status = reader.int32() as any;
-          break;
+          continue;
         case 8:
+          if (tag !== 66) {
+            break;
+          }
+
           message.votePool = reader.string();
-          break;
+          continue;
         case 14:
+          if (tag !== 114) {
+            break;
+          }
+
           message.voters.push(reader.string());
-          break;
+          continue;
         case 9:
+          if (tag !== 72) {
+            break;
+          }
+
           message.fairEnoughVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 10:
+          if (tag !== 80) {
+            break;
+          }
+
           message.overpoweredVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 11:
+          if (tag !== 88) {
+            break;
+          }
+
           message.underpoweredVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 12:
+          if (tag !== 96) {
+            break;
+          }
+
           message.inappropriateVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 13:
+          if (tag !== 104) {
+            break;
+          }
+
           message.nerflevel = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 15:
+          if (tag !== 120) {
+            break;
+          }
+
           message.balanceAnchor = reader.bool();
-          break;
+          continue;
         case 16:
+          if (tag !== 128) {
+            break;
+          }
+
           message.starterCard = reader.bool();
-          break;
+          continue;
         case 17:
+          if (tag !== 136) {
+            break;
+          }
+
           message.rarity = reader.int32() as any;
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -323,7 +392,7 @@ export const Card = {
     return {
       owner: isSet(object.owner) ? String(object.owner) : "",
       artist: isSet(object.artist) ? String(object.artist) : "",
-      content: isSet(object.content) ? bytesFromBase64(object.content) : new Uint8Array(),
+      content: isSet(object.content) ? bytesFromBase64(object.content) : new Uint8Array(0),
       imageId: isSet(object.imageId) ? Number(object.imageId) : 0,
       fullArt: isSet(object.fullArt) ? Boolean(object.fullArt) : false,
       notes: isSet(object.notes) ? String(object.notes) : "",
@@ -343,36 +412,68 @@ export const Card = {
 
   toJSON(message: Card): unknown {
     const obj: any = {};
-    message.owner !== undefined && (obj.owner = message.owner);
-    message.artist !== undefined && (obj.artist = message.artist);
-    message.content !== undefined
-      && (obj.content = base64FromBytes(message.content !== undefined ? message.content : new Uint8Array()));
-    message.imageId !== undefined && (obj.imageId = Math.round(message.imageId));
-    message.fullArt !== undefined && (obj.fullArt = message.fullArt);
-    message.notes !== undefined && (obj.notes = message.notes);
-    message.status !== undefined && (obj.status = statusToJSON(message.status));
-    message.votePool !== undefined && (obj.votePool = message.votePool);
-    if (message.voters) {
-      obj.voters = message.voters.map((e) => e);
-    } else {
-      obj.voters = [];
+    if (message.owner !== "") {
+      obj.owner = message.owner;
     }
-    message.fairEnoughVotes !== undefined && (obj.fairEnoughVotes = Math.round(message.fairEnoughVotes));
-    message.overpoweredVotes !== undefined && (obj.overpoweredVotes = Math.round(message.overpoweredVotes));
-    message.underpoweredVotes !== undefined && (obj.underpoweredVotes = Math.round(message.underpoweredVotes));
-    message.inappropriateVotes !== undefined && (obj.inappropriateVotes = Math.round(message.inappropriateVotes));
-    message.nerflevel !== undefined && (obj.nerflevel = Math.round(message.nerflevel));
-    message.balanceAnchor !== undefined && (obj.balanceAnchor = message.balanceAnchor);
-    message.starterCard !== undefined && (obj.starterCard = message.starterCard);
-    message.rarity !== undefined && (obj.rarity = cardRarityToJSON(message.rarity));
+    if (message.artist !== "") {
+      obj.artist = message.artist;
+    }
+    if (message.content.length !== 0) {
+      obj.content = base64FromBytes(message.content);
+    }
+    if (message.imageId !== 0) {
+      obj.imageId = Math.round(message.imageId);
+    }
+    if (message.fullArt === true) {
+      obj.fullArt = message.fullArt;
+    }
+    if (message.notes !== "") {
+      obj.notes = message.notes;
+    }
+    if (message.status !== 0) {
+      obj.status = statusToJSON(message.status);
+    }
+    if (message.votePool !== "") {
+      obj.votePool = message.votePool;
+    }
+    if (message.voters?.length) {
+      obj.voters = message.voters;
+    }
+    if (message.fairEnoughVotes !== 0) {
+      obj.fairEnoughVotes = Math.round(message.fairEnoughVotes);
+    }
+    if (message.overpoweredVotes !== 0) {
+      obj.overpoweredVotes = Math.round(message.overpoweredVotes);
+    }
+    if (message.underpoweredVotes !== 0) {
+      obj.underpoweredVotes = Math.round(message.underpoweredVotes);
+    }
+    if (message.inappropriateVotes !== 0) {
+      obj.inappropriateVotes = Math.round(message.inappropriateVotes);
+    }
+    if (message.nerflevel !== 0) {
+      obj.nerflevel = Math.round(message.nerflevel);
+    }
+    if (message.balanceAnchor === true) {
+      obj.balanceAnchor = message.balanceAnchor;
+    }
+    if (message.starterCard === true) {
+      obj.starterCard = message.starterCard;
+    }
+    if (message.rarity !== 0) {
+      obj.rarity = cardRarityToJSON(message.rarity);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Card>, I>>(base?: I): Card {
+    return Card.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<Card>, I>>(object: I): Card {
     const message = createBaseCard();
     message.owner = object.owner ?? "";
     message.artist = object.artist ?? "";
-    message.content = object.content ?? new Uint8Array();
+    message.content = object.content ?? new Uint8Array(0);
     message.imageId = object.imageId ?? 0;
     message.fullArt = object.fullArt ?? false;
     message.notes = object.notes ?? "";
@@ -474,70 +575,143 @@ export const OutpCard = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): OutpCard {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseOutpCard();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.owner = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.artist = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.content = reader.string();
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.image = reader.string();
-          break;
+          continue;
         case 5:
+          if (tag !== 40) {
+            break;
+          }
+
           message.fullArt = reader.bool();
-          break;
+          continue;
         case 6:
+          if (tag !== 50) {
+            break;
+          }
+
           message.notes = reader.string();
-          break;
+          continue;
         case 7:
+          if (tag !== 56) {
+            break;
+          }
+
           message.status = reader.int32() as any;
-          break;
+          continue;
         case 8:
+          if (tag !== 66) {
+            break;
+          }
+
           message.votePool = reader.string();
-          break;
+          continue;
         case 14:
+          if (tag !== 114) {
+            break;
+          }
+
           message.voters.push(reader.string());
-          break;
+          continue;
         case 9:
+          if (tag !== 72) {
+            break;
+          }
+
           message.fairEnoughVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 10:
+          if (tag !== 80) {
+            break;
+          }
+
           message.overpoweredVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 11:
+          if (tag !== 88) {
+            break;
+          }
+
           message.underpoweredVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 12:
+          if (tag !== 96) {
+            break;
+          }
+
           message.inappropriateVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 13:
+          if (tag !== 104) {
+            break;
+          }
+
           message.nerflevel = longToNumber(reader.int64() as Long);
-          break;
+          continue;
         case 15:
+          if (tag !== 120) {
+            break;
+          }
+
           message.balanceAnchor = reader.bool();
-          break;
+          continue;
         case 16:
+          if (tag !== 130) {
+            break;
+          }
+
           message.hash = reader.string();
-          break;
+          continue;
         case 17:
+          if (tag !== 136) {
+            break;
+          }
+
           message.starterCard = reader.bool();
-          break;
+          continue;
         case 18:
+          if (tag !== 144) {
+            break;
+          }
+
           message.rarity = reader.int32() as any;
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -567,31 +741,66 @@ export const OutpCard = {
 
   toJSON(message: OutpCard): unknown {
     const obj: any = {};
-    message.owner !== undefined && (obj.owner = message.owner);
-    message.artist !== undefined && (obj.artist = message.artist);
-    message.content !== undefined && (obj.content = message.content);
-    message.image !== undefined && (obj.image = message.image);
-    message.fullArt !== undefined && (obj.fullArt = message.fullArt);
-    message.notes !== undefined && (obj.notes = message.notes);
-    message.status !== undefined && (obj.status = statusToJSON(message.status));
-    message.votePool !== undefined && (obj.votePool = message.votePool);
-    if (message.voters) {
-      obj.voters = message.voters.map((e) => e);
-    } else {
-      obj.voters = [];
+    if (message.owner !== "") {
+      obj.owner = message.owner;
     }
-    message.fairEnoughVotes !== undefined && (obj.fairEnoughVotes = Math.round(message.fairEnoughVotes));
-    message.overpoweredVotes !== undefined && (obj.overpoweredVotes = Math.round(message.overpoweredVotes));
-    message.underpoweredVotes !== undefined && (obj.underpoweredVotes = Math.round(message.underpoweredVotes));
-    message.inappropriateVotes !== undefined && (obj.inappropriateVotes = Math.round(message.inappropriateVotes));
-    message.nerflevel !== undefined && (obj.nerflevel = Math.round(message.nerflevel));
-    message.balanceAnchor !== undefined && (obj.balanceAnchor = message.balanceAnchor);
-    message.hash !== undefined && (obj.hash = message.hash);
-    message.starterCard !== undefined && (obj.starterCard = message.starterCard);
-    message.rarity !== undefined && (obj.rarity = cardRarityToJSON(message.rarity));
+    if (message.artist !== "") {
+      obj.artist = message.artist;
+    }
+    if (message.content !== "") {
+      obj.content = message.content;
+    }
+    if (message.image !== "") {
+      obj.image = message.image;
+    }
+    if (message.fullArt === true) {
+      obj.fullArt = message.fullArt;
+    }
+    if (message.notes !== "") {
+      obj.notes = message.notes;
+    }
+    if (message.status !== 0) {
+      obj.status = statusToJSON(message.status);
+    }
+    if (message.votePool !== "") {
+      obj.votePool = message.votePool;
+    }
+    if (message.voters?.length) {
+      obj.voters = message.voters;
+    }
+    if (message.fairEnoughVotes !== 0) {
+      obj.fairEnoughVotes = Math.round(message.fairEnoughVotes);
+    }
+    if (message.overpoweredVotes !== 0) {
+      obj.overpoweredVotes = Math.round(message.overpoweredVotes);
+    }
+    if (message.underpoweredVotes !== 0) {
+      obj.underpoweredVotes = Math.round(message.underpoweredVotes);
+    }
+    if (message.inappropriateVotes !== 0) {
+      obj.inappropriateVotes = Math.round(message.inappropriateVotes);
+    }
+    if (message.nerflevel !== 0) {
+      obj.nerflevel = Math.round(message.nerflevel);
+    }
+    if (message.balanceAnchor === true) {
+      obj.balanceAnchor = message.balanceAnchor;
+    }
+    if (message.hash !== "") {
+      obj.hash = message.hash;
+    }
+    if (message.starterCard === true) {
+      obj.starterCard = message.starterCard;
+    }
+    if (message.rarity !== 0) {
+      obj.rarity = cardRarityToJSON(message.rarity);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<OutpCard>, I>>(base?: I): OutpCard {
+    return OutpCard.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<OutpCard>, I>>(object: I): OutpCard {
     const message = createBaseOutpCard();
     message.owner = object.owner ?? "";
@@ -629,19 +838,24 @@ export const TimeStamp = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): TimeStamp {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseTimeStamp();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.timeStamp = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -652,10 +866,15 @@ export const TimeStamp = {
 
   toJSON(message: TimeStamp): unknown {
     const obj: any = {};
-    message.timeStamp !== undefined && (obj.timeStamp = Math.round(message.timeStamp));
+    if (message.timeStamp !== 0) {
+      obj.timeStamp = Math.round(message.timeStamp);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<TimeStamp>, I>>(base?: I): TimeStamp {
+    return TimeStamp.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<TimeStamp>, I>>(object: I): TimeStamp {
     const message = createBaseTimeStamp();
     message.timeStamp = object.timeStamp ?? 0;
@@ -663,10 +882,10 @@ export const TimeStamp = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -683,10 +902,10 @@ var globalThis: any = (() => {
 })();
 
 function bytesFromBase64(b64: string): Uint8Array {
-  if (globalThis.Buffer) {
-    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
+  if (tsProtoGlobalThis.Buffer) {
+    return Uint8Array.from(tsProtoGlobalThis.Buffer.from(b64, "base64"));
   } else {
-    const bin = globalThis.atob(b64);
+    const bin = tsProtoGlobalThis.atob(b64);
     const arr = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; ++i) {
       arr[i] = bin.charCodeAt(i);
@@ -696,14 +915,14 @@ function bytesFromBase64(b64: string): Uint8Array {
 }
 
 function base64FromBytes(arr: Uint8Array): string {
-  if (globalThis.Buffer) {
-    return globalThis.Buffer.from(arr).toString("base64");
+  if (tsProtoGlobalThis.Buffer) {
+    return tsProtoGlobalThis.Buffer.from(arr).toString("base64");
   } else {
     const bin: string[] = [];
     arr.forEach((byte) => {
       bin.push(String.fromCharCode(byte));
     });
-    return globalThis.btoa(bin.join(""));
+    return tsProtoGlobalThis.btoa(bin.join(""));
   }
 }
 
@@ -720,7 +939,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

@@ -9,6 +9,21 @@
  * ---------------------------------------------------------------
  */
 
+export interface CardchainAddrWithQuantity {
+  addr?: string;
+
+  /** @format int64 */
+  q?: number;
+
+  /**
+   * Coin defines a token with a denomination and an amount.
+   *
+   * NOTE: The amount field is an Int which implements the custom method
+   * signatures required by gogoproto.
+   */
+  payment?: V1Beta1Coin;
+}
+
 export interface CardchainAirDrops {
   vote?: boolean;
   create?: boolean;
@@ -38,12 +53,26 @@ export enum CardchainCStatus {
   Archived = "archived",
 }
 
+export enum CardchainCardClass {
+  Nature = "nature",
+  Culture = "culture",
+  Mysticism = "mysticism",
+  Technology = "technology",
+}
+
 export enum CardchainCardRarity {
   Common = "common",
   Uncommon = "uncommon",
   Rare = "rare",
   Exceptional = "exceptional",
   Unique = "unique",
+}
+
+export enum CardchainCardType {
+  Place = "place",
+  Action = "action",
+  Entity = "entity",
+  Headquarter = "headquarter",
 }
 
 export enum CardchainCouncelingStatus {
@@ -82,6 +111,10 @@ export interface CardchainIgnoreMatches {
 export interface CardchainIgnoreSellOffers {
   status?: boolean;
   card?: boolean;
+}
+
+export interface CardchainInnerRarities {
+  R?: string[];
 }
 
 export interface CardchainMatch {
@@ -126,6 +159,8 @@ export interface CardchainMsgBuyCardSchemeResponse {
   /** @format uint64 */
   cardId?: string;
 }
+
+export type CardchainMsgChangeAliasResponse = object;
 
 export type CardchainMsgChangeArtistResponse = object;
 
@@ -251,69 +286,8 @@ export interface CardchainOutpSet {
 
   /** @format int64 */
   timeStamp?: string;
-}
-
-/**
- * Params defines the parameters for the module.
- */
-export interface CardchainParams {
-  /** @format int64 */
-  votingRightsExpirationTime?: string;
-
-  /** @format uint64 */
-  setSize?: string;
-  setPrice?: string;
-
-  /** @format uint64 */
-  activeSetsAmount?: string;
-  setCreationFee?: string;
-  collateralDeposit?: string;
-
-  /** @format int64 */
-  winnerReward?: string;
-  hourlyFaucet?: string;
-  inflationRate?: string;
-
-  /** @format uint64 */
-  raresPerPack?: string;
-
-  /** @format uint64 */
-  commonsPerPack?: string;
-
-  /** @format uint64 */
-  unCommonsPerPack?: string;
-
-  /** @format uint64 */
-  trialPeriod?: string;
-
-  /** @format int64 */
-  gameVoteRatio?: string;
-
-  /** @format int64 */
-  cardAuctionPriceReductionPeriod?: string;
-  airDropValue?: string;
-
-  /** @format int64 */
-  airDropMaxBlockHeight?: string;
-  trialVoteReward?: string;
-
-  /** @format int64 */
-  votePoolFraction?: string;
-
-  /** @format int64 */
-  votingRewardCap?: string;
-
-  /** @format uint64 */
-  matchWorkerDelay?: string;
-
-  /** @format uint64 */
-  rareDropRatio?: string;
-
-  /** @format uint64 */
-  exceptionalDropRatio?: string;
-
-  /** @format uint64 */
-  uniqueDropRatio?: string;
+  contributorsDistribution?: CardchainAddrWithQuantity[];
+  Rarities?: CardchainInnerRarities[];
 }
 
 /**
@@ -321,12 +295,16 @@ export interface CardchainParams {
  */
 export interface CardchainQueryParamsResponse {
   /** params holds all the parameters of this module. */
-  params?: CardchainParams;
+  params?: CardchaincardchainParams;
 }
 
 export interface CardchainQueryQCardContentResponse {
   content?: string;
   hash?: string;
+}
+
+export interface CardchainQueryQCardContentsResponse {
+  cards?: CardchainQueryQCardContentResponse[];
 }
 
 export interface CardchainQueryQCardchainInfoResponse {
@@ -347,20 +325,6 @@ export interface CardchainQueryQCardchainInfoResponse {
 
   /** @format uint64 */
   lastCardModified?: string;
-}
-
-export enum CardchainQueryQCardsRequestStatus {
-  Scheme = "scheme",
-  Prototype = "prototype",
-  Trial = "trial",
-  Permanent = "permanent",
-  Suspended = "suspended",
-  Banned = "banned",
-  BannedSoon = "bannedSoon",
-  BannedVerySoon = "bannedVerySoon",
-  None = "none",
-  Playable = "playable",
-  Unplayable = "unplayable",
 }
 
 export interface CardchainQueryQCardsResponse {
@@ -499,6 +463,69 @@ export interface CardchainWrapClearResponse {
 export interface CardchainWrapHashResponse {
   user?: string;
   hash?: string;
+}
+
+/**
+ * Params defines the parameters for the module.
+ */
+export interface CardchaincardchainParams {
+  /** @format int64 */
+  votingRightsExpirationTime?: string;
+
+  /** @format uint64 */
+  setSize?: string;
+  setPrice?: string;
+
+  /** @format uint64 */
+  activeSetsAmount?: string;
+  setCreationFee?: string;
+  collateralDeposit?: string;
+
+  /** @format int64 */
+  winnerReward?: string;
+  hourlyFaucet?: string;
+  inflationRate?: string;
+
+  /** @format uint64 */
+  raresPerPack?: string;
+
+  /** @format uint64 */
+  commonsPerPack?: string;
+
+  /** @format uint64 */
+  unCommonsPerPack?: string;
+
+  /** @format uint64 */
+  trialPeriod?: string;
+
+  /** @format int64 */
+  gameVoteRatio?: string;
+
+  /** @format int64 */
+  cardAuctionPriceReductionPeriod?: string;
+  airDropValue?: string;
+
+  /** @format int64 */
+  airDropMaxBlockHeight?: string;
+  trialVoteReward?: string;
+
+  /** @format int64 */
+  votePoolFraction?: string;
+
+  /** @format int64 */
+  votingRewardCap?: string;
+
+  /** @format uint64 */
+  matchWorkerDelay?: string;
+
+  /** @format uint64 */
+  rareDropRatio?: string;
+
+  /** @format uint64 */
+  exceptionalDropRatio?: string;
+
+  /** @format uint64 */
+  uniqueDropRatio?: string;
 }
 
 export enum CardchaincardchainStatus {
@@ -712,6 +739,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * No description
    *
    * @tags Query
+   * @name QueryQCardContents
+   * @summary Queries a list of QCardContents items.
+   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_card_contents/{cardIds}
+   */
+  queryQCardContents = (cardIds: string[], params: RequestParams = {}) =>
+    this.request<CardchainQueryQCardContentsResponse, GooglerpcStatus>({
+      path: `/DecentralCardGame/Cardchain/cardchain/q_card_contents/${cardIds}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
    * @name QueryQCardchainInfo
    * @summary Queries a list of QCardchainInfo items.
    * @request GET:/DecentralCardGame/Cardchain/cardchain/q_cardchain_info
@@ -730,35 +773,36 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * @tags Query
    * @name QueryQCards
    * @summary Queries a list of QCards items.
-   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_cards/{status}
+   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_cards
    */
   queryQCards = (
-    status:
-      | "scheme"
-      | "prototype"
-      | "trial"
-      | "permanent"
-      | "suspended"
-      | "banned"
-      | "bannedSoon"
-      | "bannedVerySoon"
-      | "none"
-      | "playable"
-      | "unplayable",
     query?: {
       owner?: string;
-      cardType?: string;
-      classes?: string;
+      statuses?: (
+        | "scheme"
+        | "prototype"
+        | "trial"
+        | "permanent"
+        | "suspended"
+        | "banned"
+        | "bannedSoon"
+        | "bannedVerySoon"
+        | "none"
+      )[];
+      cardTypes?: ("place" | "action" | "entity" | "headquarter")[];
+      classes?: ("nature" | "culture" | "mysticism" | "technology")[];
       sortBy?: string;
       nameContains?: string;
       keywordsContains?: string;
       notesContains?: string;
       onlyStarterCard?: boolean;
+      onlyBalanceAnchors?: boolean;
+      rarities?: ("common" | "uncommon" | "rare" | "exceptional" | "unique")[];
     },
     params: RequestParams = {},
   ) =>
     this.request<CardchainQueryQCardsResponse, GooglerpcStatus>({
-      path: `/DecentralCardGame/Cardchain/cardchain/q_cards/${status}`,
+      path: `/DecentralCardGame/Cardchain/cardchain/q_cards`,
       method: "GET",
       query: query,
       format: "json",

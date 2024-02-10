@@ -8,7 +8,7 @@ export interface Image {
 }
 
 function createBaseImage(): Image {
-  return { image: new Uint8Array() };
+  return { image: new Uint8Array(0) };
 }
 
 export const Image = {
@@ -20,45 +20,54 @@ export const Image = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Image {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseImage();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.image = reader.bytes();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
 
   fromJSON(object: any): Image {
-    return { image: isSet(object.image) ? bytesFromBase64(object.image) : new Uint8Array() };
+    return { image: isSet(object.image) ? bytesFromBase64(object.image) : new Uint8Array(0) };
   },
 
   toJSON(message: Image): unknown {
     const obj: any = {};
-    message.image !== undefined
-      && (obj.image = base64FromBytes(message.image !== undefined ? message.image : new Uint8Array()));
+    if (message.image.length !== 0) {
+      obj.image = base64FromBytes(message.image);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Image>, I>>(base?: I): Image {
+    return Image.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<Image>, I>>(object: I): Image {
     const message = createBaseImage();
-    message.image = object.image ?? new Uint8Array();
+    message.image = object.image ?? new Uint8Array(0);
     return message;
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -75,10 +84,10 @@ var globalThis: any = (() => {
 })();
 
 function bytesFromBase64(b64: string): Uint8Array {
-  if (globalThis.Buffer) {
-    return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
+  if (tsProtoGlobalThis.Buffer) {
+    return Uint8Array.from(tsProtoGlobalThis.Buffer.from(b64, "base64"));
   } else {
-    const bin = globalThis.atob(b64);
+    const bin = tsProtoGlobalThis.atob(b64);
     const arr = new Uint8Array(bin.length);
     for (let i = 0; i < bin.length; ++i) {
       arr[i] = bin.charCodeAt(i);
@@ -88,14 +97,14 @@ function bytesFromBase64(b64: string): Uint8Array {
 }
 
 function base64FromBytes(arr: Uint8Array): string {
-  if (globalThis.Buffer) {
-    return globalThis.Buffer.from(arr).toString("base64");
+  if (tsProtoGlobalThis.Buffer) {
+    return tsProtoGlobalThis.Buffer.from(arr).toString("base64");
   } else {
     const bin: string[] = [];
     arr.forEach((byte) => {
       bin.push(String.fromCharCode(byte));
     });
-    return globalThis.btoa(bin.join(""));
+    return tsProtoGlobalThis.btoa(bin.join(""));
   }
 }
 

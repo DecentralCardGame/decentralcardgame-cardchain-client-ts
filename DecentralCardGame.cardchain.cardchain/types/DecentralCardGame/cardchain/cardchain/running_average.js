@@ -15,27 +15,30 @@ export const RunningAverage = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseRunningAverage();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    if ((tag & 7) === 2) {
+                    if (tag === 8) {
+                        message.arr.push(longToNumber(reader.int64()));
+                        continue;
+                    }
+                    if (tag === 10) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.arr.push(longToNumber(reader.int64()));
                         }
+                        continue;
                     }
-                    else {
-                        message.arr.push(longToNumber(reader.int64()));
-                    }
-                    break;
-                default:
-                    reader.skipType(tag & 7);
                     break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -44,13 +47,13 @@ export const RunningAverage = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.arr) {
+        if (message.arr?.length) {
             obj.arr = message.arr.map((e) => Math.round(e));
         }
-        else {
-            obj.arr = [];
-        }
         return obj;
+    },
+    create(base) {
+        return RunningAverage.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseRunningAverage();
@@ -58,7 +61,7 @@ export const RunningAverage = {
         return message;
     },
 };
-var globalThis = (() => {
+const tsProtoGlobalThis = (() => {
     if (typeof globalThis !== "undefined") {
         return globalThis;
     }
@@ -75,7 +78,7 @@ var globalThis = (() => {
 })();
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+        throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
     }
     return long.toNumber();
 }

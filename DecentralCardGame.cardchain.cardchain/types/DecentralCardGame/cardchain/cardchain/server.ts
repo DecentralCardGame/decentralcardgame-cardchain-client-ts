@@ -29,25 +29,38 @@ export const Server = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): Server {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseServer();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.reporter = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.invalidReports = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 3:
+          if (tag !== 24) {
+            break;
+          }
+
           message.validReports = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -62,12 +75,21 @@ export const Server = {
 
   toJSON(message: Server): unknown {
     const obj: any = {};
-    message.reporter !== undefined && (obj.reporter = message.reporter);
-    message.invalidReports !== undefined && (obj.invalidReports = Math.round(message.invalidReports));
-    message.validReports !== undefined && (obj.validReports = Math.round(message.validReports));
+    if (message.reporter !== "") {
+      obj.reporter = message.reporter;
+    }
+    if (message.invalidReports !== 0) {
+      obj.invalidReports = Math.round(message.invalidReports);
+    }
+    if (message.validReports !== 0) {
+      obj.validReports = Math.round(message.validReports);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<Server>, I>>(base?: I): Server {
+    return Server.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<Server>, I>>(object: I): Server {
     const message = createBaseServer();
     message.reporter = object.reporter ?? "";
@@ -77,10 +99,10 @@ export const Server = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -109,7 +131,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

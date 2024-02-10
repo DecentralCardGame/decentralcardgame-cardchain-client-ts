@@ -3,13 +3,13 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry } from "@cosmjs/proto-signing";
 import { msgTypes } from './registry';
 import { Api } from "./rest";
-import { MsgSoftwareUpgrade } from "./types/cosmos/upgrade/v1beta1/tx";
 import { MsgCancelUpgrade } from "./types/cosmos/upgrade/v1beta1/tx";
+import { MsgSoftwareUpgrade } from "./types/cosmos/upgrade/v1beta1/tx";
 import { Plan as typePlan } from "./types";
 import { SoftwareUpgradeProposal as typeSoftwareUpgradeProposal } from "./types";
 import { CancelSoftwareUpgradeProposal as typeCancelSoftwareUpgradeProposal } from "./types";
 import { ModuleVersion as typeModuleVersion } from "./types";
-export { MsgSoftwareUpgrade, MsgCancelUpgrade };
+export { MsgCancelUpgrade, MsgSoftwareUpgrade };
 export const registry = new Registry(msgTypes);
 function getStructure(template) {
     const structure = { fields: [] };
@@ -25,20 +25,6 @@ const defaultFee = {
 };
 export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26657", prefix: "cosmos" }) => {
     return {
-        async sendMsgSoftwareUpgrade({ value, fee, memo }) {
-            if (!signer) {
-                throw new Error('TxClient:sendMsgSoftwareUpgrade: Unable to sign Tx. Signer is not present.');
-            }
-            try {
-                const { address } = (await signer.getAccounts())[0];
-                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
-                let msg = this.msgSoftwareUpgrade({ value: MsgSoftwareUpgrade.fromPartial(value) });
-                return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
-            }
-            catch (e) {
-                throw new Error('TxClient:sendMsgSoftwareUpgrade: Could not broadcast Tx: ' + e.message);
-            }
-        },
         async sendMsgCancelUpgrade({ value, fee, memo }) {
             if (!signer) {
                 throw new Error('TxClient:sendMsgCancelUpgrade: Unable to sign Tx. Signer is not present.');
@@ -53,12 +39,18 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
                 throw new Error('TxClient:sendMsgCancelUpgrade: Could not broadcast Tx: ' + e.message);
             }
         },
-        msgSoftwareUpgrade({ value }) {
+        async sendMsgSoftwareUpgrade({ value, fee, memo }) {
+            if (!signer) {
+                throw new Error('TxClient:sendMsgSoftwareUpgrade: Unable to sign Tx. Signer is not present.');
+            }
             try {
-                return { typeUrl: "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade", value: MsgSoftwareUpgrade.fromPartial(value) };
+                const { address } = (await signer.getAccounts())[0];
+                const signingClient = await SigningStargateClient.connectWithSigner(addr, signer, { registry, prefix });
+                let msg = this.msgSoftwareUpgrade({ value: MsgSoftwareUpgrade.fromPartial(value) });
+                return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo);
             }
             catch (e) {
-                throw new Error('TxClient:MsgSoftwareUpgrade: Could not create message: ' + e.message);
+                throw new Error('TxClient:sendMsgSoftwareUpgrade: Could not broadcast Tx: ' + e.message);
             }
         },
         msgCancelUpgrade({ value }) {
@@ -67,6 +59,14 @@ export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26
             }
             catch (e) {
                 throw new Error('TxClient:MsgCancelUpgrade: Could not create message: ' + e.message);
+            }
+        },
+        msgSoftwareUpgrade({ value }) {
+            try {
+                return { typeUrl: "/cosmos.upgrade.v1beta1.MsgSoftwareUpgrade", value: MsgSoftwareUpgrade.fromPartial(value) };
+            }
+            catch (e) {
+                throw new Error('TxClient:MsgSoftwareUpgrade: Could not create message: ' + e.message);
             }
         },
     };

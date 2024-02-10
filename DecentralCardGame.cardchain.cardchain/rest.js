@@ -15,6 +15,13 @@ export var CardchainCStatus;
     CardchainCStatus["Active"] = "active";
     CardchainCStatus["Archived"] = "archived";
 })(CardchainCStatus || (CardchainCStatus = {}));
+export var CardchainCardClass;
+(function (CardchainCardClass) {
+    CardchainCardClass["Nature"] = "nature";
+    CardchainCardClass["Culture"] = "culture";
+    CardchainCardClass["Mysticism"] = "mysticism";
+    CardchainCardClass["Technology"] = "technology";
+})(CardchainCardClass || (CardchainCardClass = {}));
 export var CardchainCardRarity;
 (function (CardchainCardRarity) {
     CardchainCardRarity["Common"] = "common";
@@ -23,6 +30,13 @@ export var CardchainCardRarity;
     CardchainCardRarity["Exceptional"] = "exceptional";
     CardchainCardRarity["Unique"] = "unique";
 })(CardchainCardRarity || (CardchainCardRarity = {}));
+export var CardchainCardType;
+(function (CardchainCardType) {
+    CardchainCardType["Place"] = "place";
+    CardchainCardType["Action"] = "action";
+    CardchainCardType["Entity"] = "entity";
+    CardchainCardType["Headquarter"] = "headquarter";
+})(CardchainCardType || (CardchainCardType = {}));
 export var CardchainCouncelingStatus;
 (function (CardchainCouncelingStatus) {
     CardchainCouncelingStatus["CouncilOpen"] = "councilOpen";
@@ -46,20 +60,6 @@ export var CardchainOutcome;
     CardchainOutcome["Draw"] = "Draw";
     CardchainOutcome["Aborted"] = "Aborted";
 })(CardchainOutcome || (CardchainOutcome = {}));
-export var CardchainQueryQCardsRequestStatus;
-(function (CardchainQueryQCardsRequestStatus) {
-    CardchainQueryQCardsRequestStatus["Scheme"] = "scheme";
-    CardchainQueryQCardsRequestStatus["Prototype"] = "prototype";
-    CardchainQueryQCardsRequestStatus["Trial"] = "trial";
-    CardchainQueryQCardsRequestStatus["Permanent"] = "permanent";
-    CardchainQueryQCardsRequestStatus["Suspended"] = "suspended";
-    CardchainQueryQCardsRequestStatus["Banned"] = "banned";
-    CardchainQueryQCardsRequestStatus["BannedSoon"] = "bannedSoon";
-    CardchainQueryQCardsRequestStatus["BannedVerySoon"] = "bannedVerySoon";
-    CardchainQueryQCardsRequestStatus["None"] = "none";
-    CardchainQueryQCardsRequestStatus["Playable"] = "playable";
-    CardchainQueryQCardsRequestStatus["Unplayable"] = "unplayable";
-})(CardchainQueryQCardsRequestStatus || (CardchainQueryQCardsRequestStatus = {}));
 export var CardchainResponse;
 (function (CardchainResponse) {
     CardchainResponse["Yes"] = "Yes";
@@ -211,6 +211,20 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
+         * @name QueryQCardContents
+         * @summary Queries a list of QCardContents items.
+         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_card_contents/{cardIds}
+         */
+        this.queryQCardContents = (cardIds, params = {}) => this.request({
+            path: `/DecentralCardGame/Cardchain/cardchain/q_card_contents/${cardIds}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
          * @name QueryQCardchainInfo
          * @summary Queries a list of QCardchainInfo items.
          * @request GET:/DecentralCardGame/Cardchain/cardchain/q_cardchain_info
@@ -227,10 +241,10 @@ export class Api extends HttpClient {
          * @tags Query
          * @name QueryQCards
          * @summary Queries a list of QCards items.
-         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_cards/{status}
+         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_cards
          */
-        this.queryQCards = (status, query, params = {}) => this.request({
-            path: `/DecentralCardGame/Cardchain/cardchain/q_cards/${status}`,
+        this.queryQCards = (query, params = {}) => this.request({
+            path: `/DecentralCardGame/Cardchain/cardchain/q_cards`,
             method: "GET",
             query: query,
             format: "json",

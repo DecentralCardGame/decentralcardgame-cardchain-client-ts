@@ -62,31 +62,47 @@ export const SellOffer = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseSellOffer();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.seller = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.buyer = reader.string();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.card = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.price = reader.string();
-                    break;
+                    continue;
                 case 5:
+                    if (tag !== 40) {
+                        break;
+                    }
                     message.status = reader.int32();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -101,12 +117,25 @@ export const SellOffer = {
     },
     toJSON(message) {
         const obj = {};
-        message.seller !== undefined && (obj.seller = message.seller);
-        message.buyer !== undefined && (obj.buyer = message.buyer);
-        message.card !== undefined && (obj.card = Math.round(message.card));
-        message.price !== undefined && (obj.price = message.price);
-        message.status !== undefined && (obj.status = sellOfferStatusToJSON(message.status));
+        if (message.seller !== "") {
+            obj.seller = message.seller;
+        }
+        if (message.buyer !== "") {
+            obj.buyer = message.buyer;
+        }
+        if (message.card !== 0) {
+            obj.card = Math.round(message.card);
+        }
+        if (message.price !== "") {
+            obj.price = message.price;
+        }
+        if (message.status !== 0) {
+            obj.status = sellOfferStatusToJSON(message.status);
+        }
         return obj;
+    },
+    create(base) {
+        return SellOffer.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseSellOffer();
@@ -118,7 +147,7 @@ export const SellOffer = {
         return message;
     },
 };
-var globalThis = (() => {
+const tsProtoGlobalThis = (() => {
     if (typeof globalThis !== "undefined") {
         return globalThis;
     }
@@ -135,7 +164,7 @@ var globalThis = (() => {
 })();
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+        throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
     }
     return long.toNumber();
 }

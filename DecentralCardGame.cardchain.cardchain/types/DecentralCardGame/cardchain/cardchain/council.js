@@ -123,37 +123,59 @@ export const Council = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseCouncil();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.voters.push(reader.string());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.hashResponses.push(WrapHashResponse.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.clearResponses.push(WrapClearResponse.decode(reader, reader.uint32()));
-                    break;
+                    continue;
                 case 5:
+                    if (tag !== 42) {
+                        break;
+                    }
                     message.treasury = reader.string();
-                    break;
+                    continue;
                 case 6:
+                    if (tag !== 48) {
+                        break;
+                    }
                     message.status = reader.int32();
-                    break;
+                    continue;
                 case 7:
+                    if (tag !== 56) {
+                        break;
+                    }
                     message.trialStart = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -174,29 +196,31 @@ export const Council = {
     },
     toJSON(message) {
         const obj = {};
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        if (message.voters) {
-            obj.voters = message.voters.map((e) => e);
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
         }
-        else {
-            obj.voters = [];
+        if (message.voters?.length) {
+            obj.voters = message.voters;
         }
-        if (message.hashResponses) {
-            obj.hashResponses = message.hashResponses.map((e) => e ? WrapHashResponse.toJSON(e) : undefined);
+        if (message.hashResponses?.length) {
+            obj.hashResponses = message.hashResponses.map((e) => WrapHashResponse.toJSON(e));
         }
-        else {
-            obj.hashResponses = [];
+        if (message.clearResponses?.length) {
+            obj.clearResponses = message.clearResponses.map((e) => WrapClearResponse.toJSON(e));
         }
-        if (message.clearResponses) {
-            obj.clearResponses = message.clearResponses.map((e) => e ? WrapClearResponse.toJSON(e) : undefined);
+        if (message.treasury !== "") {
+            obj.treasury = message.treasury;
         }
-        else {
-            obj.clearResponses = [];
+        if (message.status !== 0) {
+            obj.status = councelingStatusToJSON(message.status);
         }
-        message.treasury !== undefined && (obj.treasury = message.treasury);
-        message.status !== undefined && (obj.status = councelingStatusToJSON(message.status));
-        message.trialStart !== undefined && (obj.trialStart = Math.round(message.trialStart));
+        if (message.trialStart !== 0) {
+            obj.trialStart = Math.round(message.trialStart);
+        }
         return obj;
+    },
+    create(base) {
+        return Council.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseCouncil();
@@ -227,25 +251,35 @@ export const WrapClearResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseWrapClearResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.user = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.response = reader.int32();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.suggestion = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -258,10 +292,19 @@ export const WrapClearResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.user !== undefined && (obj.user = message.user);
-        message.response !== undefined && (obj.response = responseToJSON(message.response));
-        message.suggestion !== undefined && (obj.suggestion = message.suggestion);
+        if (message.user !== "") {
+            obj.user = message.user;
+        }
+        if (message.response !== 0) {
+            obj.response = responseToJSON(message.response);
+        }
+        if (message.suggestion !== "") {
+            obj.suggestion = message.suggestion;
+        }
         return obj;
+    },
+    create(base) {
+        return WrapClearResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseWrapClearResponse();
@@ -285,22 +328,29 @@ export const WrapHashResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseWrapHashResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.user = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.hash = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -309,9 +359,16 @@ export const WrapHashResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.user !== undefined && (obj.user = message.user);
-        message.hash !== undefined && (obj.hash = message.hash);
+        if (message.user !== "") {
+            obj.user = message.user;
+        }
+        if (message.hash !== "") {
+            obj.hash = message.hash;
+        }
         return obj;
+    },
+    create(base) {
+        return WrapHashResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseWrapHashResponse();
@@ -320,7 +377,7 @@ export const WrapHashResponse = {
         return message;
     },
 };
-var globalThis = (() => {
+const tsProtoGlobalThis = (() => {
     if (typeof globalThis !== "undefined") {
         return globalThis;
     }
@@ -337,7 +394,7 @@ var globalThis = (() => {
 })();
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+        throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
     }
     return long.toNumber();
 }

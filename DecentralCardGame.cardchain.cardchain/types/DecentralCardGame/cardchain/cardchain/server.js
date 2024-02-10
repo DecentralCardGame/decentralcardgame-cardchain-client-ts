@@ -19,25 +19,35 @@ export const Server = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseServer();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.reporter = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.invalidReports = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.validReports = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -50,10 +60,19 @@ export const Server = {
     },
     toJSON(message) {
         const obj = {};
-        message.reporter !== undefined && (obj.reporter = message.reporter);
-        message.invalidReports !== undefined && (obj.invalidReports = Math.round(message.invalidReports));
-        message.validReports !== undefined && (obj.validReports = Math.round(message.validReports));
+        if (message.reporter !== "") {
+            obj.reporter = message.reporter;
+        }
+        if (message.invalidReports !== 0) {
+            obj.invalidReports = Math.round(message.invalidReports);
+        }
+        if (message.validReports !== 0) {
+            obj.validReports = Math.round(message.validReports);
+        }
         return obj;
+    },
+    create(base) {
+        return Server.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseServer();
@@ -63,7 +82,7 @@ export const Server = {
         return message;
     },
 };
-var globalThis = (() => {
+const tsProtoGlobalThis = (() => {
     if (typeof globalThis !== "undefined") {
         return globalThis;
     }
@@ -80,7 +99,7 @@ var globalThis = (() => {
 })();
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+        throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
     }
     return long.toNumber();
 }

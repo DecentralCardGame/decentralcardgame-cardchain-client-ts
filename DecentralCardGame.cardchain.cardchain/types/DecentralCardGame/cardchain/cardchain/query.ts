@@ -9,7 +9,7 @@ import { SellOffer, SellOfferStatus, sellOfferStatusFromJSON, sellOfferStatusToJ
 import { Server } from "./server";
 import { CStatus, cStatusFromJSON, cStatusToJSON, OutpSet } from "./set";
 import { User } from "./user";
-import { VoteRight, VotingResults } from "./voting";
+import { VotingResults } from "./voting";
 
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 
@@ -58,16 +58,6 @@ export interface QueryQVotingResultsRequest {
 
 export interface QueryQVotingResultsResponse {
   lastVotingResults: VotingResults | undefined;
-}
-
-export interface QueryQVotableCardsRequest {
-  address: string;
-}
-
-export interface QueryQVotableCardsResponse {
-  unregistered: boolean;
-  noVoteRights: boolean;
-  voteRights: VoteRight[];
 }
 
 export interface QueryQCardsRequest {
@@ -266,16 +256,17 @@ export const QueryParamsRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -289,6 +280,9 @@ export const QueryParamsRequest = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryParamsRequest>, I>>(base?: I): QueryParamsRequest {
+    return QueryParamsRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryParamsRequest>, I>>(_: I): QueryParamsRequest {
     const message = createBaseQueryParamsRequest();
     return message;
@@ -308,19 +302,24 @@ export const QueryParamsResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryParamsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryParamsResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.params = Params.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -331,10 +330,15 @@ export const QueryParamsResponse = {
 
   toJSON(message: QueryParamsResponse): unknown {
     const obj: any = {};
-    message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
+    if (message.params !== undefined) {
+      obj.params = Params.toJSON(message.params);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(base?: I): QueryParamsResponse {
+    return QueryParamsResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryParamsResponse>, I>>(object: I): QueryParamsResponse {
     const message = createBaseQueryParamsResponse();
     message.params = (object.params !== undefined && object.params !== null)
@@ -357,19 +361,24 @@ export const QueryQCardRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCardRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQCardRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.cardId = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -380,10 +389,15 @@ export const QueryQCardRequest = {
 
   toJSON(message: QueryQCardRequest): unknown {
     const obj: any = {};
-    message.cardId !== undefined && (obj.cardId = message.cardId);
+    if (message.cardId !== "") {
+      obj.cardId = message.cardId;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQCardRequest>, I>>(base?: I): QueryQCardRequest {
+    return QueryQCardRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQCardRequest>, I>>(object: I): QueryQCardRequest {
     const message = createBaseQueryQCardRequest();
     message.cardId = object.cardId ?? "";
@@ -404,19 +418,24 @@ export const QueryQCardContentRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCardContentRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQCardContentRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.cardId = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -427,10 +446,15 @@ export const QueryQCardContentRequest = {
 
   toJSON(message: QueryQCardContentRequest): unknown {
     const obj: any = {};
-    message.cardId !== undefined && (obj.cardId = message.cardId);
+    if (message.cardId !== "") {
+      obj.cardId = message.cardId;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQCardContentRequest>, I>>(base?: I): QueryQCardContentRequest {
+    return QueryQCardContentRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQCardContentRequest>, I>>(object: I): QueryQCardContentRequest {
     const message = createBaseQueryQCardContentRequest();
     message.cardId = object.cardId ?? "";
@@ -454,22 +478,31 @@ export const QueryQCardContentResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCardContentResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQCardContentResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.content = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.hash = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -483,11 +516,18 @@ export const QueryQCardContentResponse = {
 
   toJSON(message: QueryQCardContentResponse): unknown {
     const obj: any = {};
-    message.content !== undefined && (obj.content = message.content);
-    message.hash !== undefined && (obj.hash = message.hash);
+    if (message.content !== "") {
+      obj.content = message.content;
+    }
+    if (message.hash !== "") {
+      obj.hash = message.hash;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQCardContentResponse>, I>>(base?: I): QueryQCardContentResponse {
+    return QueryQCardContentResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQCardContentResponse>, I>>(object: I): QueryQCardContentResponse {
     const message = createBaseQueryQCardContentResponse();
     message.content = object.content ?? "";
@@ -509,19 +549,24 @@ export const QueryQUserRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQUserRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQUserRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.address = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -532,10 +577,15 @@ export const QueryQUserRequest = {
 
   toJSON(message: QueryQUserRequest): unknown {
     const obj: any = {};
-    message.address !== undefined && (obj.address = message.address);
+    if (message.address !== "") {
+      obj.address = message.address;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQUserRequest>, I>>(base?: I): QueryQUserRequest {
+    return QueryQUserRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQUserRequest>, I>>(object: I): QueryQUserRequest {
     const message = createBaseQueryQUserRequest();
     message.address = object.address ?? "";
@@ -553,16 +603,17 @@ export const QueryQCardchainInfoRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCardchainInfoRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQCardchainInfoRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -576,6 +627,9 @@ export const QueryQCardchainInfoRequest = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQCardchainInfoRequest>, I>>(base?: I): QueryQCardchainInfoRequest {
+    return QueryQCardchainInfoRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQCardchainInfoRequest>, I>>(_: I): QueryQCardchainInfoRequest {
     const message = createBaseQueryQCardchainInfoRequest();
     return message;
@@ -623,44 +677,76 @@ export const QueryQCardchainInfoResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCardchainInfoResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQCardchainInfoResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.cardAuctionPrice = reader.string();
-          break;
+          continue;
         case 2:
-          if ((tag & 7) === 2) {
+          if (tag === 16) {
+            message.activeSets.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 18) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.activeSets.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.activeSets.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 3:
+          if (tag !== 24) {
+            break;
+          }
+
           message.cardsNumber = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 4:
+          if (tag !== 32) {
+            break;
+          }
+
           message.matchesNumber = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 5:
+          if (tag !== 40) {
+            break;
+          }
+
           message.sellOffersNumber = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 6:
+          if (tag !== 48) {
+            break;
+          }
+
           message.councilsNumber = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 7:
+          if (tag !== 56) {
+            break;
+          }
+
           message.lastCardModified = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -679,20 +765,33 @@ export const QueryQCardchainInfoResponse = {
 
   toJSON(message: QueryQCardchainInfoResponse): unknown {
     const obj: any = {};
-    message.cardAuctionPrice !== undefined && (obj.cardAuctionPrice = message.cardAuctionPrice);
-    if (message.activeSets) {
-      obj.activeSets = message.activeSets.map((e) => Math.round(e));
-    } else {
-      obj.activeSets = [];
+    if (message.cardAuctionPrice !== "") {
+      obj.cardAuctionPrice = message.cardAuctionPrice;
     }
-    message.cardsNumber !== undefined && (obj.cardsNumber = Math.round(message.cardsNumber));
-    message.matchesNumber !== undefined && (obj.matchesNumber = Math.round(message.matchesNumber));
-    message.sellOffersNumber !== undefined && (obj.sellOffersNumber = Math.round(message.sellOffersNumber));
-    message.councilsNumber !== undefined && (obj.councilsNumber = Math.round(message.councilsNumber));
-    message.lastCardModified !== undefined && (obj.lastCardModified = Math.round(message.lastCardModified));
+    if (message.activeSets?.length) {
+      obj.activeSets = message.activeSets.map((e) => Math.round(e));
+    }
+    if (message.cardsNumber !== 0) {
+      obj.cardsNumber = Math.round(message.cardsNumber);
+    }
+    if (message.matchesNumber !== 0) {
+      obj.matchesNumber = Math.round(message.matchesNumber);
+    }
+    if (message.sellOffersNumber !== 0) {
+      obj.sellOffersNumber = Math.round(message.sellOffersNumber);
+    }
+    if (message.councilsNumber !== 0) {
+      obj.councilsNumber = Math.round(message.councilsNumber);
+    }
+    if (message.lastCardModified !== 0) {
+      obj.lastCardModified = Math.round(message.lastCardModified);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQCardchainInfoResponse>, I>>(base?: I): QueryQCardchainInfoResponse {
+    return QueryQCardchainInfoResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQCardchainInfoResponse>, I>>(object: I): QueryQCardchainInfoResponse {
     const message = createBaseQueryQCardchainInfoResponse();
     message.cardAuctionPrice = object.cardAuctionPrice ?? "";
@@ -716,16 +815,17 @@ export const QueryQVotingResultsRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQVotingResultsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQVotingResultsRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -739,6 +839,9 @@ export const QueryQVotingResultsRequest = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQVotingResultsRequest>, I>>(base?: I): QueryQVotingResultsRequest {
+    return QueryQVotingResultsRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQVotingResultsRequest>, I>>(_: I): QueryQVotingResultsRequest {
     const message = createBaseQueryQVotingResultsRequest();
     return message;
@@ -758,19 +861,24 @@ export const QueryQVotingResultsResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQVotingResultsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQVotingResultsResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.lastVotingResults = VotingResults.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -783,135 +891,20 @@ export const QueryQVotingResultsResponse = {
 
   toJSON(message: QueryQVotingResultsResponse): unknown {
     const obj: any = {};
-    message.lastVotingResults !== undefined && (obj.lastVotingResults = message.lastVotingResults
-      ? VotingResults.toJSON(message.lastVotingResults)
-      : undefined);
+    if (message.lastVotingResults !== undefined) {
+      obj.lastVotingResults = VotingResults.toJSON(message.lastVotingResults);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQVotingResultsResponse>, I>>(base?: I): QueryQVotingResultsResponse {
+    return QueryQVotingResultsResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQVotingResultsResponse>, I>>(object: I): QueryQVotingResultsResponse {
     const message = createBaseQueryQVotingResultsResponse();
     message.lastVotingResults = (object.lastVotingResults !== undefined && object.lastVotingResults !== null)
       ? VotingResults.fromPartial(object.lastVotingResults)
       : undefined;
-    return message;
-  },
-};
-
-function createBaseQueryQVotableCardsRequest(): QueryQVotableCardsRequest {
-  return { address: "" };
-}
-
-export const QueryQVotableCardsRequest = {
-  encode(message: QueryQVotableCardsRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.address !== "") {
-      writer.uint32(10).string(message.address);
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQVotableCardsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryQVotableCardsRequest();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.address = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): QueryQVotableCardsRequest {
-    return { address: isSet(object.address) ? String(object.address) : "" };
-  },
-
-  toJSON(message: QueryQVotableCardsRequest): unknown {
-    const obj: any = {};
-    message.address !== undefined && (obj.address = message.address);
-    return obj;
-  },
-
-  fromPartial<I extends Exact<DeepPartial<QueryQVotableCardsRequest>, I>>(object: I): QueryQVotableCardsRequest {
-    const message = createBaseQueryQVotableCardsRequest();
-    message.address = object.address ?? "";
-    return message;
-  },
-};
-
-function createBaseQueryQVotableCardsResponse(): QueryQVotableCardsResponse {
-  return { unregistered: false, noVoteRights: false, voteRights: [] };
-}
-
-export const QueryQVotableCardsResponse = {
-  encode(message: QueryQVotableCardsResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.unregistered === true) {
-      writer.uint32(8).bool(message.unregistered);
-    }
-    if (message.noVoteRights === true) {
-      writer.uint32(16).bool(message.noVoteRights);
-    }
-    for (const v of message.voteRights) {
-      VoteRight.encode(v!, writer.uint32(26).fork()).ldelim();
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQVotableCardsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseQueryQVotableCardsResponse();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.unregistered = reader.bool();
-          break;
-        case 2:
-          message.noVoteRights = reader.bool();
-          break;
-        case 3:
-          message.voteRights.push(VoteRight.decode(reader, reader.uint32()));
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): QueryQVotableCardsResponse {
-    return {
-      unregistered: isSet(object.unregistered) ? Boolean(object.unregistered) : false,
-      noVoteRights: isSet(object.noVoteRights) ? Boolean(object.noVoteRights) : false,
-      voteRights: Array.isArray(object?.voteRights) ? object.voteRights.map((e: any) => VoteRight.fromJSON(e)) : [],
-    };
-  },
-
-  toJSON(message: QueryQVotableCardsResponse): unknown {
-    const obj: any = {};
-    message.unregistered !== undefined && (obj.unregistered = message.unregistered);
-    message.noVoteRights !== undefined && (obj.noVoteRights = message.noVoteRights);
-    if (message.voteRights) {
-      obj.voteRights = message.voteRights.map((e) => e ? VoteRight.toJSON(e) : undefined);
-    } else {
-      obj.voteRights = [];
-    }
-    return obj;
-  },
-
-  fromPartial<I extends Exact<DeepPartial<QueryQVotableCardsResponse>, I>>(object: I): QueryQVotableCardsResponse {
-    const message = createBaseQueryQVotableCardsResponse();
-    message.unregistered = object.unregistered ?? false;
-    message.noVoteRights = object.noVoteRights ?? false;
-    message.voteRights = object.voteRights?.map((e) => VoteRight.fromPartial(e)) || [];
     return message;
   },
 };
@@ -963,43 +956,80 @@ export const QueryQCardsRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCardsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQCardsRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.owner = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.status = reader.int32() as any;
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.cardType = reader.string();
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.classes = reader.string();
-          break;
+          continue;
         case 5:
+          if (tag !== 42) {
+            break;
+          }
+
           message.sortBy = reader.string();
-          break;
+          continue;
         case 6:
+          if (tag !== 50) {
+            break;
+          }
+
           message.nameContains = reader.string();
-          break;
+          continue;
         case 7:
+          if (tag !== 58) {
+            break;
+          }
+
           message.keywordsContains = reader.string();
-          break;
+          continue;
         case 8:
+          if (tag !== 66) {
+            break;
+          }
+
           message.notesContains = reader.string();
-          break;
+          continue;
         case 9:
+          if (tag !== 72) {
+            break;
+          }
+
           message.onlyStarterCard = reader.bool();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1020,18 +1050,39 @@ export const QueryQCardsRequest = {
 
   toJSON(message: QueryQCardsRequest): unknown {
     const obj: any = {};
-    message.owner !== undefined && (obj.owner = message.owner);
-    message.status !== undefined && (obj.status = queryQCardsRequest_StatusToJSON(message.status));
-    message.cardType !== undefined && (obj.cardType = message.cardType);
-    message.classes !== undefined && (obj.classes = message.classes);
-    message.sortBy !== undefined && (obj.sortBy = message.sortBy);
-    message.nameContains !== undefined && (obj.nameContains = message.nameContains);
-    message.keywordsContains !== undefined && (obj.keywordsContains = message.keywordsContains);
-    message.notesContains !== undefined && (obj.notesContains = message.notesContains);
-    message.onlyStarterCard !== undefined && (obj.onlyStarterCard = message.onlyStarterCard);
+    if (message.owner !== "") {
+      obj.owner = message.owner;
+    }
+    if (message.status !== 0) {
+      obj.status = queryQCardsRequest_StatusToJSON(message.status);
+    }
+    if (message.cardType !== "") {
+      obj.cardType = message.cardType;
+    }
+    if (message.classes !== "") {
+      obj.classes = message.classes;
+    }
+    if (message.sortBy !== "") {
+      obj.sortBy = message.sortBy;
+    }
+    if (message.nameContains !== "") {
+      obj.nameContains = message.nameContains;
+    }
+    if (message.keywordsContains !== "") {
+      obj.keywordsContains = message.keywordsContains;
+    }
+    if (message.notesContains !== "") {
+      obj.notesContains = message.notesContains;
+    }
+    if (message.onlyStarterCard === true) {
+      obj.onlyStarterCard = message.onlyStarterCard;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQCardsRequest>, I>>(base?: I): QueryQCardsRequest {
+    return QueryQCardsRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQCardsRequest>, I>>(object: I): QueryQCardsRequest {
     const message = createBaseQueryQCardsRequest();
     message.owner = object.owner ?? "";
@@ -1062,26 +1113,34 @@ export const QueryQCardsResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCardsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQCardsResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if ((tag & 7) === 2) {
+          if (tag === 8) {
+            message.cardsList.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 10) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.cardsList.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.cardsList.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
-          break;
-        default:
-          reader.skipType(tag & 7);
+
           break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1092,14 +1151,15 @@ export const QueryQCardsResponse = {
 
   toJSON(message: QueryQCardsResponse): unknown {
     const obj: any = {};
-    if (message.cardsList) {
+    if (message.cardsList?.length) {
       obj.cardsList = message.cardsList.map((e) => Math.round(e));
-    } else {
-      obj.cardsList = [];
     }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQCardsResponse>, I>>(base?: I): QueryQCardsResponse {
+    return QueryQCardsResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQCardsResponse>, I>>(object: I): QueryQCardsResponse {
     const message = createBaseQueryQCardsResponse();
     message.cardsList = object.cardsList?.map((e) => e) || [];
@@ -1120,19 +1180,24 @@ export const QueryQMatchRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQMatchRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQMatchRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.matchId = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1143,10 +1208,15 @@ export const QueryQMatchRequest = {
 
   toJSON(message: QueryQMatchRequest): unknown {
     const obj: any = {};
-    message.matchId !== undefined && (obj.matchId = Math.round(message.matchId));
+    if (message.matchId !== 0) {
+      obj.matchId = Math.round(message.matchId);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQMatchRequest>, I>>(base?: I): QueryQMatchRequest {
+    return QueryQMatchRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQMatchRequest>, I>>(object: I): QueryQMatchRequest {
     const message = createBaseQueryQMatchRequest();
     message.matchId = object.matchId ?? 0;
@@ -1167,19 +1237,24 @@ export const QueryQSetRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQSetRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQSetRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.setId = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1190,10 +1265,15 @@ export const QueryQSetRequest = {
 
   toJSON(message: QueryQSetRequest): unknown {
     const obj: any = {};
-    message.setId !== undefined && (obj.setId = Math.round(message.setId));
+    if (message.setId !== 0) {
+      obj.setId = Math.round(message.setId);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQSetRequest>, I>>(base?: I): QueryQSetRequest {
+    return QueryQSetRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQSetRequest>, I>>(object: I): QueryQSetRequest {
     const message = createBaseQueryQSetRequest();
     message.setId = object.setId ?? 0;
@@ -1214,19 +1294,24 @@ export const QueryQSellOfferRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQSellOfferRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQSellOfferRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.sellOfferId = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1237,10 +1322,15 @@ export const QueryQSellOfferRequest = {
 
   toJSON(message: QueryQSellOfferRequest): unknown {
     const obj: any = {};
-    message.sellOfferId !== undefined && (obj.sellOfferId = Math.round(message.sellOfferId));
+    if (message.sellOfferId !== 0) {
+      obj.sellOfferId = Math.round(message.sellOfferId);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQSellOfferRequest>, I>>(base?: I): QueryQSellOfferRequest {
+    return QueryQSellOfferRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQSellOfferRequest>, I>>(object: I): QueryQSellOfferRequest {
     const message = createBaseQueryQSellOfferRequest();
     message.sellOfferId = object.sellOfferId ?? 0;
@@ -1261,19 +1351,24 @@ export const QueryQCouncilRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQCouncilRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQCouncilRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.councilId = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1284,10 +1379,15 @@ export const QueryQCouncilRequest = {
 
   toJSON(message: QueryQCouncilRequest): unknown {
     const obj: any = {};
-    message.councilId !== undefined && (obj.councilId = Math.round(message.councilId));
+    if (message.councilId !== 0) {
+      obj.councilId = Math.round(message.councilId);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQCouncilRequest>, I>>(base?: I): QueryQCouncilRequest {
+    return QueryQCouncilRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQCouncilRequest>, I>>(object: I): QueryQCouncilRequest {
     const message = createBaseQueryQCouncilRequest();
     message.councilId = object.councilId ?? 0;
@@ -1336,44 +1436,76 @@ export const QueryQMatchesRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQMatchesRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQMatchesRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.timestampDown = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.timestampUp = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.containsUsers.push(reader.string());
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.reporter = reader.string();
-          break;
+          continue;
         case 5:
+          if (tag !== 40) {
+            break;
+          }
+
           message.outcome = reader.int32() as any;
-          break;
+          continue;
         case 6:
-          if ((tag & 7) === 2) {
+          if (tag === 48) {
+            message.cardsPlayed.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 50) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.cardsPlayed.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.cardsPlayed.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 7:
+          if (tag !== 58) {
+            break;
+          }
+
           message.ignore = IgnoreMatches.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1392,24 +1524,33 @@ export const QueryQMatchesRequest = {
 
   toJSON(message: QueryQMatchesRequest): unknown {
     const obj: any = {};
-    message.timestampDown !== undefined && (obj.timestampDown = Math.round(message.timestampDown));
-    message.timestampUp !== undefined && (obj.timestampUp = Math.round(message.timestampUp));
-    if (message.containsUsers) {
-      obj.containsUsers = message.containsUsers.map((e) => e);
-    } else {
-      obj.containsUsers = [];
+    if (message.timestampDown !== 0) {
+      obj.timestampDown = Math.round(message.timestampDown);
     }
-    message.reporter !== undefined && (obj.reporter = message.reporter);
-    message.outcome !== undefined && (obj.outcome = outcomeToJSON(message.outcome));
-    if (message.cardsPlayed) {
+    if (message.timestampUp !== 0) {
+      obj.timestampUp = Math.round(message.timestampUp);
+    }
+    if (message.containsUsers?.length) {
+      obj.containsUsers = message.containsUsers;
+    }
+    if (message.reporter !== "") {
+      obj.reporter = message.reporter;
+    }
+    if (message.outcome !== 0) {
+      obj.outcome = outcomeToJSON(message.outcome);
+    }
+    if (message.cardsPlayed?.length) {
       obj.cardsPlayed = message.cardsPlayed.map((e) => Math.round(e));
-    } else {
-      obj.cardsPlayed = [];
     }
-    message.ignore !== undefined && (obj.ignore = message.ignore ? IgnoreMatches.toJSON(message.ignore) : undefined);
+    if (message.ignore !== undefined) {
+      obj.ignore = IgnoreMatches.toJSON(message.ignore);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQMatchesRequest>, I>>(base?: I): QueryQMatchesRequest {
+    return QueryQMatchesRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQMatchesRequest>, I>>(object: I): QueryQMatchesRequest {
     const message = createBaseQueryQMatchesRequest();
     message.timestampDown = object.timestampDown ?? 0;
@@ -1438,19 +1579,24 @@ export const IgnoreMatches = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): IgnoreMatches {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIgnoreMatches();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.outcome = reader.bool();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1461,10 +1607,15 @@ export const IgnoreMatches = {
 
   toJSON(message: IgnoreMatches): unknown {
     const obj: any = {};
-    message.outcome !== undefined && (obj.outcome = message.outcome);
+    if (message.outcome === true) {
+      obj.outcome = message.outcome;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<IgnoreMatches>, I>>(base?: I): IgnoreMatches {
+    return IgnoreMatches.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<IgnoreMatches>, I>>(object: I): IgnoreMatches {
     const message = createBaseIgnoreMatches();
     message.outcome = object.outcome ?? false;
@@ -1490,29 +1641,41 @@ export const QueryQMatchesResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQMatchesResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQMatchesResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if ((tag & 7) === 2) {
+          if (tag === 8) {
+            message.matchesList.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 10) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.matchesList.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.matchesList.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.matches.push(Match.decode(reader, reader.uint32()));
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1526,19 +1689,18 @@ export const QueryQMatchesResponse = {
 
   toJSON(message: QueryQMatchesResponse): unknown {
     const obj: any = {};
-    if (message.matchesList) {
+    if (message.matchesList?.length) {
       obj.matchesList = message.matchesList.map((e) => Math.round(e));
-    } else {
-      obj.matchesList = [];
     }
-    if (message.matches) {
-      obj.matches = message.matches.map((e) => e ? Match.toJSON(e) : undefined);
-    } else {
-      obj.matches = [];
+    if (message.matches?.length) {
+      obj.matches = message.matches.map((e) => Match.toJSON(e));
     }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQMatchesResponse>, I>>(base?: I): QueryQMatchesResponse {
+    return QueryQMatchesResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQMatchesResponse>, I>>(object: I): QueryQMatchesResponse {
     const message = createBaseQueryQMatchesResponse();
     message.matchesList = object.matchesList?.map((e) => e) || [];
@@ -1578,37 +1740,66 @@ export const QueryQSellOffersRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQSellOffersRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQSellOffersRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 10) {
+            break;
+          }
+
           message.priceDown = reader.string();
-          break;
+          continue;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.priceUp = reader.string();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.seller = reader.string();
-          break;
+          continue;
         case 4:
+          if (tag !== 34) {
+            break;
+          }
+
           message.buyer = reader.string();
-          break;
+          continue;
         case 5:
+          if (tag !== 40) {
+            break;
+          }
+
           message.card = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 6:
+          if (tag !== 48) {
+            break;
+          }
+
           message.status = reader.int32() as any;
-          break;
+          continue;
         case 7:
+          if (tag !== 58) {
+            break;
+          }
+
           message.ignore = IgnoreSellOffers.decode(reader, reader.uint32());
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1627,16 +1818,33 @@ export const QueryQSellOffersRequest = {
 
   toJSON(message: QueryQSellOffersRequest): unknown {
     const obj: any = {};
-    message.priceDown !== undefined && (obj.priceDown = message.priceDown);
-    message.priceUp !== undefined && (obj.priceUp = message.priceUp);
-    message.seller !== undefined && (obj.seller = message.seller);
-    message.buyer !== undefined && (obj.buyer = message.buyer);
-    message.card !== undefined && (obj.card = Math.round(message.card));
-    message.status !== undefined && (obj.status = sellOfferStatusToJSON(message.status));
-    message.ignore !== undefined && (obj.ignore = message.ignore ? IgnoreSellOffers.toJSON(message.ignore) : undefined);
+    if (message.priceDown !== "") {
+      obj.priceDown = message.priceDown;
+    }
+    if (message.priceUp !== "") {
+      obj.priceUp = message.priceUp;
+    }
+    if (message.seller !== "") {
+      obj.seller = message.seller;
+    }
+    if (message.buyer !== "") {
+      obj.buyer = message.buyer;
+    }
+    if (message.card !== 0) {
+      obj.card = Math.round(message.card);
+    }
+    if (message.status !== 0) {
+      obj.status = sellOfferStatusToJSON(message.status);
+    }
+    if (message.ignore !== undefined) {
+      obj.ignore = IgnoreSellOffers.toJSON(message.ignore);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQSellOffersRequest>, I>>(base?: I): QueryQSellOffersRequest {
+    return QueryQSellOffersRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQSellOffersRequest>, I>>(object: I): QueryQSellOffersRequest {
     const message = createBaseQueryQSellOffersRequest();
     message.priceDown = object.priceDown ?? "";
@@ -1668,22 +1876,31 @@ export const IgnoreSellOffers = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): IgnoreSellOffers {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseIgnoreSellOffers();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.status = reader.bool();
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.card = reader.bool();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1697,11 +1914,18 @@ export const IgnoreSellOffers = {
 
   toJSON(message: IgnoreSellOffers): unknown {
     const obj: any = {};
-    message.status !== undefined && (obj.status = message.status);
-    message.card !== undefined && (obj.card = message.card);
+    if (message.status === true) {
+      obj.status = message.status;
+    }
+    if (message.card === true) {
+      obj.card = message.card;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<IgnoreSellOffers>, I>>(base?: I): IgnoreSellOffers {
+    return IgnoreSellOffers.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<IgnoreSellOffers>, I>>(object: I): IgnoreSellOffers {
     const message = createBaseIgnoreSellOffers();
     message.status = object.status ?? false;
@@ -1728,29 +1952,41 @@ export const QueryQSellOffersResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQSellOffersResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQSellOffersResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if ((tag & 7) === 2) {
+          if (tag === 8) {
+            message.sellOffersIds.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 10) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.sellOffersIds.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.sellOffersIds.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 2:
+          if (tag !== 18) {
+            break;
+          }
+
           message.sellOffers.push(SellOffer.decode(reader, reader.uint32()));
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1764,19 +2000,18 @@ export const QueryQSellOffersResponse = {
 
   toJSON(message: QueryQSellOffersResponse): unknown {
     const obj: any = {};
-    if (message.sellOffersIds) {
+    if (message.sellOffersIds?.length) {
       obj.sellOffersIds = message.sellOffersIds.map((e) => Math.round(e));
-    } else {
-      obj.sellOffersIds = [];
     }
-    if (message.sellOffers) {
-      obj.sellOffers = message.sellOffers.map((e) => e ? SellOffer.toJSON(e) : undefined);
-    } else {
-      obj.sellOffers = [];
+    if (message.sellOffers?.length) {
+      obj.sellOffers = message.sellOffers.map((e) => SellOffer.toJSON(e));
     }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQSellOffersResponse>, I>>(base?: I): QueryQSellOffersResponse {
+    return QueryQSellOffersResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQSellOffersResponse>, I>>(object: I): QueryQSellOffersResponse {
     const message = createBaseQueryQSellOffersResponse();
     message.sellOffersIds = object.sellOffersIds?.map((e) => e) || [];
@@ -1798,19 +2033,24 @@ export const QueryQServerRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQServerRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQServerRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.id = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1821,10 +2061,15 @@ export const QueryQServerRequest = {
 
   toJSON(message: QueryQServerRequest): unknown {
     const obj: any = {};
-    message.id !== undefined && (obj.id = Math.round(message.id));
+    if (message.id !== 0) {
+      obj.id = Math.round(message.id);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQServerRequest>, I>>(base?: I): QueryQServerRequest {
+    return QueryQServerRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQServerRequest>, I>>(object: I): QueryQServerRequest {
     const message = createBaseQueryQServerRequest();
     message.id = object.id ?? 0;
@@ -1842,16 +2087,17 @@ export const QueryQServerResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQServerResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQServerResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
-        default:
-          reader.skipType(tag & 7);
-          break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1865,6 +2111,9 @@ export const QueryQServerResponse = {
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQServerResponse>, I>>(base?: I): QueryQServerResponse {
+    return QueryQServerResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQServerResponse>, I>>(_: I): QueryQServerResponse {
     const message = createBaseQueryQServerResponse();
     return message;
@@ -1898,38 +2147,62 @@ export const QueryQSetsRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQSetsRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQSetsRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.status = reader.int32() as any;
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.ignoreStatus = reader.bool();
-          break;
+          continue;
         case 3:
+          if (tag !== 26) {
+            break;
+          }
+
           message.contributors.push(reader.string());
-          break;
+          continue;
         case 4:
-          if ((tag & 7) === 2) {
+          if (tag === 32) {
+            message.containsCards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 34) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.containsCards.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.containsCards.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
+
           break;
         case 5:
+          if (tag !== 42) {
+            break;
+          }
+
           message.owner = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -1946,22 +2219,27 @@ export const QueryQSetsRequest = {
 
   toJSON(message: QueryQSetsRequest): unknown {
     const obj: any = {};
-    message.status !== undefined && (obj.status = cStatusToJSON(message.status));
-    message.ignoreStatus !== undefined && (obj.ignoreStatus = message.ignoreStatus);
-    if (message.contributors) {
-      obj.contributors = message.contributors.map((e) => e);
-    } else {
-      obj.contributors = [];
+    if (message.status !== 0) {
+      obj.status = cStatusToJSON(message.status);
     }
-    if (message.containsCards) {
+    if (message.ignoreStatus === true) {
+      obj.ignoreStatus = message.ignoreStatus;
+    }
+    if (message.contributors?.length) {
+      obj.contributors = message.contributors;
+    }
+    if (message.containsCards?.length) {
       obj.containsCards = message.containsCards.map((e) => Math.round(e));
-    } else {
-      obj.containsCards = [];
     }
-    message.owner !== undefined && (obj.owner = message.owner);
+    if (message.owner !== "") {
+      obj.owner = message.owner;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQSetsRequest>, I>>(base?: I): QueryQSetsRequest {
+    return QueryQSetsRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQSetsRequest>, I>>(object: I): QueryQSetsRequest {
     const message = createBaseQueryQSetsRequest();
     message.status = object.status ?? 0;
@@ -1988,26 +2266,34 @@ export const QueryQSetsResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryQSetsResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryQSetsResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if ((tag & 7) === 2) {
+          if (tag === 8) {
+            message.setIds.push(longToNumber(reader.uint64() as Long));
+
+            continue;
+          }
+
+          if (tag === 10) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.setIds.push(longToNumber(reader.uint64() as Long));
             }
-          } else {
-            message.setIds.push(longToNumber(reader.uint64() as Long));
+
+            continue;
           }
-          break;
-        default:
-          reader.skipType(tag & 7);
+
           break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -2018,14 +2304,15 @@ export const QueryQSetsResponse = {
 
   toJSON(message: QueryQSetsResponse): unknown {
     const obj: any = {};
-    if (message.setIds) {
+    if (message.setIds?.length) {
       obj.setIds = message.setIds.map((e) => Math.round(e));
-    } else {
-      obj.setIds = [];
     }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryQSetsResponse>, I>>(base?: I): QueryQSetsResponse {
+    return QueryQSetsResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryQSetsResponse>, I>>(object: I): QueryQSetsResponse {
     const message = createBaseQueryQSetsResponse();
     message.setIds = object.setIds?.map((e) => e) || [];
@@ -2046,19 +2333,24 @@ export const QueryRarityDistributionRequest = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryRarityDistributionRequest {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryRarityDistributionRequest();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.setId = longToNumber(reader.uint64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -2069,10 +2361,15 @@ export const QueryRarityDistributionRequest = {
 
   toJSON(message: QueryRarityDistributionRequest): unknown {
     const obj: any = {};
-    message.setId !== undefined && (obj.setId = Math.round(message.setId));
+    if (message.setId !== 0) {
+      obj.setId = Math.round(message.setId);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryRarityDistributionRequest>, I>>(base?: I): QueryRarityDistributionRequest {
+    return QueryRarityDistributionRequest.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryRarityDistributionRequest>, I>>(
     object: I,
   ): QueryRarityDistributionRequest {
@@ -2102,36 +2399,51 @@ export const QueryRarityDistributionResponse = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): QueryRarityDistributionResponse {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseQueryRarityDistributionResponse();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if ((tag & 7) === 2) {
+          if (tag === 8) {
+            message.current.push(reader.uint32());
+
+            continue;
+          }
+
+          if (tag === 10) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.current.push(reader.uint32());
             }
-          } else {
-            message.current.push(reader.uint32());
+
+            continue;
           }
+
           break;
         case 2:
-          if ((tag & 7) === 2) {
+          if (tag === 16) {
+            message.wanted.push(reader.uint32());
+
+            continue;
+          }
+
+          if (tag === 18) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.wanted.push(reader.uint32());
             }
-          } else {
-            message.wanted.push(reader.uint32());
+
+            continue;
           }
-          break;
-        default:
-          reader.skipType(tag & 7);
+
           break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -2145,19 +2457,18 @@ export const QueryRarityDistributionResponse = {
 
   toJSON(message: QueryRarityDistributionResponse): unknown {
     const obj: any = {};
-    if (message.current) {
+    if (message.current?.length) {
       obj.current = message.current.map((e) => Math.round(e));
-    } else {
-      obj.current = [];
     }
-    if (message.wanted) {
+    if (message.wanted?.length) {
       obj.wanted = message.wanted.map((e) => Math.round(e));
-    } else {
-      obj.wanted = [];
     }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<QueryRarityDistributionResponse>, I>>(base?: I): QueryRarityDistributionResponse {
+    return QueryRarityDistributionResponse.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<QueryRarityDistributionResponse>, I>>(
     object: I,
   ): QueryRarityDistributionResponse {
@@ -2182,8 +2493,6 @@ export interface Query {
   QCardchainInfo(request: QueryQCardchainInfoRequest): Promise<QueryQCardchainInfoResponse>;
   /** Queries a list of QVotingResults items. */
   QVotingResults(request: QueryQVotingResultsRequest): Promise<QueryQVotingResultsResponse>;
-  /** Queries a list of QVotableCards items. */
-  QVotableCards(request: QueryQVotableCardsRequest): Promise<QueryQVotableCardsResponse>;
   /** Queries a list of QCards items. */
   QCards(request: QueryQCardsRequest): Promise<QueryQCardsResponse>;
   /** Queries a list of QMatch items. */
@@ -2206,9 +2515,12 @@ export interface Query {
   RarityDistribution(request: QueryRarityDistributionRequest): Promise<QueryRarityDistributionResponse>;
 }
 
+export const QueryServiceName = "DecentralCardGame.cardchain.cardchain.Query";
 export class QueryClientImpl implements Query {
   private readonly rpc: Rpc;
-  constructor(rpc: Rpc) {
+  private readonly service: string;
+  constructor(rpc: Rpc, opts?: { service?: string }) {
+    this.service = opts?.service || QueryServiceName;
     this.rpc = rpc;
     this.Params = this.Params.bind(this);
     this.QCard = this.QCard.bind(this);
@@ -2216,7 +2528,6 @@ export class QueryClientImpl implements Query {
     this.QUser = this.QUser.bind(this);
     this.QCardchainInfo = this.QCardchainInfo.bind(this);
     this.QVotingResults = this.QVotingResults.bind(this);
-    this.QVotableCards = this.QVotableCards.bind(this);
     this.QCards = this.QCards.bind(this);
     this.QMatch = this.QMatch.bind(this);
     this.QSet = this.QSet.bind(this);
@@ -2230,104 +2541,98 @@ export class QueryClientImpl implements Query {
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "Params", data);
-    return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "Params", data);
+    return promise.then((data) => QueryParamsResponse.decode(_m0.Reader.create(data)));
   }
 
   QCard(request: QueryQCardRequest): Promise<OutpCard> {
     const data = QueryQCardRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCard", data);
-    return promise.then((data) => OutpCard.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QCard", data);
+    return promise.then((data) => OutpCard.decode(_m0.Reader.create(data)));
   }
 
   QCardContent(request: QueryQCardContentRequest): Promise<QueryQCardContentResponse> {
     const data = QueryQCardContentRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCardContent", data);
-    return promise.then((data) => QueryQCardContentResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QCardContent", data);
+    return promise.then((data) => QueryQCardContentResponse.decode(_m0.Reader.create(data)));
   }
 
   QUser(request: QueryQUserRequest): Promise<User> {
     const data = QueryQUserRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QUser", data);
-    return promise.then((data) => User.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QUser", data);
+    return promise.then((data) => User.decode(_m0.Reader.create(data)));
   }
 
   QCardchainInfo(request: QueryQCardchainInfoRequest): Promise<QueryQCardchainInfoResponse> {
     const data = QueryQCardchainInfoRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCardchainInfo", data);
-    return promise.then((data) => QueryQCardchainInfoResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QCardchainInfo", data);
+    return promise.then((data) => QueryQCardchainInfoResponse.decode(_m0.Reader.create(data)));
   }
 
   QVotingResults(request: QueryQVotingResultsRequest): Promise<QueryQVotingResultsResponse> {
     const data = QueryQVotingResultsRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QVotingResults", data);
-    return promise.then((data) => QueryQVotingResultsResponse.decode(new _m0.Reader(data)));
-  }
-
-  QVotableCards(request: QueryQVotableCardsRequest): Promise<QueryQVotableCardsResponse> {
-    const data = QueryQVotableCardsRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QVotableCards", data);
-    return promise.then((data) => QueryQVotableCardsResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QVotingResults", data);
+    return promise.then((data) => QueryQVotingResultsResponse.decode(_m0.Reader.create(data)));
   }
 
   QCards(request: QueryQCardsRequest): Promise<QueryQCardsResponse> {
     const data = QueryQCardsRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCards", data);
-    return promise.then((data) => QueryQCardsResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QCards", data);
+    return promise.then((data) => QueryQCardsResponse.decode(_m0.Reader.create(data)));
   }
 
   QMatch(request: QueryQMatchRequest): Promise<Match> {
     const data = QueryQMatchRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QMatch", data);
-    return promise.then((data) => Match.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QMatch", data);
+    return promise.then((data) => Match.decode(_m0.Reader.create(data)));
   }
 
   QSet(request: QueryQSetRequest): Promise<OutpSet> {
     const data = QueryQSetRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QSet", data);
-    return promise.then((data) => OutpSet.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QSet", data);
+    return promise.then((data) => OutpSet.decode(_m0.Reader.create(data)));
   }
 
   QSellOffer(request: QueryQSellOfferRequest): Promise<SellOffer> {
     const data = QueryQSellOfferRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QSellOffer", data);
-    return promise.then((data) => SellOffer.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QSellOffer", data);
+    return promise.then((data) => SellOffer.decode(_m0.Reader.create(data)));
   }
 
   QCouncil(request: QueryQCouncilRequest): Promise<Council> {
     const data = QueryQCouncilRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCouncil", data);
-    return promise.then((data) => Council.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QCouncil", data);
+    return promise.then((data) => Council.decode(_m0.Reader.create(data)));
   }
 
   QMatches(request: QueryQMatchesRequest): Promise<QueryQMatchesResponse> {
     const data = QueryQMatchesRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QMatches", data);
-    return promise.then((data) => QueryQMatchesResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QMatches", data);
+    return promise.then((data) => QueryQMatchesResponse.decode(_m0.Reader.create(data)));
   }
 
   QSellOffers(request: QueryQSellOffersRequest): Promise<QueryQSellOffersResponse> {
     const data = QueryQSellOffersRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QSellOffers", data);
-    return promise.then((data) => QueryQSellOffersResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QSellOffers", data);
+    return promise.then((data) => QueryQSellOffersResponse.decode(_m0.Reader.create(data)));
   }
 
   QServer(request: QueryQServerRequest): Promise<Server> {
     const data = QueryQServerRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QServer", data);
-    return promise.then((data) => Server.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QServer", data);
+    return promise.then((data) => Server.decode(_m0.Reader.create(data)));
   }
 
   QSets(request: QueryQSetsRequest): Promise<QueryQSetsResponse> {
     const data = QueryQSetsRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QSets", data);
-    return promise.then((data) => QueryQSetsResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "QSets", data);
+    return promise.then((data) => QueryQSetsResponse.decode(_m0.Reader.create(data)));
   }
 
   RarityDistribution(request: QueryRarityDistributionRequest): Promise<QueryRarityDistributionResponse> {
     const data = QueryRarityDistributionRequest.encode(request).finish();
-    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "RarityDistribution", data);
-    return promise.then((data) => QueryRarityDistributionResponse.decode(new _m0.Reader(data)));
+    const promise = this.rpc.request(this.service, "RarityDistribution", data);
+    return promise.then((data) => QueryRarityDistributionResponse.decode(_m0.Reader.create(data)));
   }
 }
 
@@ -2335,10 +2640,10 @@ interface Rpc {
   request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;
 }
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -2367,7 +2672,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

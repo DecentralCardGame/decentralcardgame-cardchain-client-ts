@@ -9,7 +9,7 @@ import { SellOffer, sellOfferStatusFromJSON, sellOfferStatusToJSON } from "./sel
 import { Server } from "./server";
 import { cStatusFromJSON, cStatusToJSON, OutpSet } from "./set";
 import { User } from "./user";
-import { VoteRight, VotingResults } from "./voting";
+import { VotingResults } from "./voting";
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 export var QueryQCardsRequest_Status;
 (function (QueryQCardsRequest_Status) {
@@ -104,16 +104,17 @@ export const QueryParamsRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryParamsRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -123,6 +124,9 @@ export const QueryParamsRequest = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return QueryParamsRequest.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseQueryParamsRequest();
@@ -140,19 +144,23 @@ export const QueryParamsResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryParamsResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.params = Params.decode(reader, reader.uint32());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -161,8 +169,13 @@ export const QueryParamsResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.params !== undefined && (obj.params = message.params ? Params.toJSON(message.params) : undefined);
+        if (message.params !== undefined) {
+            obj.params = Params.toJSON(message.params);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryParamsResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryParamsResponse();
@@ -183,19 +196,23 @@ export const QueryQCardRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQCardRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.cardId = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -204,8 +221,13 @@ export const QueryQCardRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.cardId !== undefined && (obj.cardId = message.cardId);
+        if (message.cardId !== "") {
+            obj.cardId = message.cardId;
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQCardRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQCardRequest();
@@ -224,19 +246,23 @@ export const QueryQCardContentRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQCardContentRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.cardId = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -245,8 +271,13 @@ export const QueryQCardContentRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.cardId !== undefined && (obj.cardId = message.cardId);
+        if (message.cardId !== "") {
+            obj.cardId = message.cardId;
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQCardContentRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQCardContentRequest();
@@ -268,22 +299,29 @@ export const QueryQCardContentResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQCardContentResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.content = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.hash = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -295,9 +333,16 @@ export const QueryQCardContentResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.content !== undefined && (obj.content = message.content);
-        message.hash !== undefined && (obj.hash = message.hash);
+        if (message.content !== "") {
+            obj.content = message.content;
+        }
+        if (message.hash !== "") {
+            obj.hash = message.hash;
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQCardContentResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQCardContentResponse();
@@ -317,19 +362,23 @@ export const QueryQUserRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQUserRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.address = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -338,8 +387,13 @@ export const QueryQUserRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.address !== undefined && (obj.address = message.address);
+        if (message.address !== "") {
+            obj.address = message.address;
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQUserRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQUserRequest();
@@ -355,16 +409,17 @@ export const QueryQCardchainInfoRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQCardchainInfoRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -374,6 +429,9 @@ export const QueryQCardchainInfoRequest = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return QueryQCardchainInfoRequest.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseQueryQCardchainInfoRequest();
@@ -419,45 +477,66 @@ export const QueryQCardchainInfoResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQCardchainInfoResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.cardAuctionPrice = reader.string();
-                    break;
+                    continue;
                 case 2:
-                    if ((tag & 7) === 2) {
+                    if (tag === 16) {
+                        message.activeSets.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 18) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.activeSets.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.activeSets.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.cardsNumber = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
                     message.matchesNumber = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 5:
+                    if (tag !== 40) {
+                        break;
+                    }
                     message.sellOffersNumber = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 6:
+                    if (tag !== 48) {
+                        break;
+                    }
                     message.councilsNumber = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 7:
+                    if (tag !== 56) {
+                        break;
+                    }
                     message.lastCardModified = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -474,19 +553,31 @@ export const QueryQCardchainInfoResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.cardAuctionPrice !== undefined && (obj.cardAuctionPrice = message.cardAuctionPrice);
-        if (message.activeSets) {
+        if (message.cardAuctionPrice !== "") {
+            obj.cardAuctionPrice = message.cardAuctionPrice;
+        }
+        if (message.activeSets?.length) {
             obj.activeSets = message.activeSets.map((e) => Math.round(e));
         }
-        else {
-            obj.activeSets = [];
+        if (message.cardsNumber !== 0) {
+            obj.cardsNumber = Math.round(message.cardsNumber);
         }
-        message.cardsNumber !== undefined && (obj.cardsNumber = Math.round(message.cardsNumber));
-        message.matchesNumber !== undefined && (obj.matchesNumber = Math.round(message.matchesNumber));
-        message.sellOffersNumber !== undefined && (obj.sellOffersNumber = Math.round(message.sellOffersNumber));
-        message.councilsNumber !== undefined && (obj.councilsNumber = Math.round(message.councilsNumber));
-        message.lastCardModified !== undefined && (obj.lastCardModified = Math.round(message.lastCardModified));
+        if (message.matchesNumber !== 0) {
+            obj.matchesNumber = Math.round(message.matchesNumber);
+        }
+        if (message.sellOffersNumber !== 0) {
+            obj.sellOffersNumber = Math.round(message.sellOffersNumber);
+        }
+        if (message.councilsNumber !== 0) {
+            obj.councilsNumber = Math.round(message.councilsNumber);
+        }
+        if (message.lastCardModified !== 0) {
+            obj.lastCardModified = Math.round(message.lastCardModified);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQCardchainInfoResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQCardchainInfoResponse();
@@ -508,16 +599,17 @@ export const QueryQVotingResultsRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQVotingResultsRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -527,6 +619,9 @@ export const QueryQVotingResultsRequest = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return QueryQVotingResultsRequest.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseQueryQVotingResultsRequest();
@@ -544,19 +639,23 @@ export const QueryQVotingResultsResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQVotingResultsResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.lastVotingResults = VotingResults.decode(reader, reader.uint32());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -567,123 +666,19 @@ export const QueryQVotingResultsResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.lastVotingResults !== undefined && (obj.lastVotingResults = message.lastVotingResults
-            ? VotingResults.toJSON(message.lastVotingResults)
-            : undefined);
+        if (message.lastVotingResults !== undefined) {
+            obj.lastVotingResults = VotingResults.toJSON(message.lastVotingResults);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQVotingResultsResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQVotingResultsResponse();
         message.lastVotingResults = (object.lastVotingResults !== undefined && object.lastVotingResults !== null)
             ? VotingResults.fromPartial(object.lastVotingResults)
             : undefined;
-        return message;
-    },
-};
-function createBaseQueryQVotableCardsRequest() {
-    return { address: "" };
-}
-export const QueryQVotableCardsRequest = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.address !== "") {
-            writer.uint32(10).string(message.address);
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseQueryQVotableCardsRequest();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.address = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return { address: isSet(object.address) ? String(object.address) : "" };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.address !== undefined && (obj.address = message.address);
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseQueryQVotableCardsRequest();
-        message.address = object.address ?? "";
-        return message;
-    },
-};
-function createBaseQueryQVotableCardsResponse() {
-    return { unregistered: false, noVoteRights: false, voteRights: [] };
-}
-export const QueryQVotableCardsResponse = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.unregistered === true) {
-            writer.uint32(8).bool(message.unregistered);
-        }
-        if (message.noVoteRights === true) {
-            writer.uint32(16).bool(message.noVoteRights);
-        }
-        for (const v of message.voteRights) {
-            VoteRight.encode(v, writer.uint32(26).fork()).ldelim();
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseQueryQVotableCardsResponse();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.unregistered = reader.bool();
-                    break;
-                case 2:
-                    message.noVoteRights = reader.bool();
-                    break;
-                case 3:
-                    message.voteRights.push(VoteRight.decode(reader, reader.uint32()));
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            unregistered: isSet(object.unregistered) ? Boolean(object.unregistered) : false,
-            noVoteRights: isSet(object.noVoteRights) ? Boolean(object.noVoteRights) : false,
-            voteRights: Array.isArray(object?.voteRights) ? object.voteRights.map((e) => VoteRight.fromJSON(e)) : [],
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.unregistered !== undefined && (obj.unregistered = message.unregistered);
-        message.noVoteRights !== undefined && (obj.noVoteRights = message.noVoteRights);
-        if (message.voteRights) {
-            obj.voteRights = message.voteRights.map((e) => e ? VoteRight.toJSON(e) : undefined);
-        }
-        else {
-            obj.voteRights = [];
-        }
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseQueryQVotableCardsResponse();
-        message.unregistered = object.unregistered ?? false;
-        message.noVoteRights = object.noVoteRights ?? false;
-        message.voteRights = object.voteRights?.map((e) => VoteRight.fromPartial(e)) || [];
         return message;
     },
 };
@@ -732,43 +727,71 @@ export const QueryQCardsRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQCardsRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.owner = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.status = reader.int32();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.cardType = reader.string();
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.classes = reader.string();
-                    break;
+                    continue;
                 case 5:
+                    if (tag !== 42) {
+                        break;
+                    }
                     message.sortBy = reader.string();
-                    break;
+                    continue;
                 case 6:
+                    if (tag !== 50) {
+                        break;
+                    }
                     message.nameContains = reader.string();
-                    break;
+                    continue;
                 case 7:
+                    if (tag !== 58) {
+                        break;
+                    }
                     message.keywordsContains = reader.string();
-                    break;
+                    continue;
                 case 8:
+                    if (tag !== 66) {
+                        break;
+                    }
                     message.notesContains = reader.string();
-                    break;
+                    continue;
                 case 9:
+                    if (tag !== 72) {
+                        break;
+                    }
                     message.onlyStarterCard = reader.bool();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -787,16 +810,37 @@ export const QueryQCardsRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.owner !== undefined && (obj.owner = message.owner);
-        message.status !== undefined && (obj.status = queryQCardsRequest_StatusToJSON(message.status));
-        message.cardType !== undefined && (obj.cardType = message.cardType);
-        message.classes !== undefined && (obj.classes = message.classes);
-        message.sortBy !== undefined && (obj.sortBy = message.sortBy);
-        message.nameContains !== undefined && (obj.nameContains = message.nameContains);
-        message.keywordsContains !== undefined && (obj.keywordsContains = message.keywordsContains);
-        message.notesContains !== undefined && (obj.notesContains = message.notesContains);
-        message.onlyStarterCard !== undefined && (obj.onlyStarterCard = message.onlyStarterCard);
+        if (message.owner !== "") {
+            obj.owner = message.owner;
+        }
+        if (message.status !== 0) {
+            obj.status = queryQCardsRequest_StatusToJSON(message.status);
+        }
+        if (message.cardType !== "") {
+            obj.cardType = message.cardType;
+        }
+        if (message.classes !== "") {
+            obj.classes = message.classes;
+        }
+        if (message.sortBy !== "") {
+            obj.sortBy = message.sortBy;
+        }
+        if (message.nameContains !== "") {
+            obj.nameContains = message.nameContains;
+        }
+        if (message.keywordsContains !== "") {
+            obj.keywordsContains = message.keywordsContains;
+        }
+        if (message.notesContains !== "") {
+            obj.notesContains = message.notesContains;
+        }
+        if (message.onlyStarterCard === true) {
+            obj.onlyStarterCard = message.onlyStarterCard;
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQCardsRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQCardsRequest();
@@ -825,27 +869,30 @@ export const QueryQCardsResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQCardsResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    if ((tag & 7) === 2) {
+                    if (tag === 8) {
+                        message.cardsList.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 10) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.cardsList.push(longToNumber(reader.uint64()));
                         }
+                        continue;
                     }
-                    else {
-                        message.cardsList.push(longToNumber(reader.uint64()));
-                    }
-                    break;
-                default:
-                    reader.skipType(tag & 7);
                     break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -854,13 +901,13 @@ export const QueryQCardsResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.cardsList) {
+        if (message.cardsList?.length) {
             obj.cardsList = message.cardsList.map((e) => Math.round(e));
         }
-        else {
-            obj.cardsList = [];
-        }
         return obj;
+    },
+    create(base) {
+        return QueryQCardsResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQCardsResponse();
@@ -879,19 +926,23 @@ export const QueryQMatchRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQMatchRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.matchId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -900,8 +951,13 @@ export const QueryQMatchRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.matchId !== undefined && (obj.matchId = Math.round(message.matchId));
+        if (message.matchId !== 0) {
+            obj.matchId = Math.round(message.matchId);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQMatchRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQMatchRequest();
@@ -920,19 +976,23 @@ export const QueryQSetRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQSetRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -941,8 +1001,13 @@ export const QueryQSetRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQSetRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQSetRequest();
@@ -961,19 +1026,23 @@ export const QueryQSellOfferRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQSellOfferRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.sellOfferId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -982,8 +1051,13 @@ export const QueryQSellOfferRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.sellOfferId !== undefined && (obj.sellOfferId = Math.round(message.sellOfferId));
+        if (message.sellOfferId !== 0) {
+            obj.sellOfferId = Math.round(message.sellOfferId);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQSellOfferRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQSellOfferRequest();
@@ -1002,19 +1076,23 @@ export const QueryQCouncilRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQCouncilRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.councilId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1023,8 +1101,13 @@ export const QueryQCouncilRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.councilId !== undefined && (obj.councilId = Math.round(message.councilId));
+        if (message.councilId !== 0) {
+            obj.councilId = Math.round(message.councilId);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQCouncilRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQCouncilRequest();
@@ -1071,45 +1154,66 @@ export const QueryQMatchesRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQMatchesRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.timestampDown = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.timestampUp = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.containsUsers.push(reader.string());
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.reporter = reader.string();
-                    break;
+                    continue;
                 case 5:
+                    if (tag !== 40) {
+                        break;
+                    }
                     message.outcome = reader.int32();
-                    break;
+                    continue;
                 case 6:
-                    if ((tag & 7) === 2) {
+                    if (tag === 48) {
+                        message.cardsPlayed.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 50) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.cardsPlayed.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.cardsPlayed.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 7:
+                    if (tag !== 58) {
+                        break;
+                    }
                     message.ignore = IgnoreMatches.decode(reader, reader.uint32());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1126,24 +1230,31 @@ export const QueryQMatchesRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.timestampDown !== undefined && (obj.timestampDown = Math.round(message.timestampDown));
-        message.timestampUp !== undefined && (obj.timestampUp = Math.round(message.timestampUp));
-        if (message.containsUsers) {
-            obj.containsUsers = message.containsUsers.map((e) => e);
+        if (message.timestampDown !== 0) {
+            obj.timestampDown = Math.round(message.timestampDown);
         }
-        else {
-            obj.containsUsers = [];
+        if (message.timestampUp !== 0) {
+            obj.timestampUp = Math.round(message.timestampUp);
         }
-        message.reporter !== undefined && (obj.reporter = message.reporter);
-        message.outcome !== undefined && (obj.outcome = outcomeToJSON(message.outcome));
-        if (message.cardsPlayed) {
+        if (message.containsUsers?.length) {
+            obj.containsUsers = message.containsUsers;
+        }
+        if (message.reporter !== "") {
+            obj.reporter = message.reporter;
+        }
+        if (message.outcome !== 0) {
+            obj.outcome = outcomeToJSON(message.outcome);
+        }
+        if (message.cardsPlayed?.length) {
             obj.cardsPlayed = message.cardsPlayed.map((e) => Math.round(e));
         }
-        else {
-            obj.cardsPlayed = [];
+        if (message.ignore !== undefined) {
+            obj.ignore = IgnoreMatches.toJSON(message.ignore);
         }
-        message.ignore !== undefined && (obj.ignore = message.ignore ? IgnoreMatches.toJSON(message.ignore) : undefined);
         return obj;
+    },
+    create(base) {
+        return QueryQMatchesRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQMatchesRequest();
@@ -1170,19 +1281,23 @@ export const IgnoreMatches = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseIgnoreMatches();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.outcome = reader.bool();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1191,8 +1306,13 @@ export const IgnoreMatches = {
     },
     toJSON(message) {
         const obj = {};
-        message.outcome !== undefined && (obj.outcome = message.outcome);
+        if (message.outcome === true) {
+            obj.outcome = message.outcome;
+        }
         return obj;
+    },
+    create(base) {
+        return IgnoreMatches.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseIgnoreMatches();
@@ -1216,30 +1336,36 @@ export const QueryQMatchesResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQMatchesResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    if ((tag & 7) === 2) {
+                    if (tag === 8) {
+                        message.matchesList.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 10) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.matchesList.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.matchesList.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.matches.push(Match.decode(reader, reader.uint32()));
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1251,19 +1377,16 @@ export const QueryQMatchesResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.matchesList) {
+        if (message.matchesList?.length) {
             obj.matchesList = message.matchesList.map((e) => Math.round(e));
         }
-        else {
-            obj.matchesList = [];
-        }
-        if (message.matches) {
-            obj.matches = message.matches.map((e) => e ? Match.toJSON(e) : undefined);
-        }
-        else {
-            obj.matches = [];
+        if (message.matches?.length) {
+            obj.matches = message.matches.map((e) => Match.toJSON(e));
         }
         return obj;
+    },
+    create(base) {
+        return QueryQMatchesResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQMatchesResponse();
@@ -1301,37 +1424,59 @@ export const QueryQSellOffersRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQSellOffersRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.priceDown = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.priceUp = reader.string();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.seller = reader.string();
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.buyer = reader.string();
-                    break;
+                    continue;
                 case 5:
+                    if (tag !== 40) {
+                        break;
+                    }
                     message.card = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 6:
+                    if (tag !== 48) {
+                        break;
+                    }
                     message.status = reader.int32();
-                    break;
+                    continue;
                 case 7:
+                    if (tag !== 58) {
+                        break;
+                    }
                     message.ignore = IgnoreSellOffers.decode(reader, reader.uint32());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1348,14 +1493,31 @@ export const QueryQSellOffersRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.priceDown !== undefined && (obj.priceDown = message.priceDown);
-        message.priceUp !== undefined && (obj.priceUp = message.priceUp);
-        message.seller !== undefined && (obj.seller = message.seller);
-        message.buyer !== undefined && (obj.buyer = message.buyer);
-        message.card !== undefined && (obj.card = Math.round(message.card));
-        message.status !== undefined && (obj.status = sellOfferStatusToJSON(message.status));
-        message.ignore !== undefined && (obj.ignore = message.ignore ? IgnoreSellOffers.toJSON(message.ignore) : undefined);
+        if (message.priceDown !== "") {
+            obj.priceDown = message.priceDown;
+        }
+        if (message.priceUp !== "") {
+            obj.priceUp = message.priceUp;
+        }
+        if (message.seller !== "") {
+            obj.seller = message.seller;
+        }
+        if (message.buyer !== "") {
+            obj.buyer = message.buyer;
+        }
+        if (message.card !== 0) {
+            obj.card = Math.round(message.card);
+        }
+        if (message.status !== 0) {
+            obj.status = sellOfferStatusToJSON(message.status);
+        }
+        if (message.ignore !== undefined) {
+            obj.ignore = IgnoreSellOffers.toJSON(message.ignore);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQSellOffersRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQSellOffersRequest();
@@ -1385,22 +1547,29 @@ export const IgnoreSellOffers = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseIgnoreSellOffers();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.status = reader.bool();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.card = reader.bool();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1412,9 +1581,16 @@ export const IgnoreSellOffers = {
     },
     toJSON(message) {
         const obj = {};
-        message.status !== undefined && (obj.status = message.status);
-        message.card !== undefined && (obj.card = message.card);
+        if (message.status === true) {
+            obj.status = message.status;
+        }
+        if (message.card === true) {
+            obj.card = message.card;
+        }
         return obj;
+    },
+    create(base) {
+        return IgnoreSellOffers.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseIgnoreSellOffers();
@@ -1439,30 +1615,36 @@ export const QueryQSellOffersResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQSellOffersResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    if ((tag & 7) === 2) {
+                    if (tag === 8) {
+                        message.sellOffersIds.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 10) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.sellOffersIds.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.sellOffersIds.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.sellOffers.push(SellOffer.decode(reader, reader.uint32()));
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1474,19 +1656,16 @@ export const QueryQSellOffersResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.sellOffersIds) {
+        if (message.sellOffersIds?.length) {
             obj.sellOffersIds = message.sellOffersIds.map((e) => Math.round(e));
         }
-        else {
-            obj.sellOffersIds = [];
-        }
-        if (message.sellOffers) {
-            obj.sellOffers = message.sellOffers.map((e) => e ? SellOffer.toJSON(e) : undefined);
-        }
-        else {
-            obj.sellOffers = [];
+        if (message.sellOffers?.length) {
+            obj.sellOffers = message.sellOffers.map((e) => SellOffer.toJSON(e));
         }
         return obj;
+    },
+    create(base) {
+        return QueryQSellOffersResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQSellOffersResponse();
@@ -1506,19 +1685,23 @@ export const QueryQServerRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQServerRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.id = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1527,8 +1710,13 @@ export const QueryQServerRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.id !== undefined && (obj.id = Math.round(message.id));
+        if (message.id !== 0) {
+            obj.id = Math.round(message.id);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryQServerRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQServerRequest();
@@ -1544,16 +1732,17 @@ export const QueryQServerResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQServerResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1563,6 +1752,9 @@ export const QueryQServerResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return QueryQServerResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseQueryQServerResponse();
@@ -1594,39 +1786,54 @@ export const QueryQSetsRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQSetsRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.status = reader.int32();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.ignoreStatus = reader.bool();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.contributors.push(reader.string());
-                    break;
+                    continue;
                 case 4:
-                    if ((tag & 7) === 2) {
+                    if (tag === 32) {
+                        message.containsCards.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 34) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.containsCards.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.containsCards.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 5:
+                    if (tag !== 42) {
+                        break;
+                    }
                     message.owner = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1641,22 +1848,25 @@ export const QueryQSetsRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.status !== undefined && (obj.status = cStatusToJSON(message.status));
-        message.ignoreStatus !== undefined && (obj.ignoreStatus = message.ignoreStatus);
-        if (message.contributors) {
-            obj.contributors = message.contributors.map((e) => e);
+        if (message.status !== 0) {
+            obj.status = cStatusToJSON(message.status);
         }
-        else {
-            obj.contributors = [];
+        if (message.ignoreStatus === true) {
+            obj.ignoreStatus = message.ignoreStatus;
         }
-        if (message.containsCards) {
+        if (message.contributors?.length) {
+            obj.contributors = message.contributors;
+        }
+        if (message.containsCards?.length) {
             obj.containsCards = message.containsCards.map((e) => Math.round(e));
         }
-        else {
-            obj.containsCards = [];
+        if (message.owner !== "") {
+            obj.owner = message.owner;
         }
-        message.owner !== undefined && (obj.owner = message.owner);
         return obj;
+    },
+    create(base) {
+        return QueryQSetsRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQSetsRequest();
@@ -1681,27 +1891,30 @@ export const QueryQSetsResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryQSetsResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    if ((tag & 7) === 2) {
+                    if (tag === 8) {
+                        message.setIds.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 10) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.setIds.push(longToNumber(reader.uint64()));
                         }
+                        continue;
                     }
-                    else {
-                        message.setIds.push(longToNumber(reader.uint64()));
-                    }
-                    break;
-                default:
-                    reader.skipType(tag & 7);
                     break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1710,13 +1923,13 @@ export const QueryQSetsResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.setIds) {
+        if (message.setIds?.length) {
             obj.setIds = message.setIds.map((e) => Math.round(e));
         }
-        else {
-            obj.setIds = [];
-        }
         return obj;
+    },
+    create(base) {
+        return QueryQSetsResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryQSetsResponse();
@@ -1735,19 +1948,23 @@ export const QueryRarityDistributionRequest = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryRarityDistributionRequest();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1756,8 +1973,13 @@ export const QueryRarityDistributionRequest = {
     },
     toJSON(message) {
         const obj = {};
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
         return obj;
+    },
+    create(base) {
+        return QueryRarityDistributionRequest.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryRarityDistributionRequest();
@@ -1783,38 +2005,43 @@ export const QueryRarityDistributionResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseQueryRarityDistributionResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    if ((tag & 7) === 2) {
+                    if (tag === 8) {
+                        message.current.push(reader.uint32());
+                        continue;
+                    }
+                    if (tag === 10) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.current.push(reader.uint32());
                         }
-                    }
-                    else {
-                        message.current.push(reader.uint32());
+                        continue;
                     }
                     break;
                 case 2:
-                    if ((tag & 7) === 2) {
+                    if (tag === 16) {
+                        message.wanted.push(reader.uint32());
+                        continue;
+                    }
+                    if (tag === 18) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.wanted.push(reader.uint32());
                         }
+                        continue;
                     }
-                    else {
-                        message.wanted.push(reader.uint32());
-                    }
-                    break;
-                default:
-                    reader.skipType(tag & 7);
                     break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1826,19 +2053,16 @@ export const QueryRarityDistributionResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.current) {
+        if (message.current?.length) {
             obj.current = message.current.map((e) => Math.round(e));
         }
-        else {
-            obj.current = [];
-        }
-        if (message.wanted) {
+        if (message.wanted?.length) {
             obj.wanted = message.wanted.map((e) => Math.round(e));
         }
-        else {
-            obj.wanted = [];
-        }
         return obj;
+    },
+    create(base) {
+        return QueryRarityDistributionResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseQueryRarityDistributionResponse();
@@ -1847,8 +2071,10 @@ export const QueryRarityDistributionResponse = {
         return message;
     },
 };
+export const QueryServiceName = "DecentralCardGame.cardchain.cardchain.Query";
 export class QueryClientImpl {
-    constructor(rpc) {
+    constructor(rpc, opts) {
+        this.service = opts?.service || QueryServiceName;
         this.rpc = rpc;
         this.Params = this.Params.bind(this);
         this.QCard = this.QCard.bind(this);
@@ -1856,7 +2082,6 @@ export class QueryClientImpl {
         this.QUser = this.QUser.bind(this);
         this.QCardchainInfo = this.QCardchainInfo.bind(this);
         this.QVotingResults = this.QVotingResults.bind(this);
-        this.QVotableCards = this.QVotableCards.bind(this);
         this.QCards = this.QCards.bind(this);
         this.QMatch = this.QMatch.bind(this);
         this.QSet = this.QSet.bind(this);
@@ -1870,91 +2095,86 @@ export class QueryClientImpl {
     }
     Params(request) {
         const data = QueryParamsRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "Params", data);
-        return promise.then((data) => QueryParamsResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "Params", data);
+        return promise.then((data) => QueryParamsResponse.decode(_m0.Reader.create(data)));
     }
     QCard(request) {
         const data = QueryQCardRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCard", data);
-        return promise.then((data) => OutpCard.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QCard", data);
+        return promise.then((data) => OutpCard.decode(_m0.Reader.create(data)));
     }
     QCardContent(request) {
         const data = QueryQCardContentRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCardContent", data);
-        return promise.then((data) => QueryQCardContentResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QCardContent", data);
+        return promise.then((data) => QueryQCardContentResponse.decode(_m0.Reader.create(data)));
     }
     QUser(request) {
         const data = QueryQUserRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QUser", data);
-        return promise.then((data) => User.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QUser", data);
+        return promise.then((data) => User.decode(_m0.Reader.create(data)));
     }
     QCardchainInfo(request) {
         const data = QueryQCardchainInfoRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCardchainInfo", data);
-        return promise.then((data) => QueryQCardchainInfoResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QCardchainInfo", data);
+        return promise.then((data) => QueryQCardchainInfoResponse.decode(_m0.Reader.create(data)));
     }
     QVotingResults(request) {
         const data = QueryQVotingResultsRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QVotingResults", data);
-        return promise.then((data) => QueryQVotingResultsResponse.decode(new _m0.Reader(data)));
-    }
-    QVotableCards(request) {
-        const data = QueryQVotableCardsRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QVotableCards", data);
-        return promise.then((data) => QueryQVotableCardsResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QVotingResults", data);
+        return promise.then((data) => QueryQVotingResultsResponse.decode(_m0.Reader.create(data)));
     }
     QCards(request) {
         const data = QueryQCardsRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCards", data);
-        return promise.then((data) => QueryQCardsResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QCards", data);
+        return promise.then((data) => QueryQCardsResponse.decode(_m0.Reader.create(data)));
     }
     QMatch(request) {
         const data = QueryQMatchRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QMatch", data);
-        return promise.then((data) => Match.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QMatch", data);
+        return promise.then((data) => Match.decode(_m0.Reader.create(data)));
     }
     QSet(request) {
         const data = QueryQSetRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QSet", data);
-        return promise.then((data) => OutpSet.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QSet", data);
+        return promise.then((data) => OutpSet.decode(_m0.Reader.create(data)));
     }
     QSellOffer(request) {
         const data = QueryQSellOfferRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QSellOffer", data);
-        return promise.then((data) => SellOffer.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QSellOffer", data);
+        return promise.then((data) => SellOffer.decode(_m0.Reader.create(data)));
     }
     QCouncil(request) {
         const data = QueryQCouncilRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCouncil", data);
-        return promise.then((data) => Council.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QCouncil", data);
+        return promise.then((data) => Council.decode(_m0.Reader.create(data)));
     }
     QMatches(request) {
         const data = QueryQMatchesRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QMatches", data);
-        return promise.then((data) => QueryQMatchesResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QMatches", data);
+        return promise.then((data) => QueryQMatchesResponse.decode(_m0.Reader.create(data)));
     }
     QSellOffers(request) {
         const data = QueryQSellOffersRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QSellOffers", data);
-        return promise.then((data) => QueryQSellOffersResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QSellOffers", data);
+        return promise.then((data) => QueryQSellOffersResponse.decode(_m0.Reader.create(data)));
     }
     QServer(request) {
         const data = QueryQServerRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QServer", data);
-        return promise.then((data) => Server.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QServer", data);
+        return promise.then((data) => Server.decode(_m0.Reader.create(data)));
     }
     QSets(request) {
         const data = QueryQSetsRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QSets", data);
-        return promise.then((data) => QueryQSetsResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "QSets", data);
+        return promise.then((data) => QueryQSetsResponse.decode(_m0.Reader.create(data)));
     }
     RarityDistribution(request) {
         const data = QueryRarityDistributionRequest.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "RarityDistribution", data);
-        return promise.then((data) => QueryRarityDistributionResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "RarityDistribution", data);
+        return promise.then((data) => QueryRarityDistributionResponse.decode(_m0.Reader.create(data)));
     }
 }
-var globalThis = (() => {
+const tsProtoGlobalThis = (() => {
     if (typeof globalThis !== "undefined") {
         return globalThis;
     }
@@ -1971,7 +2191,7 @@ var globalThis = (() => {
 })();
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+        throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
     }
     return long.toNumber();
 }

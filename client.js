@@ -1,8 +1,7 @@
 /// <reference path="./types.d.ts" />
 import { Registry, } from "@cosmjs/proto-signing";
-import { AminoTypes, SigningStargateClient } from "@cosmjs/stargate";
+import { SigningStargateClient } from "@cosmjs/stargate";
 import { EventEmitter } from "events";
-import { createDecentralCardgameAminoConverters } from "./DecentralCardGame.cardchain.cardchain/types/cardchain/cardchain/aminomessages";
 const defaultFee = {
     amount: [],
     gas: "200000",
@@ -21,11 +20,7 @@ export class IgniteClient extends EventEmitter {
     async signAndBroadcast(msgs, fee, memo) {
         if (this.signer) {
             const { address } = (await this.signer.getAccounts())[0];
-            const signingClient = await SigningStargateClient.connectWithSigner(this.env.rpcURL, this.signer, {
-                aminoTypes: this.aminoTypes,
-                registry: new Registry(this.registry),
-                prefix: this.env.prefix
-            });
+            const signingClient = await SigningStargateClient.connectWithSigner(this.env.rpcURL, this.signer, { registry: new Registry(this.registry), prefix: this.env.prefix });
             return await signingClient.signAndBroadcast(address, msgs, fee ? fee : defaultFee, memo);
         }
         else {
@@ -38,7 +33,6 @@ export class IgniteClient extends EventEmitter {
         this.env = env;
         this.setMaxListeners(0);
         this.signer = signer;
-        this.aminoTypes = new AminoTypes({ additions: createDecentralCardgameAminoConverters(), prefix: "cc" });
         const classConstructor = this.constructor;
         classConstructor.plugins.forEach(plugin => {
             const pluginInstance = plugin(this);
@@ -129,7 +123,7 @@ export class IgniteClient extends EventEmitter {
                 };
             }
             await window.keplr.enable(chainId);
-            this.signer = window.keplr.getOfflineSignerOnlyAmino(chainId); //.getOfflineSignerAuto(chainId);
+            this.signer = window.keplr.getOfflineSigner(chainId);
             this.emit("signer-changed", this.signer);
         }
         catch (e) {

@@ -23,26 +23,34 @@ export const RunningAverage = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): RunningAverage {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseRunningAverage();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
-          if ((tag & 7) === 2) {
+          if (tag === 8) {
+            message.arr.push(longToNumber(reader.int64() as Long));
+
+            continue;
+          }
+
+          if (tag === 10) {
             const end2 = reader.uint32() + reader.pos;
             while (reader.pos < end2) {
               message.arr.push(longToNumber(reader.int64() as Long));
             }
-          } else {
-            message.arr.push(longToNumber(reader.int64() as Long));
+
+            continue;
           }
-          break;
-        default:
-          reader.skipType(tag & 7);
+
           break;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -53,14 +61,15 @@ export const RunningAverage = {
 
   toJSON(message: RunningAverage): unknown {
     const obj: any = {};
-    if (message.arr) {
+    if (message.arr?.length) {
       obj.arr = message.arr.map((e) => Math.round(e));
-    } else {
-      obj.arr = [];
     }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<RunningAverage>, I>>(base?: I): RunningAverage {
+    return RunningAverage.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<RunningAverage>, I>>(object: I): RunningAverage {
     const message = createBaseRunningAverage();
     message.arr = object.arr?.map((e) => e) || [];
@@ -68,10 +77,10 @@ export const RunningAverage = {
   },
 };
 
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -100,7 +109,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

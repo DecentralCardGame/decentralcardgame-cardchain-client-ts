@@ -10,6 +10,15 @@
  */
 
 /**
+* Params defines the set of on-chain interchain accounts parameters.
+The following parameters may be used to disable the controller submodule.
+*/
+export interface Controllerv1Params {
+  /** controller_enabled enables or disables the controller submodule. */
+  controller_enabled?: boolean;
+}
+
+/**
 * - TYPE_UNSPECIFIED: Default zero value enumeration
  - TYPE_EXECUTE_TX: Execute a transaction on an interchain accounts host chain
 */
@@ -164,15 +173,6 @@ export interface V1MsgSendTxResponse {
 }
 
 /**
-* Params defines the set of on-chain interchain accounts parameters.
-The following parameters may be used to disable the controller submodule.
-*/
-export interface V1Params {
-  /** controller_enabled enables or disables the controller submodule. */
-  controller_enabled?: boolean;
-}
-
-/**
  * QueryInterchainAccountResponse the response type for the Query/InterchainAccount RPC method.
  */
 export interface V1QueryInterchainAccountResponse {
@@ -184,7 +184,7 @@ export interface V1QueryInterchainAccountResponse {
  */
 export interface V1QueryParamsResponse {
   /** params defines the parameters of the module. */
-  params?: V1Params;
+  params?: Controllerv1Params;
 }
 
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, ResponseType } from "axios";

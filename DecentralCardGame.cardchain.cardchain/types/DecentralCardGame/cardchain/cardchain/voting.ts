@@ -4,6 +4,51 @@ import _m0 from "protobufjs/minimal";
 
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 
+export enum VoteType {
+  fairEnough = 0,
+  inappropriate = 1,
+  overpowered = 2,
+  underpowered = 3,
+  UNRECOGNIZED = -1,
+}
+
+export function voteTypeFromJSON(object: any): VoteType {
+  switch (object) {
+    case 0:
+    case "fairEnough":
+      return VoteType.fairEnough;
+    case 1:
+    case "inappropriate":
+      return VoteType.inappropriate;
+    case 2:
+    case "overpowered":
+      return VoteType.overpowered;
+    case 3:
+    case "underpowered":
+      return VoteType.underpowered;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return VoteType.UNRECOGNIZED;
+  }
+}
+
+export function voteTypeToJSON(object: VoteType): string {
+  switch (object) {
+    case VoteType.fairEnough:
+      return "fairEnough";
+    case VoteType.inappropriate:
+      return "inappropriate";
+    case VoteType.overpowered:
+      return "overpowered";
+    case VoteType.underpowered:
+      return "underpowered";
+    case VoteType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export interface VotingResults {
   totalVotes: number;
   totalFairEnoughVotes: number;
@@ -25,12 +70,7 @@ export interface VotingResult {
 
 export interface SingleVote {
   cardId: number;
-  voteType: string;
-}
-
-export interface VoteRight {
-  cardId: number;
-  expireBlock: number;
+  voteType: VoteType;
 }
 
 function createBaseVotingResults(): VotingResults {
@@ -72,37 +112,66 @@ export const VotingResults = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): VotingResults {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVotingResults();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.totalVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.totalFairEnoughVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 3:
+          if (tag !== 24) {
+            break;
+          }
+
           message.totalOverpoweredVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 4:
+          if (tag !== 32) {
+            break;
+          }
+
           message.totalUnderpoweredVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 5:
+          if (tag !== 40) {
+            break;
+          }
+
           message.totalInappropriateVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 6:
+          if (tag !== 50) {
+            break;
+          }
+
           message.cardResults.push(VotingResult.decode(reader, reader.uint32()));
-          break;
+          continue;
         case 7:
+          if (tag !== 58) {
+            break;
+          }
+
           message.notes = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -123,23 +192,33 @@ export const VotingResults = {
 
   toJSON(message: VotingResults): unknown {
     const obj: any = {};
-    message.totalVotes !== undefined && (obj.totalVotes = Math.round(message.totalVotes));
-    message.totalFairEnoughVotes !== undefined && (obj.totalFairEnoughVotes = Math.round(message.totalFairEnoughVotes));
-    message.totalOverpoweredVotes !== undefined
-      && (obj.totalOverpoweredVotes = Math.round(message.totalOverpoweredVotes));
-    message.totalUnderpoweredVotes !== undefined
-      && (obj.totalUnderpoweredVotes = Math.round(message.totalUnderpoweredVotes));
-    message.totalInappropriateVotes !== undefined
-      && (obj.totalInappropriateVotes = Math.round(message.totalInappropriateVotes));
-    if (message.cardResults) {
-      obj.cardResults = message.cardResults.map((e) => e ? VotingResult.toJSON(e) : undefined);
-    } else {
-      obj.cardResults = [];
+    if (message.totalVotes !== 0) {
+      obj.totalVotes = Math.round(message.totalVotes);
     }
-    message.notes !== undefined && (obj.notes = message.notes);
+    if (message.totalFairEnoughVotes !== 0) {
+      obj.totalFairEnoughVotes = Math.round(message.totalFairEnoughVotes);
+    }
+    if (message.totalOverpoweredVotes !== 0) {
+      obj.totalOverpoweredVotes = Math.round(message.totalOverpoweredVotes);
+    }
+    if (message.totalUnderpoweredVotes !== 0) {
+      obj.totalUnderpoweredVotes = Math.round(message.totalUnderpoweredVotes);
+    }
+    if (message.totalInappropriateVotes !== 0) {
+      obj.totalInappropriateVotes = Math.round(message.totalInappropriateVotes);
+    }
+    if (message.cardResults?.length) {
+      obj.cardResults = message.cardResults.map((e) => VotingResult.toJSON(e));
+    }
+    if (message.notes !== "") {
+      obj.notes = message.notes;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<VotingResults>, I>>(base?: I): VotingResults {
+    return VotingResults.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<VotingResults>, I>>(object: I): VotingResults {
     const message = createBaseVotingResults();
     message.totalVotes = object.totalVotes ?? 0;
@@ -188,34 +267,59 @@ export const VotingResult = {
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): VotingResult {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseVotingResult();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.cardId = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 2:
+          if (tag !== 16) {
+            break;
+          }
+
           message.fairEnoughVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 3:
+          if (tag !== 24) {
+            break;
+          }
+
           message.overpoweredVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 4:
+          if (tag !== 32) {
+            break;
+          }
+
           message.underpoweredVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 5:
+          if (tag !== 40) {
+            break;
+          }
+
           message.inappropriateVotes = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 6:
+          if (tag !== 50) {
+            break;
+          }
+
           message.result = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -233,15 +337,30 @@ export const VotingResult = {
 
   toJSON(message: VotingResult): unknown {
     const obj: any = {};
-    message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-    message.fairEnoughVotes !== undefined && (obj.fairEnoughVotes = Math.round(message.fairEnoughVotes));
-    message.overpoweredVotes !== undefined && (obj.overpoweredVotes = Math.round(message.overpoweredVotes));
-    message.underpoweredVotes !== undefined && (obj.underpoweredVotes = Math.round(message.underpoweredVotes));
-    message.inappropriateVotes !== undefined && (obj.inappropriateVotes = Math.round(message.inappropriateVotes));
-    message.result !== undefined && (obj.result = message.result);
+    if (message.cardId !== 0) {
+      obj.cardId = Math.round(message.cardId);
+    }
+    if (message.fairEnoughVotes !== 0) {
+      obj.fairEnoughVotes = Math.round(message.fairEnoughVotes);
+    }
+    if (message.overpoweredVotes !== 0) {
+      obj.overpoweredVotes = Math.round(message.overpoweredVotes);
+    }
+    if (message.underpoweredVotes !== 0) {
+      obj.underpoweredVotes = Math.round(message.underpoweredVotes);
+    }
+    if (message.inappropriateVotes !== 0) {
+      obj.inappropriateVotes = Math.round(message.inappropriateVotes);
+    }
+    if (message.result !== "") {
+      obj.result = message.result;
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<VotingResult>, I>>(base?: I): VotingResult {
+    return VotingResult.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<VotingResult>, I>>(object: I): VotingResult {
     const message = createBaseVotingResult();
     message.cardId = object.cardId ?? 0;
@@ -255,7 +374,7 @@ export const VotingResult = {
 };
 
 function createBaseSingleVote(): SingleVote {
-  return { cardId: 0, voteType: "" };
+  return { cardId: 0, voteType: 0 };
 }
 
 export const SingleVote = {
@@ -263,29 +382,38 @@ export const SingleVote = {
     if (message.cardId !== 0) {
       writer.uint32(8).uint64(message.cardId);
     }
-    if (message.voteType !== "") {
-      writer.uint32(18).string(message.voteType);
+    if (message.voteType !== 0) {
+      writer.uint32(16).int32(message.voteType);
     }
     return writer;
   },
 
   decode(input: _m0.Reader | Uint8Array, length?: number): SingleVote {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
     let end = length === undefined ? reader.len : reader.pos + length;
     const message = createBaseSingleVote();
     while (reader.pos < end) {
       const tag = reader.uint32();
       switch (tag >>> 3) {
         case 1:
+          if (tag !== 8) {
+            break;
+          }
+
           message.cardId = longToNumber(reader.uint64() as Long);
-          break;
+          continue;
         case 2:
-          message.voteType = reader.string();
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
+          if (tag !== 16) {
+            break;
+          }
+
+          message.voteType = reader.int32() as any;
+          continue;
       }
+      if ((tag & 7) === 4 || tag === 0) {
+        break;
+      }
+      reader.skipType(tag & 7);
     }
     return message;
   },
@@ -293,87 +421,36 @@ export const SingleVote = {
   fromJSON(object: any): SingleVote {
     return {
       cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
-      voteType: isSet(object.voteType) ? String(object.voteType) : "",
+      voteType: isSet(object.voteType) ? voteTypeFromJSON(object.voteType) : 0,
     };
   },
 
   toJSON(message: SingleVote): unknown {
     const obj: any = {};
-    message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-    message.voteType !== undefined && (obj.voteType = message.voteType);
+    if (message.cardId !== 0) {
+      obj.cardId = Math.round(message.cardId);
+    }
+    if (message.voteType !== 0) {
+      obj.voteType = voteTypeToJSON(message.voteType);
+    }
     return obj;
   },
 
+  create<I extends Exact<DeepPartial<SingleVote>, I>>(base?: I): SingleVote {
+    return SingleVote.fromPartial(base ?? ({} as any));
+  },
   fromPartial<I extends Exact<DeepPartial<SingleVote>, I>>(object: I): SingleVote {
     const message = createBaseSingleVote();
     message.cardId = object.cardId ?? 0;
-    message.voteType = object.voteType ?? "";
+    message.voteType = object.voteType ?? 0;
     return message;
   },
 };
 
-function createBaseVoteRight(): VoteRight {
-  return { cardId: 0, expireBlock: 0 };
-}
-
-export const VoteRight = {
-  encode(message: VoteRight, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
-    if (message.cardId !== 0) {
-      writer.uint32(8).uint64(message.cardId);
-    }
-    if (message.expireBlock !== 0) {
-      writer.uint32(16).int64(message.expireBlock);
-    }
-    return writer;
-  },
-
-  decode(input: _m0.Reader | Uint8Array, length?: number): VoteRight {
-    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-    let end = length === undefined ? reader.len : reader.pos + length;
-    const message = createBaseVoteRight();
-    while (reader.pos < end) {
-      const tag = reader.uint32();
-      switch (tag >>> 3) {
-        case 1:
-          message.cardId = longToNumber(reader.uint64() as Long);
-          break;
-        case 2:
-          message.expireBlock = longToNumber(reader.int64() as Long);
-          break;
-        default:
-          reader.skipType(tag & 7);
-          break;
-      }
-    }
-    return message;
-  },
-
-  fromJSON(object: any): VoteRight {
-    return {
-      cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
-      expireBlock: isSet(object.expireBlock) ? Number(object.expireBlock) : 0,
-    };
-  },
-
-  toJSON(message: VoteRight): unknown {
-    const obj: any = {};
-    message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-    message.expireBlock !== undefined && (obj.expireBlock = Math.round(message.expireBlock));
-    return obj;
-  },
-
-  fromPartial<I extends Exact<DeepPartial<VoteRight>, I>>(object: I): VoteRight {
-    const message = createBaseVoteRight();
-    message.cardId = object.cardId ?? 0;
-    message.expireBlock = object.expireBlock ?? 0;
-    return message;
-  },
-};
-
-declare var self: any | undefined;
-declare var window: any | undefined;
-declare var global: any | undefined;
-var globalThis: any = (() => {
+declare const self: any | undefined;
+declare const window: any | undefined;
+declare const global: any | undefined;
+const tsProtoGlobalThis: any = (() => {
   if (typeof globalThis !== "undefined") {
     return globalThis;
   }
@@ -402,7 +479,7 @@ export type Exact<P, I extends P> = P extends Builtin ? P
 
 function longToNumber(long: Long): number {
   if (long.gt(Number.MAX_SAFE_INTEGER)) {
-    throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+    throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
   }
   return long.toNumber();
 }

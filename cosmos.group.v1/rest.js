@@ -18,11 +18,11 @@ If the proposal is not allowed per the DecisionPolicy,
 the proposal will still be open and could
 be executed at a later point.
 */
-export var V1Exec;
-(function (V1Exec) {
-    V1Exec["EXEC_UNSPECIFIED"] = "EXEC_UNSPECIFIED";
-    V1Exec["EXEC_TRY"] = "EXEC_TRY";
-})(V1Exec || (V1Exec = {}));
+export var Groupv1Exec;
+(function (Groupv1Exec) {
+    Groupv1Exec["EXEC_UNSPECIFIED"] = "EXEC_UNSPECIFIED";
+    Groupv1Exec["EXEC_TRY"] = "EXEC_TRY";
+})(Groupv1Exec || (Groupv1Exec = {}));
 /**
 * ProposalExecutorResult defines types of proposal executor results.
 

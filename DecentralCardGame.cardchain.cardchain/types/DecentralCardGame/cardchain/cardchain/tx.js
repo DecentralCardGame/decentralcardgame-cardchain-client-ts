@@ -5,7 +5,7 @@ import { Coin } from "../../../cosmos/base/v1beta1/coin";
 import { cardRarityFromJSON, cardRarityToJSON } from "./card";
 import { responseFromJSON, responseToJSON } from "./council";
 import { outcomeFromJSON, outcomeToJSON } from "./match";
-import { SingleVote } from "./voting";
+import { SingleVote, voteTypeFromJSON, voteTypeToJSON } from "./voting";
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 function createBaseMsgCreateuser() {
     return { creator: "", newUser: "", alias: "" };
@@ -24,25 +24,35 @@ export const MsgCreateuser = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCreateuser();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.newUser = reader.string();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.alias = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -55,10 +65,19 @@ export const MsgCreateuser = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.newUser !== undefined && (obj.newUser = message.newUser);
-        message.alias !== undefined && (obj.alias = message.alias);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.newUser !== "") {
+            obj.newUser = message.newUser;
+        }
+        if (message.alias !== "") {
+            obj.alias = message.alias;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgCreateuser.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgCreateuser();
@@ -76,16 +95,17 @@ export const MsgCreateuserResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCreateuserResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -95,6 +115,9 @@ export const MsgCreateuserResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgCreateuserResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgCreateuserResponse();
@@ -115,22 +138,29 @@ export const MsgBuyCardScheme = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgBuyCardScheme();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.bid = Coin.decode(reader, reader.uint32());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -142,9 +172,16 @@ export const MsgBuyCardScheme = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.bid !== undefined && (obj.bid = message.bid ? Coin.toJSON(message.bid) : undefined);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.bid !== undefined) {
+            obj.bid = Coin.toJSON(message.bid);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgBuyCardScheme.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgBuyCardScheme();
@@ -164,19 +201,23 @@ export const MsgBuyCardSchemeResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgBuyCardSchemeResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -185,8 +226,13 @@ export const MsgBuyCardSchemeResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgBuyCardSchemeResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgBuyCardSchemeResponse();
@@ -195,7 +241,7 @@ export const MsgBuyCardSchemeResponse = {
     },
 };
 function createBaseMsgVoteCard() {
-    return { creator: "", cardId: 0, voteType: "" };
+    return { creator: "", cardId: 0, voteType: 0 };
 }
 export const MsgVoteCard = {
     encode(message, writer = _m0.Writer.create()) {
@@ -205,31 +251,41 @@ export const MsgVoteCard = {
         if (message.cardId !== 0) {
             writer.uint32(16).uint64(message.cardId);
         }
-        if (message.voteType !== "") {
-            writer.uint32(26).string(message.voteType);
+        if (message.voteType !== 0) {
+            writer.uint32(24).int32(message.voteType);
         }
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgVoteCard();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
-                    message.voteType = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    if (tag !== 24) {
+                        break;
+                    }
+                    message.voteType = reader.int32();
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -237,21 +293,30 @@ export const MsgVoteCard = {
         return {
             creator: isSet(object.creator) ? String(object.creator) : "",
             cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
-            voteType: isSet(object.voteType) ? String(object.voteType) : "",
+            voteType: isSet(object.voteType) ? voteTypeFromJSON(object.voteType) : 0,
         };
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        message.voteType !== undefined && (obj.voteType = message.voteType);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
+        if (message.voteType !== 0) {
+            obj.voteType = voteTypeToJSON(message.voteType);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgVoteCard.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgVoteCard();
         message.creator = object.creator ?? "";
         message.cardId = object.cardId ?? 0;
-        message.voteType = object.voteType ?? "";
+        message.voteType = object.voteType ?? 0;
         return message;
     },
 };
@@ -266,19 +331,23 @@ export const MsgVoteCardResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgVoteCardResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.airdropClaimed = reader.bool();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -287,8 +356,13 @@ export const MsgVoteCardResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.airdropClaimed !== undefined && (obj.airdropClaimed = message.airdropClaimed);
+        if (message.airdropClaimed === true) {
+            obj.airdropClaimed = message.airdropClaimed;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgVoteCardResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgVoteCardResponse();
@@ -297,7 +371,7 @@ export const MsgVoteCardResponse = {
     },
 };
 function createBaseMsgSaveCardContent() {
-    return { creator: "", cardId: 0, content: new Uint8Array(), notes: "", artist: "", balanceAnchor: false };
+    return { creator: "", cardId: 0, content: new Uint8Array(0), notes: "", artist: "", balanceAnchor: false };
 }
 export const MsgSaveCardContent = {
     encode(message, writer = _m0.Writer.create()) {
@@ -322,34 +396,53 @@ export const MsgSaveCardContent = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSaveCardContent();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.content = reader.bytes();
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.notes = reader.string();
-                    break;
+                    continue;
                 case 5:
+                    if (tag !== 42) {
+                        break;
+                    }
                     message.artist = reader.string();
-                    break;
+                    continue;
                 case 6:
+                    if (tag !== 48) {
+                        break;
+                    }
                     message.balanceAnchor = reader.bool();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -357,7 +450,7 @@ export const MsgSaveCardContent = {
         return {
             creator: isSet(object.creator) ? String(object.creator) : "",
             cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
-            content: isSet(object.content) ? bytesFromBase64(object.content) : new Uint8Array(),
+            content: isSet(object.content) ? bytesFromBase64(object.content) : new Uint8Array(0),
             notes: isSet(object.notes) ? String(object.notes) : "",
             artist: isSet(object.artist) ? String(object.artist) : "",
             balanceAnchor: isSet(object.balanceAnchor) ? Boolean(object.balanceAnchor) : false,
@@ -365,20 +458,34 @@ export const MsgSaveCardContent = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        message.content !== undefined
-            && (obj.content = base64FromBytes(message.content !== undefined ? message.content : new Uint8Array()));
-        message.notes !== undefined && (obj.notes = message.notes);
-        message.artist !== undefined && (obj.artist = message.artist);
-        message.balanceAnchor !== undefined && (obj.balanceAnchor = message.balanceAnchor);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
+        if (message.content.length !== 0) {
+            obj.content = base64FromBytes(message.content);
+        }
+        if (message.notes !== "") {
+            obj.notes = message.notes;
+        }
+        if (message.artist !== "") {
+            obj.artist = message.artist;
+        }
+        if (message.balanceAnchor === true) {
+            obj.balanceAnchor = message.balanceAnchor;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgSaveCardContent.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgSaveCardContent();
         message.creator = object.creator ?? "";
         message.cardId = object.cardId ?? 0;
-        message.content = object.content ?? new Uint8Array();
+        message.content = object.content ?? new Uint8Array(0);
         message.notes = object.notes ?? "";
         message.artist = object.artist ?? "";
         message.balanceAnchor = object.balanceAnchor ?? false;
@@ -396,19 +503,23 @@ export const MsgSaveCardContentResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSaveCardContentResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.airdropClaimed = reader.bool();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -417,8 +528,13 @@ export const MsgSaveCardContentResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.airdropClaimed !== undefined && (obj.airdropClaimed = message.airdropClaimed);
+        if (message.airdropClaimed === true) {
+            obj.airdropClaimed = message.airdropClaimed;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgSaveCardContentResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgSaveCardContentResponse();
@@ -443,25 +559,35 @@ export const MsgTransferCard = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgTransferCard();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.receiver = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -474,10 +600,19 @@ export const MsgTransferCard = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        message.receiver !== undefined && (obj.receiver = message.receiver);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
+        if (message.receiver !== "") {
+            obj.receiver = message.receiver;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgTransferCard.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgTransferCard();
@@ -495,16 +630,17 @@ export const MsgTransferCardResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgTransferCardResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -514,6 +650,9 @@ export const MsgTransferCardResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgTransferCardResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgTransferCardResponse();
@@ -537,25 +676,35 @@ export const MsgDonateToCard = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgDonateToCard();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.amount = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -568,10 +717,19 @@ export const MsgDonateToCard = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        message.amount !== undefined && (obj.amount = message.amount);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
+        if (message.amount !== "") {
+            obj.amount = message.amount;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgDonateToCard.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgDonateToCard();
@@ -589,16 +747,17 @@ export const MsgDonateToCardResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgDonateToCardResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -609,13 +768,16 @@ export const MsgDonateToCardResponse = {
         const obj = {};
         return obj;
     },
+    create(base) {
+        return MsgDonateToCardResponse.fromPartial(base ?? {});
+    },
     fromPartial(_) {
         const message = createBaseMsgDonateToCardResponse();
         return message;
     },
 };
 function createBaseMsgAddArtwork() {
-    return { creator: "", cardId: 0, image: new Uint8Array(), fullArt: false };
+    return { creator: "", cardId: 0, image: new Uint8Array(0), fullArt: false };
 }
 export const MsgAddArtwork = {
     encode(message, writer = _m0.Writer.create()) {
@@ -634,28 +796,41 @@ export const MsgAddArtwork = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddArtwork();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.image = reader.bytes();
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
                     message.fullArt = reader.bool();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -663,24 +838,34 @@ export const MsgAddArtwork = {
         return {
             creator: isSet(object.creator) ? String(object.creator) : "",
             cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
-            image: isSet(object.image) ? bytesFromBase64(object.image) : new Uint8Array(),
+            image: isSet(object.image) ? bytesFromBase64(object.image) : new Uint8Array(0),
             fullArt: isSet(object.fullArt) ? Boolean(object.fullArt) : false,
         };
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        message.image !== undefined
-            && (obj.image = base64FromBytes(message.image !== undefined ? message.image : new Uint8Array()));
-        message.fullArt !== undefined && (obj.fullArt = message.fullArt);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
+        if (message.image.length !== 0) {
+            obj.image = base64FromBytes(message.image);
+        }
+        if (message.fullArt === true) {
+            obj.fullArt = message.fullArt;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgAddArtwork.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgAddArtwork();
         message.creator = object.creator ?? "";
         message.cardId = object.cardId ?? 0;
-        message.image = object.image ?? new Uint8Array();
+        message.image = object.image ?? new Uint8Array(0);
         message.fullArt = object.fullArt ?? false;
         return message;
     },
@@ -693,16 +878,17 @@ export const MsgAddArtworkResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddArtworkResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -713,111 +899,11 @@ export const MsgAddArtworkResponse = {
         const obj = {};
         return obj;
     },
+    create(base) {
+        return MsgAddArtworkResponse.fromPartial(base ?? {});
+    },
     fromPartial(_) {
         const message = createBaseMsgAddArtworkResponse();
-        return message;
-    },
-};
-function createBaseMsgSubmitCopyrightProposal() {
-    return { creator: "", cardId: 0, description: "", link: "" };
-}
-export const MsgSubmitCopyrightProposal = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.creator !== "") {
-            writer.uint32(10).string(message.creator);
-        }
-        if (message.cardId !== 0) {
-            writer.uint32(16).uint64(message.cardId);
-        }
-        if (message.description !== "") {
-            writer.uint32(26).string(message.description);
-        }
-        if (message.link !== "") {
-            writer.uint32(34).string(message.link);
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgSubmitCopyrightProposal();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.creator = reader.string();
-                    break;
-                case 2:
-                    message.cardId = longToNumber(reader.uint64());
-                    break;
-                case 3:
-                    message.description = reader.string();
-                    break;
-                case 4:
-                    message.link = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            creator: isSet(object.creator) ? String(object.creator) : "",
-            cardId: isSet(object.cardId) ? Number(object.cardId) : 0,
-            description: isSet(object.description) ? String(object.description) : "",
-            link: isSet(object.link) ? String(object.link) : "",
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        message.description !== undefined && (obj.description = message.description);
-        message.link !== undefined && (obj.link = message.link);
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseMsgSubmitCopyrightProposal();
-        message.creator = object.creator ?? "";
-        message.cardId = object.cardId ?? 0;
-        message.description = object.description ?? "";
-        message.link = object.link ?? "";
-        return message;
-    },
-};
-function createBaseMsgSubmitCopyrightProposalResponse() {
-    return {};
-}
-export const MsgSubmitCopyrightProposalResponse = {
-    encode(_, writer = _m0.Writer.create()) {
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgSubmitCopyrightProposalResponse();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(_) {
-        return {};
-    },
-    toJSON(_) {
-        const obj = {};
-        return obj;
-    },
-    fromPartial(_) {
-        const message = createBaseMsgSubmitCopyrightProposalResponse();
         return message;
     },
 };
@@ -838,25 +924,35 @@ export const MsgChangeArtist = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgChangeArtist();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.cardID = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.artist = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -869,10 +965,19 @@ export const MsgChangeArtist = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardID !== undefined && (obj.cardID = Math.round(message.cardID));
-        message.artist !== undefined && (obj.artist = message.artist);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.cardID !== 0) {
+            obj.cardID = Math.round(message.cardID);
+        }
+        if (message.artist !== "") {
+            obj.artist = message.artist;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgChangeArtist.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgChangeArtist();
@@ -890,16 +995,17 @@ export const MsgChangeArtistResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgChangeArtistResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -909,6 +1015,9 @@ export const MsgChangeArtistResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgChangeArtistResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgChangeArtistResponse();
@@ -926,19 +1035,23 @@ export const MsgRegisterForCouncil = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRegisterForCouncil();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -947,8 +1060,13 @@ export const MsgRegisterForCouncil = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgRegisterForCouncil.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgRegisterForCouncil();
@@ -964,16 +1082,17 @@ export const MsgRegisterForCouncilResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRegisterForCouncilResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -983,6 +1102,9 @@ export const MsgRegisterForCouncilResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgRegisterForCouncilResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgRegisterForCouncilResponse();
@@ -1016,47 +1138,61 @@ export const MsgReportMatch = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgReportMatch();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.matchId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
-                    if ((tag & 7) === 2) {
+                    if (tag === 24) {
+                        message.playedCardsA.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 26) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.playedCardsA.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.playedCardsA.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 4:
-                    if ((tag & 7) === 2) {
+                    if (tag === 32) {
+                        message.playedCardsB.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 34) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.playedCardsB.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.playedCardsB.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 5:
+                    if (tag !== 40) {
+                        break;
+                    }
                     message.outcome = reader.int32();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1071,22 +1207,25 @@ export const MsgReportMatch = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.matchId !== undefined && (obj.matchId = Math.round(message.matchId));
-        if (message.playedCardsA) {
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.matchId !== 0) {
+            obj.matchId = Math.round(message.matchId);
+        }
+        if (message.playedCardsA?.length) {
             obj.playedCardsA = message.playedCardsA.map((e) => Math.round(e));
         }
-        else {
-            obj.playedCardsA = [];
-        }
-        if (message.playedCardsB) {
+        if (message.playedCardsB?.length) {
             obj.playedCardsB = message.playedCardsB.map((e) => Math.round(e));
         }
-        else {
-            obj.playedCardsB = [];
+        if (message.outcome !== 0) {
+            obj.outcome = outcomeToJSON(message.outcome);
         }
-        message.outcome !== undefined && (obj.outcome = outcomeToJSON(message.outcome));
         return obj;
+    },
+    create(base) {
+        return MsgReportMatch.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgReportMatch();
@@ -1109,19 +1248,23 @@ export const MsgReportMatchResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgReportMatchResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.matchId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1130,115 +1273,17 @@ export const MsgReportMatchResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.matchId !== undefined && (obj.matchId = Math.round(message.matchId));
+        if (message.matchId !== 0) {
+            obj.matchId = Math.round(message.matchId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgReportMatchResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgReportMatchResponse();
         message.matchId = object.matchId ?? 0;
-        return message;
-    },
-};
-function createBaseMsgSubmitMatchReporterProposal() {
-    return { creator: "", reporter: "", deposit: "", description: "" };
-}
-export const MsgSubmitMatchReporterProposal = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.creator !== "") {
-            writer.uint32(10).string(message.creator);
-        }
-        if (message.reporter !== "") {
-            writer.uint32(18).string(message.reporter);
-        }
-        if (message.deposit !== "") {
-            writer.uint32(26).string(message.deposit);
-        }
-        if (message.description !== "") {
-            writer.uint32(34).string(message.description);
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgSubmitMatchReporterProposal();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.creator = reader.string();
-                    break;
-                case 2:
-                    message.reporter = reader.string();
-                    break;
-                case 3:
-                    message.deposit = reader.string();
-                    break;
-                case 4:
-                    message.description = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            creator: isSet(object.creator) ? String(object.creator) : "",
-            reporter: isSet(object.reporter) ? String(object.reporter) : "",
-            deposit: isSet(object.deposit) ? String(object.deposit) : "",
-            description: isSet(object.description) ? String(object.description) : "",
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.reporter !== undefined && (obj.reporter = message.reporter);
-        message.deposit !== undefined && (obj.deposit = message.deposit);
-        message.description !== undefined && (obj.description = message.description);
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseMsgSubmitMatchReporterProposal();
-        message.creator = object.creator ?? "";
-        message.reporter = object.reporter ?? "";
-        message.deposit = object.deposit ?? "";
-        message.description = object.description ?? "";
-        return message;
-    },
-};
-function createBaseMsgSubmitMatchReporterProposalResponse() {
-    return {};
-}
-export const MsgSubmitMatchReporterProposalResponse = {
-    encode(_, writer = _m0.Writer.create()) {
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgSubmitMatchReporterProposalResponse();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(_) {
-        return {};
-    },
-    toJSON(_) {
-        const obj = {};
-        return obj;
-    },
-    fromPartial(_) {
-        const message = createBaseMsgSubmitMatchReporterProposalResponse();
         return message;
     },
 };
@@ -1256,22 +1301,29 @@ export const MsgApointMatchReporter = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgApointMatchReporter();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.reporter = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1283,9 +1335,16 @@ export const MsgApointMatchReporter = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.reporter !== undefined && (obj.reporter = message.reporter);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.reporter !== "") {
+            obj.reporter = message.reporter;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgApointMatchReporter.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgApointMatchReporter();
@@ -1302,16 +1361,17 @@ export const MsgApointMatchReporterResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgApointMatchReporterResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1321,6 +1381,9 @@ export const MsgApointMatchReporterResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgApointMatchReporterResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgApointMatchReporterResponse();
@@ -1350,31 +1413,47 @@ export const MsgCreateSet = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCreateSet();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.name = reader.string();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.artist = reader.string();
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.storyWriter = reader.string();
-                    break;
+                    continue;
                 case 5:
+                    if (tag !== 42) {
+                        break;
+                    }
                     message.contributors.push(reader.string());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1389,17 +1468,25 @@ export const MsgCreateSet = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.name !== undefined && (obj.name = message.name);
-        message.artist !== undefined && (obj.artist = message.artist);
-        message.storyWriter !== undefined && (obj.storyWriter = message.storyWriter);
-        if (message.contributors) {
-            obj.contributors = message.contributors.map((e) => e);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
         }
-        else {
-            obj.contributors = [];
+        if (message.name !== "") {
+            obj.name = message.name;
+        }
+        if (message.artist !== "") {
+            obj.artist = message.artist;
+        }
+        if (message.storyWriter !== "") {
+            obj.storyWriter = message.storyWriter;
+        }
+        if (message.contributors?.length) {
+            obj.contributors = message.contributors;
         }
         return obj;
+    },
+    create(base) {
+        return MsgCreateSet.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgCreateSet();
@@ -1419,16 +1506,17 @@ export const MsgCreateSetResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCreateSetResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1438,6 +1526,9 @@ export const MsgCreateSetResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgCreateSetResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgCreateSetResponse();
@@ -1461,25 +1552,35 @@ export const MsgAddCardToSet = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddCardToSet();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1492,10 +1593,19 @@ export const MsgAddCardToSet = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgAddCardToSet.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgAddCardToSet();
@@ -1513,16 +1623,17 @@ export const MsgAddCardToSetResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddCardToSetResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1532,6 +1643,9 @@ export const MsgAddCardToSetResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgAddCardToSetResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgAddCardToSetResponse();
@@ -1552,22 +1666,29 @@ export const MsgFinalizeSet = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgFinalizeSet();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1579,9 +1700,16 @@ export const MsgFinalizeSet = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgFinalizeSet.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgFinalizeSet();
@@ -1598,16 +1726,17 @@ export const MsgFinalizeSetResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgFinalizeSetResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1617,6 +1746,9 @@ export const MsgFinalizeSetResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgFinalizeSetResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgFinalizeSetResponse();
@@ -1637,22 +1769,29 @@ export const MsgBuyBoosterPack = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgBuyBoosterPack();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1664,9 +1803,16 @@ export const MsgBuyBoosterPack = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgBuyBoosterPack.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgBuyBoosterPack();
@@ -1686,19 +1832,23 @@ export const MsgBuyBoosterPackResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgBuyBoosterPackResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.airdropClaimed = reader.bool();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1707,8 +1857,13 @@ export const MsgBuyBoosterPackResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.airdropClaimed !== undefined && (obj.airdropClaimed = message.airdropClaimed);
+        if (message.airdropClaimed === true) {
+            obj.airdropClaimed = message.airdropClaimed;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgBuyBoosterPackResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgBuyBoosterPackResponse();
@@ -1733,25 +1888,35 @@ export const MsgRemoveCardFromSet = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRemoveCardFromSet();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1764,10 +1929,19 @@ export const MsgRemoveCardFromSet = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgRemoveCardFromSet.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgRemoveCardFromSet();
@@ -1785,16 +1959,17 @@ export const MsgRemoveCardFromSetResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRemoveCardFromSetResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1804,6 +1979,9 @@ export const MsgRemoveCardFromSetResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgRemoveCardFromSetResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgRemoveCardFromSetResponse();
@@ -1827,25 +2005,35 @@ export const MsgRemoveContributorFromSet = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRemoveContributorFromSet();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.user = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1858,10 +2046,19 @@ export const MsgRemoveContributorFromSet = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.user !== undefined && (obj.user = message.user);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.user !== "") {
+            obj.user = message.user;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgRemoveContributorFromSet.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgRemoveContributorFromSet();
@@ -1879,16 +2076,17 @@ export const MsgRemoveContributorFromSetResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRemoveContributorFromSetResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1898,6 +2096,9 @@ export const MsgRemoveContributorFromSetResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgRemoveContributorFromSetResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgRemoveContributorFromSetResponse();
@@ -1921,25 +2122,35 @@ export const MsgAddContributorToSet = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddContributorToSet();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.user = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1952,10 +2163,19 @@ export const MsgAddContributorToSet = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.user !== undefined && (obj.user = message.user);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.user !== "") {
+            obj.user = message.user;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgAddContributorToSet.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgAddContributorToSet();
@@ -1973,16 +2193,17 @@ export const MsgAddContributorToSetResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddContributorToSetResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -1993,93 +2214,11 @@ export const MsgAddContributorToSetResponse = {
         const obj = {};
         return obj;
     },
+    create(base) {
+        return MsgAddContributorToSetResponse.fromPartial(base ?? {});
+    },
     fromPartial(_) {
         const message = createBaseMsgAddContributorToSetResponse();
-        return message;
-    },
-};
-function createBaseMsgSubmitSetProposal() {
-    return { creator: "", setId: 0 };
-}
-export const MsgSubmitSetProposal = {
-    encode(message, writer = _m0.Writer.create()) {
-        if (message.creator !== "") {
-            writer.uint32(10).string(message.creator);
-        }
-        if (message.setId !== 0) {
-            writer.uint32(16).uint64(message.setId);
-        }
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgSubmitSetProposal();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                case 1:
-                    message.creator = reader.string();
-                    break;
-                case 2:
-                    message.setId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(object) {
-        return {
-            creator: isSet(object.creator) ? String(object.creator) : "",
-            setId: isSet(object.setId) ? Number(object.setId) : 0,
-        };
-    },
-    toJSON(message) {
-        const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        return obj;
-    },
-    fromPartial(object) {
-        const message = createBaseMsgSubmitSetProposal();
-        message.creator = object.creator ?? "";
-        message.setId = object.setId ?? 0;
-        return message;
-    },
-};
-function createBaseMsgSubmitSetProposalResponse() {
-    return {};
-}
-export const MsgSubmitSetProposalResponse = {
-    encode(_, writer = _m0.Writer.create()) {
-        return writer;
-    },
-    decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
-        let end = length === undefined ? reader.len : reader.pos + length;
-        const message = createBaseMsgSubmitSetProposalResponse();
-        while (reader.pos < end) {
-            const tag = reader.uint32();
-            switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
-            }
-        }
-        return message;
-    },
-    fromJSON(_) {
-        return {};
-    },
-    toJSON(_) {
-        const obj = {};
-        return obj;
-    },
-    fromPartial(_) {
-        const message = createBaseMsgSubmitSetProposalResponse();
         return message;
     },
 };
@@ -2100,25 +2239,35 @@ export const MsgCreateSellOffer = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCreateSellOffer();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.card = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.price = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2131,10 +2280,19 @@ export const MsgCreateSellOffer = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.card !== undefined && (obj.card = Math.round(message.card));
-        message.price !== undefined && (obj.price = message.price);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.card !== 0) {
+            obj.card = Math.round(message.card);
+        }
+        if (message.price !== "") {
+            obj.price = message.price;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgCreateSellOffer.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgCreateSellOffer();
@@ -2152,16 +2310,17 @@ export const MsgCreateSellOfferResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCreateSellOfferResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2171,6 +2330,9 @@ export const MsgCreateSellOfferResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgCreateSellOfferResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgCreateSellOfferResponse();
@@ -2191,22 +2353,29 @@ export const MsgBuyCard = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgBuyCard();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.sellOfferId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2218,9 +2387,16 @@ export const MsgBuyCard = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.sellOfferId !== undefined && (obj.sellOfferId = Math.round(message.sellOfferId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.sellOfferId !== 0) {
+            obj.sellOfferId = Math.round(message.sellOfferId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgBuyCard.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgBuyCard();
@@ -2237,16 +2413,17 @@ export const MsgBuyCardResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgBuyCardResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2256,6 +2433,9 @@ export const MsgBuyCardResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgBuyCardResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgBuyCardResponse();
@@ -2276,22 +2456,29 @@ export const MsgRemoveSellOffer = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRemoveSellOffer();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.sellOfferId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2303,9 +2490,16 @@ export const MsgRemoveSellOffer = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.sellOfferId !== undefined && (obj.sellOfferId = Math.round(message.sellOfferId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.sellOfferId !== 0) {
+            obj.sellOfferId = Math.round(message.sellOfferId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgRemoveSellOffer.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgRemoveSellOffer();
@@ -2322,16 +2516,17 @@ export const MsgRemoveSellOfferResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRemoveSellOfferResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2342,13 +2537,16 @@ export const MsgRemoveSellOfferResponse = {
         const obj = {};
         return obj;
     },
+    create(base) {
+        return MsgRemoveSellOfferResponse.fromPartial(base ?? {});
+    },
     fromPartial(_) {
         const message = createBaseMsgRemoveSellOfferResponse();
         return message;
     },
 };
 function createBaseMsgAddArtworkToSet() {
-    return { creator: "", setId: 0, image: new Uint8Array() };
+    return { creator: "", setId: 0, image: new Uint8Array(0) };
 }
 export const MsgAddArtworkToSet = {
     encode(message, writer = _m0.Writer.create()) {
@@ -2364,25 +2562,35 @@ export const MsgAddArtworkToSet = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddArtworkToSet();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.image = reader.bytes();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2390,22 +2598,30 @@ export const MsgAddArtworkToSet = {
         return {
             creator: isSet(object.creator) ? String(object.creator) : "",
             setId: isSet(object.setId) ? Number(object.setId) : 0,
-            image: isSet(object.image) ? bytesFromBase64(object.image) : new Uint8Array(),
+            image: isSet(object.image) ? bytesFromBase64(object.image) : new Uint8Array(0),
         };
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.image !== undefined
-            && (obj.image = base64FromBytes(message.image !== undefined ? message.image : new Uint8Array()));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.image.length !== 0) {
+            obj.image = base64FromBytes(message.image);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgAddArtworkToSet.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgAddArtworkToSet();
         message.creator = object.creator ?? "";
         message.setId = object.setId ?? 0;
-        message.image = object.image ?? new Uint8Array();
+        message.image = object.image ?? new Uint8Array(0);
         return message;
     },
 };
@@ -2417,16 +2633,17 @@ export const MsgAddArtworkToSetResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddArtworkToSetResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2436,6 +2653,9 @@ export const MsgAddArtworkToSetResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgAddArtworkToSetResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgAddArtworkToSetResponse();
@@ -2459,25 +2679,35 @@ export const MsgAddStoryToSet = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddStoryToSet();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.story = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2490,10 +2720,19 @@ export const MsgAddStoryToSet = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.story !== undefined && (obj.story = message.story);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.story !== "") {
+            obj.story = message.story;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgAddStoryToSet.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgAddStoryToSet();
@@ -2511,16 +2750,17 @@ export const MsgAddStoryToSetResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgAddStoryToSetResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2530,6 +2770,9 @@ export const MsgAddStoryToSetResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgAddStoryToSetResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgAddStoryToSetResponse();
@@ -2556,28 +2799,41 @@ export const MsgSetCardRarity = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetCardRarity();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
                     message.rarity = reader.int32();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2591,11 +2847,22 @@ export const MsgSetCardRarity = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.rarity !== undefined && (obj.rarity = cardRarityToJSON(message.rarity));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.rarity !== 0) {
+            obj.rarity = cardRarityToJSON(message.rarity);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgSetCardRarity.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgSetCardRarity();
@@ -2614,16 +2881,17 @@ export const MsgSetCardRarityResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetCardRarityResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2633,6 +2901,9 @@ export const MsgSetCardRarityResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgSetCardRarityResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgSetCardRarityResponse();
@@ -2653,22 +2924,29 @@ export const MsgCreateCouncil = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCreateCouncil();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2680,9 +2958,16 @@ export const MsgCreateCouncil = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgCreateCouncil.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgCreateCouncil();
@@ -2699,16 +2984,17 @@ export const MsgCreateCouncilResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCreateCouncilResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2718,6 +3004,9 @@ export const MsgCreateCouncilResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgCreateCouncilResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgCreateCouncilResponse();
@@ -2744,28 +3033,41 @@ export const MsgCommitCouncilResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCommitCouncilResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.response = reader.string();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.councilId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.suggestion = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2779,11 +3081,22 @@ export const MsgCommitCouncilResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.response !== undefined && (obj.response = message.response);
-        message.councilId !== undefined && (obj.councilId = Math.round(message.councilId));
-        message.suggestion !== undefined && (obj.suggestion = message.suggestion);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.response !== "") {
+            obj.response = message.response;
+        }
+        if (message.councilId !== 0) {
+            obj.councilId = Math.round(message.councilId);
+        }
+        if (message.suggestion !== "") {
+            obj.suggestion = message.suggestion;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgCommitCouncilResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgCommitCouncilResponse();
@@ -2802,16 +3115,17 @@ export const MsgCommitCouncilResponseResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgCommitCouncilResponseResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2821,6 +3135,9 @@ export const MsgCommitCouncilResponseResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgCommitCouncilResponseResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgCommitCouncilResponseResponse();
@@ -2847,28 +3164,41 @@ export const MsgRevealCouncilResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRevealCouncilResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.response = reader.int32();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.secret = reader.string();
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
                     message.councilId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2882,11 +3212,22 @@ export const MsgRevealCouncilResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.response !== undefined && (obj.response = responseToJSON(message.response));
-        message.secret !== undefined && (obj.secret = message.secret);
-        message.councilId !== undefined && (obj.councilId = Math.round(message.councilId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.response !== 0) {
+            obj.response = responseToJSON(message.response);
+        }
+        if (message.secret !== "") {
+            obj.secret = message.secret;
+        }
+        if (message.councilId !== 0) {
+            obj.councilId = Math.round(message.councilId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgRevealCouncilResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgRevealCouncilResponse();
@@ -2905,16 +3246,17 @@ export const MsgRevealCouncilResponseResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRevealCouncilResponseResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2924,6 +3266,9 @@ export const MsgRevealCouncilResponseResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgRevealCouncilResponseResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgRevealCouncilResponseResponse();
@@ -2944,22 +3289,29 @@ export const MsgRestartCouncil = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRestartCouncil();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.councilId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -2971,9 +3323,16 @@ export const MsgRestartCouncil = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.councilId !== undefined && (obj.councilId = Math.round(message.councilId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.councilId !== 0) {
+            obj.councilId = Math.round(message.councilId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgRestartCouncil.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgRestartCouncil();
@@ -2990,16 +3349,17 @@ export const MsgRestartCouncilResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRestartCouncilResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3009,6 +3369,9 @@ export const MsgRestartCouncilResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgRestartCouncilResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgRestartCouncilResponse();
@@ -3026,19 +3389,23 @@ export const MsgRewokeCouncilRegistration = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRewokeCouncilRegistration();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3047,8 +3414,13 @@ export const MsgRewokeCouncilRegistration = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgRewokeCouncilRegistration.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgRewokeCouncilRegistration();
@@ -3064,16 +3436,17 @@ export const MsgRewokeCouncilRegistrationResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgRewokeCouncilRegistrationResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3083,6 +3456,9 @@ export const MsgRewokeCouncilRegistrationResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgRewokeCouncilRegistrationResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgRewokeCouncilRegistrationResponse();
@@ -3109,28 +3485,41 @@ export const MsgConfirmMatch = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgConfirmMatch();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.matchId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.outcome = reader.int32();
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.votedCards.push(SingleVote.decode(reader, reader.uint32()));
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3144,16 +3533,22 @@ export const MsgConfirmMatch = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.matchId !== undefined && (obj.matchId = Math.round(message.matchId));
-        message.outcome !== undefined && (obj.outcome = outcomeToJSON(message.outcome));
-        if (message.votedCards) {
-            obj.votedCards = message.votedCards.map((e) => e ? SingleVote.toJSON(e) : undefined);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
         }
-        else {
-            obj.votedCards = [];
+        if (message.matchId !== 0) {
+            obj.matchId = Math.round(message.matchId);
+        }
+        if (message.outcome !== 0) {
+            obj.outcome = outcomeToJSON(message.outcome);
+        }
+        if (message.votedCards?.length) {
+            obj.votedCards = message.votedCards.map((e) => SingleVote.toJSON(e));
         }
         return obj;
+    },
+    create(base) {
+        return MsgConfirmMatch.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgConfirmMatch();
@@ -3172,16 +3567,17 @@ export const MsgConfirmMatchResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgConfirmMatchResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3191,6 +3587,9 @@ export const MsgConfirmMatchResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgConfirmMatchResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgConfirmMatchResponse();
@@ -3211,22 +3610,29 @@ export const MsgSetProfileCard = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetProfileCard();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.cardId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3238,9 +3644,16 @@ export const MsgSetProfileCard = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.cardId !== undefined && (obj.cardId = Math.round(message.cardId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.cardId !== 0) {
+            obj.cardId = Math.round(message.cardId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgSetProfileCard.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgSetProfileCard();
@@ -3257,16 +3670,17 @@ export const MsgSetProfileCardResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetProfileCardResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3276,6 +3690,9 @@ export const MsgSetProfileCardResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgSetProfileCardResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgSetProfileCardResponse();
@@ -3296,22 +3713,29 @@ export const MsgOpenBoosterPack = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgOpenBoosterPack();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.boosterPackId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3323,9 +3747,16 @@ export const MsgOpenBoosterPack = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.boosterPackId !== undefined && (obj.boosterPackId = Math.round(message.boosterPackId));
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.boosterPackId !== 0) {
+            obj.boosterPackId = Math.round(message.boosterPackId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgOpenBoosterPack.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgOpenBoosterPack();
@@ -3347,27 +3778,30 @@ export const MsgOpenBoosterPackResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgOpenBoosterPackResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
-                    if ((tag & 7) === 2) {
+                    if (tag === 8) {
+                        message.cardIds.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 10) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.cardIds.push(longToNumber(reader.uint64()));
                         }
+                        continue;
                     }
-                    else {
-                        message.cardIds.push(longToNumber(reader.uint64()));
-                    }
-                    break;
-                default:
-                    reader.skipType(tag & 7);
                     break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3376,13 +3810,13 @@ export const MsgOpenBoosterPackResponse = {
     },
     toJSON(message) {
         const obj = {};
-        if (message.cardIds) {
+        if (message.cardIds?.length) {
             obj.cardIds = message.cardIds.map((e) => Math.round(e));
         }
-        else {
-            obj.cardIds = [];
-        }
         return obj;
+    },
+    create(base) {
+        return MsgOpenBoosterPackResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgOpenBoosterPackResponse();
@@ -3407,25 +3841,35 @@ export const MsgTransferBoosterPack = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgTransferBoosterPack();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.boosterPackId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.receiver = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3438,10 +3882,19 @@ export const MsgTransferBoosterPack = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.boosterPackId !== undefined && (obj.boosterPackId = Math.round(message.boosterPackId));
-        message.receiver !== undefined && (obj.receiver = message.receiver);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.boosterPackId !== 0) {
+            obj.boosterPackId = Math.round(message.boosterPackId);
+        }
+        if (message.receiver !== "") {
+            obj.receiver = message.receiver;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgTransferBoosterPack.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgTransferBoosterPack();
@@ -3459,16 +3912,17 @@ export const MsgTransferBoosterPackResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgTransferBoosterPackResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3478,6 +3932,9 @@ export const MsgTransferBoosterPackResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgTransferBoosterPackResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgTransferBoosterPackResponse();
@@ -3501,25 +3958,35 @@ export const MsgSetSetStoryWriter = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetSetStoryWriter();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.storyWriter = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3532,10 +3999,19 @@ export const MsgSetSetStoryWriter = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.storyWriter !== undefined && (obj.storyWriter = message.storyWriter);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.storyWriter !== "") {
+            obj.storyWriter = message.storyWriter;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgSetSetStoryWriter.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgSetSetStoryWriter();
@@ -3553,16 +4029,17 @@ export const MsgSetSetStoryWriterResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetSetStoryWriterResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3572,6 +4049,9 @@ export const MsgSetSetStoryWriterResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgSetSetStoryWriterResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgSetSetStoryWriterResponse();
@@ -3595,25 +4075,35 @@ export const MsgSetSetArtist = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetSetArtist();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.artist = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3626,10 +4116,19 @@ export const MsgSetSetArtist = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.artist !== undefined && (obj.artist = message.artist);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.artist !== "") {
+            obj.artist = message.artist;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgSetSetArtist.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgSetSetArtist();
@@ -3647,16 +4146,17 @@ export const MsgSetSetArtistResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetSetArtistResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3666,6 +4166,9 @@ export const MsgSetSetArtistResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgSetSetArtistResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgSetSetArtistResponse();
@@ -3686,22 +4189,29 @@ export const MsgSetUserWebsite = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetUserWebsite();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.website = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3713,9 +4223,16 @@ export const MsgSetUserWebsite = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.website !== undefined && (obj.website = message.website);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.website !== "") {
+            obj.website = message.website;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgSetUserWebsite.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgSetUserWebsite();
@@ -3732,16 +4249,17 @@ export const MsgSetUserWebsiteResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetUserWebsiteResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3751,6 +4269,9 @@ export const MsgSetUserWebsiteResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgSetUserWebsiteResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgSetUserWebsiteResponse();
@@ -3771,22 +4292,29 @@ export const MsgSetUserBiography = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetUserBiography();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.biography = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3798,9 +4326,16 @@ export const MsgSetUserBiography = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.biography !== undefined && (obj.biography = message.biography);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.biography !== "") {
+            obj.biography = message.biography;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgSetUserBiography.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgSetUserBiography();
@@ -3817,16 +4352,17 @@ export const MsgSetUserBiographyResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetUserBiographyResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3836,6 +4372,9 @@ export const MsgSetUserBiographyResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgSetUserBiographyResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgSetUserBiographyResponse();
@@ -3856,22 +4395,29 @@ export const MsgMultiVoteCard = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgMultiVoteCard();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.votes.push(SingleVote.decode(reader, reader.uint32()));
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3883,14 +4429,16 @@ export const MsgMultiVoteCard = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        if (message.votes) {
-            obj.votes = message.votes.map((e) => e ? SingleVote.toJSON(e) : undefined);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
         }
-        else {
-            obj.votes = [];
+        if (message.votes?.length) {
+            obj.votes = message.votes.map((e) => SingleVote.toJSON(e));
         }
         return obj;
+    },
+    create(base) {
+        return MsgMultiVoteCard.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgMultiVoteCard();
@@ -3907,16 +4455,17 @@ export const MsgMultiVoteCardResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgMultiVoteCardResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -3926,6 +4475,9 @@ export const MsgMultiVoteCardResponse = {
     toJSON(_) {
         const obj = {};
         return obj;
+    },
+    create(base) {
+        return MsgMultiVoteCardResponse.fromPartial(base ?? {});
     },
     fromPartial(_) {
         const message = createBaseMsgMultiVoteCardResponse();
@@ -3959,47 +4511,61 @@ export const MsgOpenMatch = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgOpenMatch();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.playerA = reader.string();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.playerB = reader.string();
-                    break;
+                    continue;
                 case 4:
-                    if ((tag & 7) === 2) {
+                    if (tag === 32) {
+                        message.playerADeck.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 34) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.playerADeck.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.playerADeck.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 5:
-                    if ((tag & 7) === 2) {
+                    if (tag === 40) {
+                        message.playerBDeck.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 42) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.playerBDeck.push(longToNumber(reader.uint64()));
                         }
+                        continue;
                     }
-                    else {
-                        message.playerBDeck.push(longToNumber(reader.uint64()));
-                    }
-                    break;
-                default:
-                    reader.skipType(tag & 7);
                     break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -4014,22 +4580,25 @@ export const MsgOpenMatch = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.playerA !== undefined && (obj.playerA = message.playerA);
-        message.playerB !== undefined && (obj.playerB = message.playerB);
-        if (message.playerADeck) {
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.playerA !== "") {
+            obj.playerA = message.playerA;
+        }
+        if (message.playerB !== "") {
+            obj.playerB = message.playerB;
+        }
+        if (message.playerADeck?.length) {
             obj.playerADeck = message.playerADeck.map((e) => Math.round(e));
         }
-        else {
-            obj.playerADeck = [];
-        }
-        if (message.playerBDeck) {
+        if (message.playerBDeck?.length) {
             obj.playerBDeck = message.playerBDeck.map((e) => Math.round(e));
         }
-        else {
-            obj.playerBDeck = [];
-        }
         return obj;
+    },
+    create(base) {
+        return MsgOpenMatch.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgOpenMatch();
@@ -4052,19 +4621,23 @@ export const MsgOpenMatchResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgOpenMatchResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.matchId = longToNumber(reader.uint64());
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -4073,8 +4646,13 @@ export const MsgOpenMatchResponse = {
     },
     toJSON(message) {
         const obj = {};
-        message.matchId !== undefined && (obj.matchId = Math.round(message.matchId));
+        if (message.matchId !== 0) {
+            obj.matchId = Math.round(message.matchId);
+        }
         return obj;
+    },
+    create(base) {
+        return MsgOpenMatchResponse.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgOpenMatchResponse();
@@ -4099,25 +4677,35 @@ export const MsgSetSetName = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetSetName();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.creator = reader.string();
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 16) {
+                        break;
+                    }
                     message.setId = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.name = reader.string();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -4130,10 +4718,19 @@ export const MsgSetSetName = {
     },
     toJSON(message) {
         const obj = {};
-        message.creator !== undefined && (obj.creator = message.creator);
-        message.setId !== undefined && (obj.setId = Math.round(message.setId));
-        message.name !== undefined && (obj.name = message.name);
+        if (message.creator !== "") {
+            obj.creator = message.creator;
+        }
+        if (message.setId !== 0) {
+            obj.setId = Math.round(message.setId);
+        }
+        if (message.name !== "") {
+            obj.name = message.name;
+        }
         return obj;
+    },
+    create(base) {
+        return MsgSetSetName.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMsgSetSetName();
@@ -4151,16 +4748,17 @@ export const MsgSetSetNameResponse = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMsgSetSetNameResponse();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
-                default:
-                    reader.skipType(tag & 7);
-                    break;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -4171,13 +4769,18 @@ export const MsgSetSetNameResponse = {
         const obj = {};
         return obj;
     },
+    create(base) {
+        return MsgSetSetNameResponse.fromPartial(base ?? {});
+    },
     fromPartial(_) {
         const message = createBaseMsgSetSetNameResponse();
         return message;
     },
 };
+export const MsgServiceName = "DecentralCardGame.cardchain.cardchain.Msg";
 export class MsgClientImpl {
-    constructor(rpc) {
+    constructor(rpc, opts) {
+        this.service = opts?.service || MsgServiceName;
         this.rpc = rpc;
         this.Createuser = this.Createuser.bind(this);
         this.BuyCardScheme = this.BuyCardScheme.bind(this);
@@ -4186,11 +4789,9 @@ export class MsgClientImpl {
         this.TransferCard = this.TransferCard.bind(this);
         this.DonateToCard = this.DonateToCard.bind(this);
         this.AddArtwork = this.AddArtwork.bind(this);
-        this.SubmitCopyrightProposal = this.SubmitCopyrightProposal.bind(this);
         this.ChangeArtist = this.ChangeArtist.bind(this);
         this.RegisterForCouncil = this.RegisterForCouncil.bind(this);
         this.ReportMatch = this.ReportMatch.bind(this);
-        this.SubmitMatchReporterProposal = this.SubmitMatchReporterProposal.bind(this);
         this.ApointMatchReporter = this.ApointMatchReporter.bind(this);
         this.CreateSet = this.CreateSet.bind(this);
         this.AddCardToSet = this.AddCardToSet.bind(this);
@@ -4199,7 +4800,6 @@ export class MsgClientImpl {
         this.RemoveCardFromSet = this.RemoveCardFromSet.bind(this);
         this.RemoveContributorFromSet = this.RemoveContributorFromSet.bind(this);
         this.AddContributorToSet = this.AddContributorToSet.bind(this);
-        this.SubmitSetProposal = this.SubmitSetProposal.bind(this);
         this.CreateSellOffer = this.CreateSellOffer.bind(this);
         this.BuyCard = this.BuyCard.bind(this);
         this.RemoveSellOffer = this.RemoveSellOffer.bind(this);
@@ -4225,221 +4825,206 @@ export class MsgClientImpl {
     }
     Createuser(request) {
         const data = MsgCreateuser.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "Createuser", data);
-        return promise.then((data) => MsgCreateuserResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "Createuser", data);
+        return promise.then((data) => MsgCreateuserResponse.decode(_m0.Reader.create(data)));
     }
     BuyCardScheme(request) {
         const data = MsgBuyCardScheme.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "BuyCardScheme", data);
-        return promise.then((data) => MsgBuyCardSchemeResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "BuyCardScheme", data);
+        return promise.then((data) => MsgBuyCardSchemeResponse.decode(_m0.Reader.create(data)));
     }
     VoteCard(request) {
         const data = MsgVoteCard.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "VoteCard", data);
-        return promise.then((data) => MsgVoteCardResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "VoteCard", data);
+        return promise.then((data) => MsgVoteCardResponse.decode(_m0.Reader.create(data)));
     }
     SaveCardContent(request) {
         const data = MsgSaveCardContent.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SaveCardContent", data);
-        return promise.then((data) => MsgSaveCardContentResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "SaveCardContent", data);
+        return promise.then((data) => MsgSaveCardContentResponse.decode(_m0.Reader.create(data)));
     }
     TransferCard(request) {
         const data = MsgTransferCard.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "TransferCard", data);
-        return promise.then((data) => MsgTransferCardResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "TransferCard", data);
+        return promise.then((data) => MsgTransferCardResponse.decode(_m0.Reader.create(data)));
     }
     DonateToCard(request) {
         const data = MsgDonateToCard.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "DonateToCard", data);
-        return promise.then((data) => MsgDonateToCardResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "DonateToCard", data);
+        return promise.then((data) => MsgDonateToCardResponse.decode(_m0.Reader.create(data)));
     }
     AddArtwork(request) {
         const data = MsgAddArtwork.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "AddArtwork", data);
-        return promise.then((data) => MsgAddArtworkResponse.decode(new _m0.Reader(data)));
-    }
-    SubmitCopyrightProposal(request) {
-        const data = MsgSubmitCopyrightProposal.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SubmitCopyrightProposal", data);
-        return promise.then((data) => MsgSubmitCopyrightProposalResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "AddArtwork", data);
+        return promise.then((data) => MsgAddArtworkResponse.decode(_m0.Reader.create(data)));
     }
     ChangeArtist(request) {
         const data = MsgChangeArtist.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "ChangeArtist", data);
-        return promise.then((data) => MsgChangeArtistResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "ChangeArtist", data);
+        return promise.then((data) => MsgChangeArtistResponse.decode(_m0.Reader.create(data)));
     }
     RegisterForCouncil(request) {
         const data = MsgRegisterForCouncil.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "RegisterForCouncil", data);
-        return promise.then((data) => MsgRegisterForCouncilResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "RegisterForCouncil", data);
+        return promise.then((data) => MsgRegisterForCouncilResponse.decode(_m0.Reader.create(data)));
     }
     ReportMatch(request) {
         const data = MsgReportMatch.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "ReportMatch", data);
-        return promise.then((data) => MsgReportMatchResponse.decode(new _m0.Reader(data)));
-    }
-    SubmitMatchReporterProposal(request) {
-        const data = MsgSubmitMatchReporterProposal.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SubmitMatchReporterProposal", data);
-        return promise.then((data) => MsgSubmitMatchReporterProposalResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "ReportMatch", data);
+        return promise.then((data) => MsgReportMatchResponse.decode(_m0.Reader.create(data)));
     }
     ApointMatchReporter(request) {
         const data = MsgApointMatchReporter.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "ApointMatchReporter", data);
-        return promise.then((data) => MsgApointMatchReporterResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "ApointMatchReporter", data);
+        return promise.then((data) => MsgApointMatchReporterResponse.decode(_m0.Reader.create(data)));
     }
     CreateSet(request) {
         const data = MsgCreateSet.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "CreateSet", data);
-        return promise.then((data) => MsgCreateSetResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "CreateSet", data);
+        return promise.then((data) => MsgCreateSetResponse.decode(_m0.Reader.create(data)));
     }
     AddCardToSet(request) {
         const data = MsgAddCardToSet.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "AddCardToSet", data);
-        return promise.then((data) => MsgAddCardToSetResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "AddCardToSet", data);
+        return promise.then((data) => MsgAddCardToSetResponse.decode(_m0.Reader.create(data)));
     }
     FinalizeSet(request) {
         const data = MsgFinalizeSet.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "FinalizeSet", data);
-        return promise.then((data) => MsgFinalizeSetResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "FinalizeSet", data);
+        return promise.then((data) => MsgFinalizeSetResponse.decode(_m0.Reader.create(data)));
     }
     BuyBoosterPack(request) {
         const data = MsgBuyBoosterPack.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "BuyBoosterPack", data);
-        return promise.then((data) => MsgBuyBoosterPackResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "BuyBoosterPack", data);
+        return promise.then((data) => MsgBuyBoosterPackResponse.decode(_m0.Reader.create(data)));
     }
     RemoveCardFromSet(request) {
         const data = MsgRemoveCardFromSet.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "RemoveCardFromSet", data);
-        return promise.then((data) => MsgRemoveCardFromSetResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "RemoveCardFromSet", data);
+        return promise.then((data) => MsgRemoveCardFromSetResponse.decode(_m0.Reader.create(data)));
     }
     RemoveContributorFromSet(request) {
         const data = MsgRemoveContributorFromSet.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "RemoveContributorFromSet", data);
-        return promise.then((data) => MsgRemoveContributorFromSetResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "RemoveContributorFromSet", data);
+        return promise.then((data) => MsgRemoveContributorFromSetResponse.decode(_m0.Reader.create(data)));
     }
     AddContributorToSet(request) {
         const data = MsgAddContributorToSet.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "AddContributorToSet", data);
-        return promise.then((data) => MsgAddContributorToSetResponse.decode(new _m0.Reader(data)));
-    }
-    SubmitSetProposal(request) {
-        const data = MsgSubmitSetProposal.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SubmitSetProposal", data);
-        return promise.then((data) => MsgSubmitSetProposalResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "AddContributorToSet", data);
+        return promise.then((data) => MsgAddContributorToSetResponse.decode(_m0.Reader.create(data)));
     }
     CreateSellOffer(request) {
         const data = MsgCreateSellOffer.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "CreateSellOffer", data);
-        return promise.then((data) => MsgCreateSellOfferResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "CreateSellOffer", data);
+        return promise.then((data) => MsgCreateSellOfferResponse.decode(_m0.Reader.create(data)));
     }
     BuyCard(request) {
         const data = MsgBuyCard.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "BuyCard", data);
-        return promise.then((data) => MsgBuyCardResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "BuyCard", data);
+        return promise.then((data) => MsgBuyCardResponse.decode(_m0.Reader.create(data)));
     }
     RemoveSellOffer(request) {
         const data = MsgRemoveSellOffer.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "RemoveSellOffer", data);
-        return promise.then((data) => MsgRemoveSellOfferResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "RemoveSellOffer", data);
+        return promise.then((data) => MsgRemoveSellOfferResponse.decode(_m0.Reader.create(data)));
     }
     AddArtworkToSet(request) {
         const data = MsgAddArtworkToSet.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "AddArtworkToSet", data);
-        return promise.then((data) => MsgAddArtworkToSetResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "AddArtworkToSet", data);
+        return promise.then((data) => MsgAddArtworkToSetResponse.decode(_m0.Reader.create(data)));
     }
     AddStoryToSet(request) {
         const data = MsgAddStoryToSet.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "AddStoryToSet", data);
-        return promise.then((data) => MsgAddStoryToSetResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "AddStoryToSet", data);
+        return promise.then((data) => MsgAddStoryToSetResponse.decode(_m0.Reader.create(data)));
     }
     SetCardRarity(request) {
         const data = MsgSetCardRarity.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetCardRarity", data);
-        return promise.then((data) => MsgSetCardRarityResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "SetCardRarity", data);
+        return promise.then((data) => MsgSetCardRarityResponse.decode(_m0.Reader.create(data)));
     }
     CreateCouncil(request) {
         const data = MsgCreateCouncil.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "CreateCouncil", data);
-        return promise.then((data) => MsgCreateCouncilResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "CreateCouncil", data);
+        return promise.then((data) => MsgCreateCouncilResponse.decode(_m0.Reader.create(data)));
     }
     CommitCouncilResponse(request) {
         const data = MsgCommitCouncilResponse.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "CommitCouncilResponse", data);
-        return promise.then((data) => MsgCommitCouncilResponseResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "CommitCouncilResponse", data);
+        return promise.then((data) => MsgCommitCouncilResponseResponse.decode(_m0.Reader.create(data)));
     }
     RevealCouncilResponse(request) {
         const data = MsgRevealCouncilResponse.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "RevealCouncilResponse", data);
-        return promise.then((data) => MsgRevealCouncilResponseResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "RevealCouncilResponse", data);
+        return promise.then((data) => MsgRevealCouncilResponseResponse.decode(_m0.Reader.create(data)));
     }
     RestartCouncil(request) {
         const data = MsgRestartCouncil.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "RestartCouncil", data);
-        return promise.then((data) => MsgRestartCouncilResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "RestartCouncil", data);
+        return promise.then((data) => MsgRestartCouncilResponse.decode(_m0.Reader.create(data)));
     }
     RewokeCouncilRegistration(request) {
         const data = MsgRewokeCouncilRegistration.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "RewokeCouncilRegistration", data);
-        return promise.then((data) => MsgRewokeCouncilRegistrationResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "RewokeCouncilRegistration", data);
+        return promise.then((data) => MsgRewokeCouncilRegistrationResponse.decode(_m0.Reader.create(data)));
     }
     ConfirmMatch(request) {
         const data = MsgConfirmMatch.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "ConfirmMatch", data);
-        return promise.then((data) => MsgConfirmMatchResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "ConfirmMatch", data);
+        return promise.then((data) => MsgConfirmMatchResponse.decode(_m0.Reader.create(data)));
     }
     SetProfileCard(request) {
         const data = MsgSetProfileCard.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetProfileCard", data);
-        return promise.then((data) => MsgSetProfileCardResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "SetProfileCard", data);
+        return promise.then((data) => MsgSetProfileCardResponse.decode(_m0.Reader.create(data)));
     }
     OpenBoosterPack(request) {
         const data = MsgOpenBoosterPack.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "OpenBoosterPack", data);
-        return promise.then((data) => MsgOpenBoosterPackResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "OpenBoosterPack", data);
+        return promise.then((data) => MsgOpenBoosterPackResponse.decode(_m0.Reader.create(data)));
     }
     TransferBoosterPack(request) {
         const data = MsgTransferBoosterPack.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "TransferBoosterPack", data);
-        return promise.then((data) => MsgTransferBoosterPackResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "TransferBoosterPack", data);
+        return promise.then((data) => MsgTransferBoosterPackResponse.decode(_m0.Reader.create(data)));
     }
     SetSetStoryWriter(request) {
         const data = MsgSetSetStoryWriter.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetSetStoryWriter", data);
-        return promise.then((data) => MsgSetSetStoryWriterResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "SetSetStoryWriter", data);
+        return promise.then((data) => MsgSetSetStoryWriterResponse.decode(_m0.Reader.create(data)));
     }
     SetSetArtist(request) {
         const data = MsgSetSetArtist.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetSetArtist", data);
-        return promise.then((data) => MsgSetSetArtistResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "SetSetArtist", data);
+        return promise.then((data) => MsgSetSetArtistResponse.decode(_m0.Reader.create(data)));
     }
     SetUserWebsite(request) {
         const data = MsgSetUserWebsite.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetUserWebsite", data);
-        return promise.then((data) => MsgSetUserWebsiteResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "SetUserWebsite", data);
+        return promise.then((data) => MsgSetUserWebsiteResponse.decode(_m0.Reader.create(data)));
     }
     SetUserBiography(request) {
         const data = MsgSetUserBiography.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetUserBiography", data);
-        return promise.then((data) => MsgSetUserBiographyResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "SetUserBiography", data);
+        return promise.then((data) => MsgSetUserBiographyResponse.decode(_m0.Reader.create(data)));
     }
     MultiVoteCard(request) {
         const data = MsgMultiVoteCard.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "MultiVoteCard", data);
-        return promise.then((data) => MsgMultiVoteCardResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "MultiVoteCard", data);
+        return promise.then((data) => MsgMultiVoteCardResponse.decode(_m0.Reader.create(data)));
     }
     OpenMatch(request) {
         const data = MsgOpenMatch.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "OpenMatch", data);
-        return promise.then((data) => MsgOpenMatchResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "OpenMatch", data);
+        return promise.then((data) => MsgOpenMatchResponse.decode(_m0.Reader.create(data)));
     }
     SetSetName(request) {
         const data = MsgSetSetName.encode(request).finish();
-        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetSetName", data);
-        return promise.then((data) => MsgSetSetNameResponse.decode(new _m0.Reader(data)));
+        const promise = this.rpc.request(this.service, "SetSetName", data);
+        return promise.then((data) => MsgSetSetNameResponse.decode(_m0.Reader.create(data)));
     }
 }
-var globalThis = (() => {
+const tsProtoGlobalThis = (() => {
     if (typeof globalThis !== "undefined") {
         return globalThis;
     }
@@ -4455,11 +5040,11 @@ var globalThis = (() => {
     throw "Unable to locate global object";
 })();
 function bytesFromBase64(b64) {
-    if (globalThis.Buffer) {
-        return Uint8Array.from(globalThis.Buffer.from(b64, "base64"));
+    if (tsProtoGlobalThis.Buffer) {
+        return Uint8Array.from(tsProtoGlobalThis.Buffer.from(b64, "base64"));
     }
     else {
-        const bin = globalThis.atob(b64);
+        const bin = tsProtoGlobalThis.atob(b64);
         const arr = new Uint8Array(bin.length);
         for (let i = 0; i < bin.length; ++i) {
             arr[i] = bin.charCodeAt(i);
@@ -4468,20 +5053,20 @@ function bytesFromBase64(b64) {
     }
 }
 function base64FromBytes(arr) {
-    if (globalThis.Buffer) {
-        return globalThis.Buffer.from(arr).toString("base64");
+    if (tsProtoGlobalThis.Buffer) {
+        return tsProtoGlobalThis.Buffer.from(arr).toString("base64");
     }
     else {
         const bin = [];
         arr.forEach((byte) => {
             bin.push(String.fromCharCode(byte));
         });
-        return globalThis.btoa(bin.join(""));
+        return tsProtoGlobalThis.btoa(bin.join(""));
     }
 }
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+        throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
     }
     return long.toNumber();
 }

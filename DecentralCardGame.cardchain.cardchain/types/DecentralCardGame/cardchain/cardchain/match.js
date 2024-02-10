@@ -83,37 +83,59 @@ export const Match = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMatch();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 8) {
+                        break;
+                    }
                     message.timestamp = longToNumber(reader.uint64());
-                    break;
+                    continue;
                 case 2:
+                    if (tag !== 18) {
+                        break;
+                    }
                     message.reporter = reader.string();
-                    break;
+                    continue;
                 case 3:
+                    if (tag !== 26) {
+                        break;
+                    }
                     message.playerA = MatchPlayer.decode(reader, reader.uint32());
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 34) {
+                        break;
+                    }
                     message.playerB = MatchPlayer.decode(reader, reader.uint32());
-                    break;
+                    continue;
                 case 7:
+                    if (tag !== 56) {
+                        break;
+                    }
                     message.outcome = reader.int32();
-                    break;
+                    continue;
                 case 10:
+                    if (tag !== 80) {
+                        break;
+                    }
                     message.coinsDistributed = reader.bool();
-                    break;
+                    continue;
                 case 8:
+                    if (tag !== 64) {
+                        break;
+                    }
                     message.serverConfirmed = reader.bool();
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -130,14 +152,31 @@ export const Match = {
     },
     toJSON(message) {
         const obj = {};
-        message.timestamp !== undefined && (obj.timestamp = Math.round(message.timestamp));
-        message.reporter !== undefined && (obj.reporter = message.reporter);
-        message.playerA !== undefined && (obj.playerA = message.playerA ? MatchPlayer.toJSON(message.playerA) : undefined);
-        message.playerB !== undefined && (obj.playerB = message.playerB ? MatchPlayer.toJSON(message.playerB) : undefined);
-        message.outcome !== undefined && (obj.outcome = outcomeToJSON(message.outcome));
-        message.coinsDistributed !== undefined && (obj.coinsDistributed = message.coinsDistributed);
-        message.serverConfirmed !== undefined && (obj.serverConfirmed = message.serverConfirmed);
+        if (message.timestamp !== 0) {
+            obj.timestamp = Math.round(message.timestamp);
+        }
+        if (message.reporter !== "") {
+            obj.reporter = message.reporter;
+        }
+        if (message.playerA !== undefined) {
+            obj.playerA = MatchPlayer.toJSON(message.playerA);
+        }
+        if (message.playerB !== undefined) {
+            obj.playerB = MatchPlayer.toJSON(message.playerB);
+        }
+        if (message.outcome !== 0) {
+            obj.outcome = outcomeToJSON(message.outcome);
+        }
+        if (message.coinsDistributed === true) {
+            obj.coinsDistributed = message.coinsDistributed;
+        }
+        if (message.serverConfirmed === true) {
+            obj.serverConfirmed = message.serverConfirmed;
+        }
         return obj;
+    },
+    create(base) {
+        return Match.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMatch();
@@ -185,50 +224,67 @@ export const MatchPlayer = {
         return writer;
     },
     decode(input, length) {
-        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        const reader = input instanceof _m0.Reader ? input : _m0.Reader.create(input);
         let end = length === undefined ? reader.len : reader.pos + length;
         const message = createBaseMatchPlayer();
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
                 case 1:
+                    if (tag !== 10) {
+                        break;
+                    }
                     message.addr = reader.string();
-                    break;
+                    continue;
                 case 2:
-                    if ((tag & 7) === 2) {
+                    if (tag === 16) {
+                        message.playedCards.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 18) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.playedCards.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.playedCards.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 3:
+                    if (tag !== 24) {
+                        break;
+                    }
                     message.confirmed = reader.bool();
-                    break;
+                    continue;
                 case 4:
+                    if (tag !== 32) {
+                        break;
+                    }
                     message.outcome = reader.int32();
-                    break;
+                    continue;
                 case 5:
-                    if ((tag & 7) === 2) {
+                    if (tag === 40) {
+                        message.deck.push(longToNumber(reader.uint64()));
+                        continue;
+                    }
+                    if (tag === 42) {
                         const end2 = reader.uint32() + reader.pos;
                         while (reader.pos < end2) {
                             message.deck.push(longToNumber(reader.uint64()));
                         }
-                    }
-                    else {
-                        message.deck.push(longToNumber(reader.uint64()));
+                        continue;
                     }
                     break;
                 case 6:
+                    if (tag !== 50) {
+                        break;
+                    }
                     message.votedCards.push(SingleVote.decode(reader, reader.uint32()));
-                    break;
-                default:
-                    reader.skipType(tag & 7);
-                    break;
+                    continue;
             }
+            if ((tag & 7) === 4 || tag === 0) {
+                break;
+            }
+            reader.skipType(tag & 7);
         }
         return message;
     },
@@ -244,28 +300,28 @@ export const MatchPlayer = {
     },
     toJSON(message) {
         const obj = {};
-        message.addr !== undefined && (obj.addr = message.addr);
-        if (message.playedCards) {
+        if (message.addr !== "") {
+            obj.addr = message.addr;
+        }
+        if (message.playedCards?.length) {
             obj.playedCards = message.playedCards.map((e) => Math.round(e));
         }
-        else {
-            obj.playedCards = [];
+        if (message.confirmed === true) {
+            obj.confirmed = message.confirmed;
         }
-        message.confirmed !== undefined && (obj.confirmed = message.confirmed);
-        message.outcome !== undefined && (obj.outcome = outcomeToJSON(message.outcome));
-        if (message.deck) {
+        if (message.outcome !== 0) {
+            obj.outcome = outcomeToJSON(message.outcome);
+        }
+        if (message.deck?.length) {
             obj.deck = message.deck.map((e) => Math.round(e));
         }
-        else {
-            obj.deck = [];
-        }
-        if (message.votedCards) {
-            obj.votedCards = message.votedCards.map((e) => e ? SingleVote.toJSON(e) : undefined);
-        }
-        else {
-            obj.votedCards = [];
+        if (message.votedCards?.length) {
+            obj.votedCards = message.votedCards.map((e) => SingleVote.toJSON(e));
         }
         return obj;
+    },
+    create(base) {
+        return MatchPlayer.fromPartial(base ?? {});
     },
     fromPartial(object) {
         const message = createBaseMatchPlayer();
@@ -278,7 +334,7 @@ export const MatchPlayer = {
         return message;
     },
 };
-var globalThis = (() => {
+const tsProtoGlobalThis = (() => {
     if (typeof globalThis !== "undefined") {
         return globalThis;
     }
@@ -295,7 +351,7 @@ var globalThis = (() => {
 })();
 function longToNumber(long) {
     if (long.gt(Number.MAX_SAFE_INTEGER)) {
-        throw new globalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
+        throw new tsProtoGlobalThis.Error("Value is larger than Number.MAX_SAFE_INTEGER");
     }
     return long.toNumber();
 }

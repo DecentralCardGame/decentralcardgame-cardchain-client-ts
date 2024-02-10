@@ -130,6 +130,96 @@ export function cardRarityToJSON(object: CardRarity): string {
   }
 }
 
+export enum CardClass {
+  nature = 0,
+  culture = 1,
+  mysticism = 2,
+  technology = 3,
+  UNRECOGNIZED = -1,
+}
+
+export function cardClassFromJSON(object: any): CardClass {
+  switch (object) {
+    case 0:
+    case "nature":
+      return CardClass.nature;
+    case 1:
+    case "culture":
+      return CardClass.culture;
+    case 2:
+    case "mysticism":
+      return CardClass.mysticism;
+    case 3:
+    case "technology":
+      return CardClass.technology;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return CardClass.UNRECOGNIZED;
+  }
+}
+
+export function cardClassToJSON(object: CardClass): string {
+  switch (object) {
+    case CardClass.nature:
+      return "nature";
+    case CardClass.culture:
+      return "culture";
+    case CardClass.mysticism:
+      return "mysticism";
+    case CardClass.technology:
+      return "technology";
+    case CardClass.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
+export enum CardType {
+  place = 0,
+  action = 1,
+  entity = 2,
+  headquarter = 3,
+  UNRECOGNIZED = -1,
+}
+
+export function cardTypeFromJSON(object: any): CardType {
+  switch (object) {
+    case 0:
+    case "place":
+      return CardType.place;
+    case 1:
+    case "action":
+      return CardType.action;
+    case 2:
+    case "entity":
+      return CardType.entity;
+    case 3:
+    case "headquarter":
+      return CardType.headquarter;
+    case -1:
+    case "UNRECOGNIZED":
+    default:
+      return CardType.UNRECOGNIZED;
+  }
+}
+
+export function cardTypeToJSON(object: CardType): string {
+  switch (object) {
+    case CardType.place:
+      return "place";
+    case CardType.action:
+      return "action";
+    case CardType.entity:
+      return "entity";
+    case CardType.headquarter:
+      return "headquarter";
+    case CardType.UNRECOGNIZED:
+    default:
+      return "UNRECOGNIZED";
+  }
+}
+
 export interface Card {
   owner: string;
   artist: string;

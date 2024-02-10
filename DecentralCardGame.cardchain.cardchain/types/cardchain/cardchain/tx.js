@@ -3885,6 +3885,91 @@ export const MsgSetSetNameResponse = {
         return message;
     },
 };
+function createBaseMsgChangeAlias() {
+    return { creator: "", alias: "" };
+}
+export const MsgChangeAlias = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.alias !== "") {
+            writer.uint32(18).string(message.alias);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseMsgChangeAlias();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.alias = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            creator: isSet(object.creator) ? String(object.creator) : "",
+            alias: isSet(object.alias) ? String(object.alias) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.alias !== undefined && (obj.alias = message.alias);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseMsgChangeAlias();
+        message.creator = object.creator ?? "";
+        message.alias = object.alias ?? "";
+        return message;
+    },
+};
+function createBaseMsgChangeAliasResponse() {
+    return {};
+}
+export const MsgChangeAliasResponse = {
+    encode(_, writer = _m0.Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseMsgChangeAliasResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = createBaseMsgChangeAliasResponse();
+        return message;
+    },
+};
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -3928,6 +4013,7 @@ export class MsgClientImpl {
         this.MultiVoteCard = this.MultiVoteCard.bind(this);
         this.OpenMatch = this.OpenMatch.bind(this);
         this.SetSetName = this.SetSetName.bind(this);
+        this.ChangeAlias = this.ChangeAlias.bind(this);
     }
     Createuser(request) {
         const data = MsgCreateuser.encode(request).finish();
@@ -4128,6 +4214,11 @@ export class MsgClientImpl {
         const data = MsgSetSetName.encode(request).finish();
         const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "SetSetName", data);
         return promise.then((data) => MsgSetSetNameResponse.decode(new _m0.Reader(data)));
+    }
+    ChangeAlias(request) {
+        const data = MsgChangeAlias.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "ChangeAlias", data);
+        return promise.then((data) => MsgChangeAliasResponse.decode(new _m0.Reader(data)));
     }
 }
 var globalThis = (() => {

@@ -124,6 +124,92 @@ export function cardRarityToJSON(object) {
             return "UNRECOGNIZED";
     }
 }
+export var CardClass;
+(function (CardClass) {
+    CardClass[CardClass["nature"] = 0] = "nature";
+    CardClass[CardClass["culture"] = 1] = "culture";
+    CardClass[CardClass["mysticism"] = 2] = "mysticism";
+    CardClass[CardClass["technology"] = 3] = "technology";
+    CardClass[CardClass["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
+})(CardClass || (CardClass = {}));
+export function cardClassFromJSON(object) {
+    switch (object) {
+        case 0:
+        case "nature":
+            return CardClass.nature;
+        case 1:
+        case "culture":
+            return CardClass.culture;
+        case 2:
+        case "mysticism":
+            return CardClass.mysticism;
+        case 3:
+        case "technology":
+            return CardClass.technology;
+        case -1:
+        case "UNRECOGNIZED":
+        default:
+            return CardClass.UNRECOGNIZED;
+    }
+}
+export function cardClassToJSON(object) {
+    switch (object) {
+        case CardClass.nature:
+            return "nature";
+        case CardClass.culture:
+            return "culture";
+        case CardClass.mysticism:
+            return "mysticism";
+        case CardClass.technology:
+            return "technology";
+        case CardClass.UNRECOGNIZED:
+        default:
+            return "UNRECOGNIZED";
+    }
+}
+export var CardType;
+(function (CardType) {
+    CardType[CardType["place"] = 0] = "place";
+    CardType[CardType["action"] = 1] = "action";
+    CardType[CardType["entity"] = 2] = "entity";
+    CardType[CardType["headquarter"] = 3] = "headquarter";
+    CardType[CardType["UNRECOGNIZED"] = -1] = "UNRECOGNIZED";
+})(CardType || (CardType = {}));
+export function cardTypeFromJSON(object) {
+    switch (object) {
+        case 0:
+        case "place":
+            return CardType.place;
+        case 1:
+        case "action":
+            return CardType.action;
+        case 2:
+        case "entity":
+            return CardType.entity;
+        case 3:
+        case "headquarter":
+            return CardType.headquarter;
+        case -1:
+        case "UNRECOGNIZED":
+        default:
+            return CardType.UNRECOGNIZED;
+    }
+}
+export function cardTypeToJSON(object) {
+    switch (object) {
+        case CardType.place:
+            return "place";
+        case CardType.action:
+            return "action";
+        case CardType.entity:
+            return "entity";
+        case CardType.headquarter:
+            return "headquarter";
+        case CardType.UNRECOGNIZED:
+        default:
+            return "UNRECOGNIZED";
+    }
+}
 function createBaseCard() {
     return {
         owner: "",
