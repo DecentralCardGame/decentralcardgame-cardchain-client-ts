@@ -798,6 +798,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       onlyStarterCard?: boolean;
       onlyBalanceAnchors?: boolean;
       rarities?: ("common" | "uncommon" | "rare" | "exceptional" | "unique")[];
+      multiClassOnly?: boolean;
     },
     params: RequestParams = {},
   ) =>

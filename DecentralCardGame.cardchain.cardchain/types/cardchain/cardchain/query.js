@@ -508,6 +508,7 @@ function createBaseQueryQCardsRequest() {
         onlyStarterCard: false,
         onlyBalanceAnchors: false,
         rarities: [],
+        multiClassOnly: false,
     };
 }
 export const QueryQCardsRequest = {
@@ -553,6 +554,9 @@ export const QueryQCardsRequest = {
             writer.int32(v);
         }
         writer.ldelim();
+        if (message.multiClassOnly === true) {
+            writer.uint32(96).bool(message.multiClassOnly);
+        }
         return writer;
     },
     decode(input, length) {
@@ -627,6 +631,9 @@ export const QueryQCardsRequest = {
                         message.rarities.push(reader.int32());
                     }
                     break;
+                case 12:
+                    message.multiClassOnly = reader.bool();
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -647,6 +654,7 @@ export const QueryQCardsRequest = {
             onlyStarterCard: isSet(object.onlyStarterCard) ? Boolean(object.onlyStarterCard) : false,
             onlyBalanceAnchors: isSet(object.onlyBalanceAnchors) ? Boolean(object.onlyBalanceAnchors) : false,
             rarities: Array.isArray(object?.rarities) ? object.rarities.map((e) => cardRarityFromJSON(e)) : [],
+            multiClassOnly: isSet(object.multiClassOnly) ? Boolean(object.multiClassOnly) : false,
         };
     },
     toJSON(message) {
@@ -682,6 +690,7 @@ export const QueryQCardsRequest = {
         else {
             obj.rarities = [];
         }
+        message.multiClassOnly !== undefined && (obj.multiClassOnly = message.multiClassOnly);
         return obj;
     },
     fromPartial(object) {
@@ -697,6 +706,7 @@ export const QueryQCardsRequest = {
         message.onlyStarterCard = object.onlyStarterCard ?? false;
         message.onlyBalanceAnchors = object.onlyBalanceAnchors ?? false;
         message.rarities = object.rarities?.map((e) => e) || [];
+        message.multiClassOnly = object.multiClassOnly ?? false;
         return message;
     },
 };
