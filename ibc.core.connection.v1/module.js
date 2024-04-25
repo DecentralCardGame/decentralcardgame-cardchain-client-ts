@@ -22,7 +22,10 @@ const defaultFee = {
     amount: [],
     gas: "200000",
 };
-export const txClient = ({ signer, prefix, addr } = { addr: "http://localhost:26657", prefix: "cosmos" }) => {
+export const txClient = ({ signer, prefix, addr } = {
+    addr: "http://localhost:26657",
+    prefix: "cosmos"
+}) => {
     return {};
 };
 export const queryClient = ({ addr: addr } = { addr: "http://localhost:1317" }) => {

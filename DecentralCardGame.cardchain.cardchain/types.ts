@@ -16,6 +16,7 @@ import { Set } from "./types/cardchain/cardchain/set"
 import { InnerRarities } from "./types/cardchain/cardchain/set"
 import { AddrWithQuantity } from "./types/cardchain/cardchain/set"
 import { SetProposal } from "./types/cardchain/cardchain/set_proposal"
+import { EarlyAccess } from "./types/cardchain/cardchain/user"
 import { BoosterPack } from "./types/cardchain/cardchain/user"
 import { AirDrops } from "./types/cardchain/cardchain/user"
 import { VotingResults } from "./types/cardchain/cardchain/voting"
@@ -42,6 +43,7 @@ export {
     InnerRarities,
     AddrWithQuantity,
     SetProposal,
+    EarlyAccess,
     BoosterPack,
     AirDrops,
     VotingResults,

@@ -114,6 +114,13 @@ export interface User {
   biography: string;
   votableCards: number[];
   votedCards: number[];
+  earlyAccess: EarlyAccess | undefined;
+}
+
+export interface EarlyAccess {
+  active: boolean;
+  invitedByUser: string;
+  invitedUser: string;
 }
 
 export interface BoosterPack {
@@ -148,6 +155,7 @@ function createBaseUser(): User {
     biography: "",
     votableCards: [],
     votedCards: [],
+    earlyAccess: undefined,
   };
 }
 
@@ -202,6 +210,9 @@ export const User = {
       writer.uint64(v);
     }
     writer.ldelim();
+    if (message.earlyAccess !== undefined) {
+      EarlyAccess.encode(message.earlyAccess, writer.uint32(122).fork()).ldelim();
+    }
     return writer;
   },
 
@@ -286,6 +297,9 @@ export const User = {
             message.votedCards.push(longToNumber(reader.uint64() as Long));
           }
           break;
+        case 15:
+          message.earlyAccess = EarlyAccess.decode(reader, reader.uint32());
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -313,6 +327,7 @@ export const User = {
       biography: isSet(object.biography) ? String(object.biography) : "",
       votableCards: Array.isArray(object?.votableCards) ? object.votableCards.map((e: any) => Number(e)) : [],
       votedCards: Array.isArray(object?.votedCards) ? object.votedCards.map((e: any) => Number(e)) : [],
+      earlyAccess: isSet(object.earlyAccess) ? EarlyAccess.fromJSON(object.earlyAccess) : undefined,
     };
   },
 
@@ -355,6 +370,8 @@ export const User = {
     } else {
       obj.votedCards = [];
     }
+    message.earlyAccess !== undefined
+      && (obj.earlyAccess = message.earlyAccess ? EarlyAccess.toJSON(message.earlyAccess) : undefined);
     return obj;
   },
 
@@ -375,6 +392,76 @@ export const User = {
     message.biography = object.biography ?? "";
     message.votableCards = object.votableCards?.map((e) => e) || [];
     message.votedCards = object.votedCards?.map((e) => e) || [];
+    message.earlyAccess = (object.earlyAccess !== undefined && object.earlyAccess !== null)
+      ? EarlyAccess.fromPartial(object.earlyAccess)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseEarlyAccess(): EarlyAccess {
+  return { active: false, invitedByUser: "", invitedUser: "" };
+}
+
+export const EarlyAccess = {
+  encode(message: EarlyAccess, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.active === true) {
+      writer.uint32(8).bool(message.active);
+    }
+    if (message.invitedByUser !== "") {
+      writer.uint32(18).string(message.invitedByUser);
+    }
+    if (message.invitedUser !== "") {
+      writer.uint32(26).string(message.invitedUser);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): EarlyAccess {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseEarlyAccess();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.active = reader.bool();
+          break;
+        case 2:
+          message.invitedByUser = reader.string();
+          break;
+        case 3:
+          message.invitedUser = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): EarlyAccess {
+    return {
+      active: isSet(object.active) ? Boolean(object.active) : false,
+      invitedByUser: isSet(object.invitedByUser) ? String(object.invitedByUser) : "",
+      invitedUser: isSet(object.invitedUser) ? String(object.invitedUser) : "",
+    };
+  },
+
+  toJSON(message: EarlyAccess): unknown {
+    const obj: any = {};
+    message.active !== undefined && (obj.active = message.active);
+    message.invitedByUser !== undefined && (obj.invitedByUser = message.invitedByUser);
+    message.invitedUser !== undefined && (obj.invitedUser = message.invitedUser);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<EarlyAccess>, I>>(object: I): EarlyAccess {
+    const message = createBaseEarlyAccess();
+    message.active = object.active ?? false;
+    message.invitedByUser = object.invitedByUser ?? "";
+    message.invitedUser = object.invitedUser ?? "";
     return message;
   },
 };

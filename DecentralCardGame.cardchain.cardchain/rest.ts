@@ -104,6 +104,12 @@ export enum CardchainCouncilStatus {
   StartedCouncil = "startedCouncil",
 }
 
+export interface CardchainEarlyAccess {
+  active?: boolean;
+  invitedByUser?: string;
+  invitedUser?: string;
+}
+
 export interface CardchainIgnoreMatches {
   outcome?: boolean;
 }
@@ -176,9 +182,13 @@ export type CardchainMsgCreateSetResponse = object;
 
 export type CardchainMsgCreateuserResponse = object;
 
+export type CardchainMsgDisinviteEarlyAccessResponse = object;
+
 export type CardchainMsgDonateToCardResponse = object;
 
 export type CardchainMsgFinalizeSetResponse = object;
+
+export type CardchainMsgInviteEarlyAccessResponse = object;
 
 export type CardchainMsgMultiVoteCardResponse = object;
 
@@ -408,6 +418,7 @@ export interface CardchainUser {
   biography?: string;
   votableCards?: string[];
   votedCards?: string[];
+  earlyAccess?: CardchainEarlyAccess;
 }
 
 export enum CardchainVoteType {

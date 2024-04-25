@@ -3970,6 +3970,176 @@ export const MsgChangeAliasResponse = {
         return message;
     },
 };
+function createBaseMsgInviteEarlyAccess() {
+    return { creator: "", user: "" };
+}
+export const MsgInviteEarlyAccess = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.user !== "") {
+            writer.uint32(18).string(message.user);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseMsgInviteEarlyAccess();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.user = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            creator: isSet(object.creator) ? String(object.creator) : "",
+            user: isSet(object.user) ? String(object.user) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.user !== undefined && (obj.user = message.user);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseMsgInviteEarlyAccess();
+        message.creator = object.creator ?? "";
+        message.user = object.user ?? "";
+        return message;
+    },
+};
+function createBaseMsgInviteEarlyAccessResponse() {
+    return {};
+}
+export const MsgInviteEarlyAccessResponse = {
+    encode(_, writer = _m0.Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseMsgInviteEarlyAccessResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = createBaseMsgInviteEarlyAccessResponse();
+        return message;
+    },
+};
+function createBaseMsgDisinviteEarlyAccess() {
+    return { creator: "", user: "" };
+}
+export const MsgDisinviteEarlyAccess = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.user !== "") {
+            writer.uint32(18).string(message.user);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseMsgDisinviteEarlyAccess();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.user = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            creator: isSet(object.creator) ? String(object.creator) : "",
+            user: isSet(object.user) ? String(object.user) : "",
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.user !== undefined && (obj.user = message.user);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseMsgDisinviteEarlyAccess();
+        message.creator = object.creator ?? "";
+        message.user = object.user ?? "";
+        return message;
+    },
+};
+function createBaseMsgDisinviteEarlyAccessResponse() {
+    return {};
+}
+export const MsgDisinviteEarlyAccessResponse = {
+    encode(_, writer = _m0.Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseMsgDisinviteEarlyAccessResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = createBaseMsgDisinviteEarlyAccessResponse();
+        return message;
+    },
+};
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -4014,6 +4184,8 @@ export class MsgClientImpl {
         this.OpenMatch = this.OpenMatch.bind(this);
         this.SetSetName = this.SetSetName.bind(this);
         this.ChangeAlias = this.ChangeAlias.bind(this);
+        this.InviteEarlyAccess = this.InviteEarlyAccess.bind(this);
+        this.DisinviteEarlyAccess = this.DisinviteEarlyAccess.bind(this);
     }
     Createuser(request) {
         const data = MsgCreateuser.encode(request).finish();
@@ -4219,6 +4391,16 @@ export class MsgClientImpl {
         const data = MsgChangeAlias.encode(request).finish();
         const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "ChangeAlias", data);
         return promise.then((data) => MsgChangeAliasResponse.decode(new _m0.Reader(data)));
+    }
+    InviteEarlyAccess(request) {
+        const data = MsgInviteEarlyAccess.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "InviteEarlyAccess", data);
+        return promise.then((data) => MsgInviteEarlyAccessResponse.decode(new _m0.Reader(data)));
+    }
+    DisinviteEarlyAccess(request) {
+        const data = MsgDisinviteEarlyAccess.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "DisinviteEarlyAccess", data);
+        return promise.then((data) => MsgDisinviteEarlyAccessResponse.decode(new _m0.Reader(data)));
     }
 }
 var globalThis = (() => {
