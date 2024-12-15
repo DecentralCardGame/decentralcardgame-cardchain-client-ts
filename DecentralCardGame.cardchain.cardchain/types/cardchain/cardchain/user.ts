@@ -115,6 +115,8 @@ export interface User {
   votableCards: number[];
   votedCards: number[];
   earlyAccess: EarlyAccess | undefined;
+  OpenEncounters: number[];
+  WonEncounters: number[];
 }
 
 export interface EarlyAccess {
@@ -156,6 +158,8 @@ function createBaseUser(): User {
     votableCards: [],
     votedCards: [],
     earlyAccess: undefined,
+    OpenEncounters: [],
+    WonEncounters: [],
   };
 }
 
@@ -213,6 +217,16 @@ export const User = {
     if (message.earlyAccess !== undefined) {
       EarlyAccess.encode(message.earlyAccess, writer.uint32(122).fork()).ldelim();
     }
+    writer.uint32(130).fork();
+    for (const v of message.OpenEncounters) {
+      writer.uint64(v);
+    }
+    writer.ldelim();
+    writer.uint32(138).fork();
+    for (const v of message.WonEncounters) {
+      writer.uint64(v);
+    }
+    writer.ldelim();
     return writer;
   },
 
@@ -300,6 +314,26 @@ export const User = {
         case 15:
           message.earlyAccess = EarlyAccess.decode(reader, reader.uint32());
           break;
+        case 16:
+          if ((tag & 7) === 2) {
+            const end2 = reader.uint32() + reader.pos;
+            while (reader.pos < end2) {
+              message.OpenEncounters.push(longToNumber(reader.uint64() as Long));
+            }
+          } else {
+            message.OpenEncounters.push(longToNumber(reader.uint64() as Long));
+          }
+          break;
+        case 17:
+          if ((tag & 7) === 2) {
+            const end2 = reader.uint32() + reader.pos;
+            while (reader.pos < end2) {
+              message.WonEncounters.push(longToNumber(reader.uint64() as Long));
+            }
+          } else {
+            message.WonEncounters.push(longToNumber(reader.uint64() as Long));
+          }
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -328,6 +362,8 @@ export const User = {
       votableCards: Array.isArray(object?.votableCards) ? object.votableCards.map((e: any) => Number(e)) : [],
       votedCards: Array.isArray(object?.votedCards) ? object.votedCards.map((e: any) => Number(e)) : [],
       earlyAccess: isSet(object.earlyAccess) ? EarlyAccess.fromJSON(object.earlyAccess) : undefined,
+      OpenEncounters: Array.isArray(object?.OpenEncounters) ? object.OpenEncounters.map((e: any) => Number(e)) : [],
+      WonEncounters: Array.isArray(object?.WonEncounters) ? object.WonEncounters.map((e: any) => Number(e)) : [],
     };
   },
 
@@ -372,6 +408,16 @@ export const User = {
     }
     message.earlyAccess !== undefined
       && (obj.earlyAccess = message.earlyAccess ? EarlyAccess.toJSON(message.earlyAccess) : undefined);
+    if (message.OpenEncounters) {
+      obj.OpenEncounters = message.OpenEncounters.map((e) => Math.round(e));
+    } else {
+      obj.OpenEncounters = [];
+    }
+    if (message.WonEncounters) {
+      obj.WonEncounters = message.WonEncounters.map((e) => Math.round(e));
+    } else {
+      obj.WonEncounters = [];
+    }
     return obj;
   },
 
@@ -395,6 +441,8 @@ export const User = {
     message.earlyAccess = (object.earlyAccess !== undefined && object.earlyAccess !== null)
       ? EarlyAccess.fromPartial(object.earlyAccess)
       : undefined;
+    message.OpenEncounters = object.OpenEncounters?.map((e) => e) || [];
+    message.WonEncounters = object.WonEncounters?.map((e) => e) || [];
     return message;
   },
 };

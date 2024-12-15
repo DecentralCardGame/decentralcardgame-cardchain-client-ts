@@ -403,6 +403,49 @@ export interface MsgDisinviteEarlyAccess {
 export interface MsgDisinviteEarlyAccessResponse {
 }
 
+export interface MsgConnectZealyAccount {
+  creator: string;
+  zealyId: string;
+}
+
+export interface MsgConnectZealyAccountResponse {
+}
+
+export interface MsgEncounterCreate {
+  creator: string;
+  name: string;
+  Drawlist: number[];
+  parameters: { [key: string]: string };
+  image: Uint8Array;
+}
+
+export interface MsgEncounterCreate_ParametersEntry {
+  key: string;
+  value: string;
+}
+
+export interface MsgEncounterCreateResponse {
+}
+
+export interface MsgEncounterDo {
+  creator: string;
+  encounterId: number;
+  user: string;
+}
+
+export interface MsgEncounterDoResponse {
+}
+
+export interface MsgEncounterClose {
+  creator: string;
+  encounterId: number;
+  user: string;
+  won: boolean;
+}
+
+export interface MsgEncounterCloseResponse {
+}
+
 function createBaseMsgCreateuser(): MsgCreateuser {
   return { creator: "", newUser: "", alias: "" };
 }
@@ -5047,6 +5090,540 @@ export const MsgDisinviteEarlyAccessResponse = {
   },
 };
 
+function createBaseMsgConnectZealyAccount(): MsgConnectZealyAccount {
+  return { creator: "", zealyId: "" };
+}
+
+export const MsgConnectZealyAccount = {
+  encode(message: MsgConnectZealyAccount, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.zealyId !== "") {
+      writer.uint32(18).string(message.zealyId);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectZealyAccount {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgConnectZealyAccount();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.zealyId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgConnectZealyAccount {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      zealyId: isSet(object.zealyId) ? String(object.zealyId) : "",
+    };
+  },
+
+  toJSON(message: MsgConnectZealyAccount): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.zealyId !== undefined && (obj.zealyId = message.zealyId);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgConnectZealyAccount>, I>>(object: I): MsgConnectZealyAccount {
+    const message = createBaseMsgConnectZealyAccount();
+    message.creator = object.creator ?? "";
+    message.zealyId = object.zealyId ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgConnectZealyAccountResponse(): MsgConnectZealyAccountResponse {
+  return {};
+}
+
+export const MsgConnectZealyAccountResponse = {
+  encode(_: MsgConnectZealyAccountResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgConnectZealyAccountResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgConnectZealyAccountResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgConnectZealyAccountResponse {
+    return {};
+  },
+
+  toJSON(_: MsgConnectZealyAccountResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgConnectZealyAccountResponse>, I>>(_: I): MsgConnectZealyAccountResponse {
+    const message = createBaseMsgConnectZealyAccountResponse();
+    return message;
+  },
+};
+
+function createBaseMsgEncounterCreate(): MsgEncounterCreate {
+  return { creator: "", name: "", Drawlist: [], parameters: {}, image: new Uint8Array() };
+}
+
+export const MsgEncounterCreate = {
+  encode(message: MsgEncounterCreate, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.name !== "") {
+      writer.uint32(18).string(message.name);
+    }
+    writer.uint32(26).fork();
+    for (const v of message.Drawlist) {
+      writer.uint64(v);
+    }
+    writer.ldelim();
+    Object.entries(message.parameters).forEach(([key, value]) => {
+      MsgEncounterCreate_ParametersEntry.encode({ key: key as any, value }, writer.uint32(34).fork()).ldelim();
+    });
+    if (message.image.length !== 0) {
+      writer.uint32(42).bytes(message.image);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEncounterCreate {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgEncounterCreate();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.name = reader.string();
+          break;
+        case 3:
+          if ((tag & 7) === 2) {
+            const end2 = reader.uint32() + reader.pos;
+            while (reader.pos < end2) {
+              message.Drawlist.push(longToNumber(reader.uint64() as Long));
+            }
+          } else {
+            message.Drawlist.push(longToNumber(reader.uint64() as Long));
+          }
+          break;
+        case 4:
+          const entry4 = MsgEncounterCreate_ParametersEntry.decode(reader, reader.uint32());
+          if (entry4.value !== undefined) {
+            message.parameters[entry4.key] = entry4.value;
+          }
+          break;
+        case 5:
+          message.image = reader.bytes();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgEncounterCreate {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      name: isSet(object.name) ? String(object.name) : "",
+      Drawlist: Array.isArray(object?.Drawlist) ? object.Drawlist.map((e: any) => Number(e)) : [],
+      parameters: isObject(object.parameters)
+        ? Object.entries(object.parameters).reduce<{ [key: string]: string }>((acc, [key, value]) => {
+          acc[key] = String(value);
+          return acc;
+        }, {})
+        : {},
+      image: isSet(object.image) ? bytesFromBase64(object.image) : new Uint8Array(),
+    };
+  },
+
+  toJSON(message: MsgEncounterCreate): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.name !== undefined && (obj.name = message.name);
+    if (message.Drawlist) {
+      obj.Drawlist = message.Drawlist.map((e) => Math.round(e));
+    } else {
+      obj.Drawlist = [];
+    }
+    obj.parameters = {};
+    if (message.parameters) {
+      Object.entries(message.parameters).forEach(([k, v]) => {
+        obj.parameters[k] = v;
+      });
+    }
+    message.image !== undefined
+      && (obj.image = base64FromBytes(message.image !== undefined ? message.image : new Uint8Array()));
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgEncounterCreate>, I>>(object: I): MsgEncounterCreate {
+    const message = createBaseMsgEncounterCreate();
+    message.creator = object.creator ?? "";
+    message.name = object.name ?? "";
+    message.Drawlist = object.Drawlist?.map((e) => e) || [];
+    message.parameters = Object.entries(object.parameters ?? {}).reduce<{ [key: string]: string }>(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          acc[key] = String(value);
+        }
+        return acc;
+      },
+      {},
+    );
+    message.image = object.image ?? new Uint8Array();
+    return message;
+  },
+};
+
+function createBaseMsgEncounterCreate_ParametersEntry(): MsgEncounterCreate_ParametersEntry {
+  return { key: "", value: "" };
+}
+
+export const MsgEncounterCreate_ParametersEntry = {
+  encode(message: MsgEncounterCreate_ParametersEntry, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.key !== "") {
+      writer.uint32(10).string(message.key);
+    }
+    if (message.value !== "") {
+      writer.uint32(18).string(message.value);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEncounterCreate_ParametersEntry {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgEncounterCreate_ParametersEntry();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.key = reader.string();
+          break;
+        case 2:
+          message.value = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgEncounterCreate_ParametersEntry {
+    return { key: isSet(object.key) ? String(object.key) : "", value: isSet(object.value) ? String(object.value) : "" };
+  },
+
+  toJSON(message: MsgEncounterCreate_ParametersEntry): unknown {
+    const obj: any = {};
+    message.key !== undefined && (obj.key = message.key);
+    message.value !== undefined && (obj.value = message.value);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgEncounterCreate_ParametersEntry>, I>>(
+    object: I,
+  ): MsgEncounterCreate_ParametersEntry {
+    const message = createBaseMsgEncounterCreate_ParametersEntry();
+    message.key = object.key ?? "";
+    message.value = object.value ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgEncounterCreateResponse(): MsgEncounterCreateResponse {
+  return {};
+}
+
+export const MsgEncounterCreateResponse = {
+  encode(_: MsgEncounterCreateResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEncounterCreateResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgEncounterCreateResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgEncounterCreateResponse {
+    return {};
+  },
+
+  toJSON(_: MsgEncounterCreateResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgEncounterCreateResponse>, I>>(_: I): MsgEncounterCreateResponse {
+    const message = createBaseMsgEncounterCreateResponse();
+    return message;
+  },
+};
+
+function createBaseMsgEncounterDo(): MsgEncounterDo {
+  return { creator: "", encounterId: 0, user: "" };
+}
+
+export const MsgEncounterDo = {
+  encode(message: MsgEncounterDo, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.encounterId !== 0) {
+      writer.uint32(16).uint64(message.encounterId);
+    }
+    if (message.user !== "") {
+      writer.uint32(26).string(message.user);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEncounterDo {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgEncounterDo();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.encounterId = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.user = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgEncounterDo {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      encounterId: isSet(object.encounterId) ? Number(object.encounterId) : 0,
+      user: isSet(object.user) ? String(object.user) : "",
+    };
+  },
+
+  toJSON(message: MsgEncounterDo): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.encounterId !== undefined && (obj.encounterId = Math.round(message.encounterId));
+    message.user !== undefined && (obj.user = message.user);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgEncounterDo>, I>>(object: I): MsgEncounterDo {
+    const message = createBaseMsgEncounterDo();
+    message.creator = object.creator ?? "";
+    message.encounterId = object.encounterId ?? 0;
+    message.user = object.user ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgEncounterDoResponse(): MsgEncounterDoResponse {
+  return {};
+}
+
+export const MsgEncounterDoResponse = {
+  encode(_: MsgEncounterDoResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEncounterDoResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgEncounterDoResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgEncounterDoResponse {
+    return {};
+  },
+
+  toJSON(_: MsgEncounterDoResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgEncounterDoResponse>, I>>(_: I): MsgEncounterDoResponse {
+    const message = createBaseMsgEncounterDoResponse();
+    return message;
+  },
+};
+
+function createBaseMsgEncounterClose(): MsgEncounterClose {
+  return { creator: "", encounterId: 0, user: "", won: false };
+}
+
+export const MsgEncounterClose = {
+  encode(message: MsgEncounterClose, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.encounterId !== 0) {
+      writer.uint32(16).uint64(message.encounterId);
+    }
+    if (message.user !== "") {
+      writer.uint32(26).string(message.user);
+    }
+    if (message.won === true) {
+      writer.uint32(32).bool(message.won);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEncounterClose {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgEncounterClose();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.encounterId = longToNumber(reader.uint64() as Long);
+          break;
+        case 3:
+          message.user = reader.string();
+          break;
+        case 4:
+          message.won = reader.bool();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgEncounterClose {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      encounterId: isSet(object.encounterId) ? Number(object.encounterId) : 0,
+      user: isSet(object.user) ? String(object.user) : "",
+      won: isSet(object.won) ? Boolean(object.won) : false,
+    };
+  },
+
+  toJSON(message: MsgEncounterClose): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.encounterId !== undefined && (obj.encounterId = Math.round(message.encounterId));
+    message.user !== undefined && (obj.user = message.user);
+    message.won !== undefined && (obj.won = message.won);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgEncounterClose>, I>>(object: I): MsgEncounterClose {
+    const message = createBaseMsgEncounterClose();
+    message.creator = object.creator ?? "";
+    message.encounterId = object.encounterId ?? 0;
+    message.user = object.user ?? "";
+    message.won = object.won ?? false;
+    return message;
+  },
+};
+
+function createBaseMsgEncounterCloseResponse(): MsgEncounterCloseResponse {
+  return {};
+}
+
+export const MsgEncounterCloseResponse = {
+  encode(_: MsgEncounterCloseResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgEncounterCloseResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgEncounterCloseResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgEncounterCloseResponse {
+    return {};
+  },
+
+  toJSON(_: MsgEncounterCloseResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgEncounterCloseResponse>, I>>(_: I): MsgEncounterCloseResponse {
+    const message = createBaseMsgEncounterCloseResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   Createuser(request: MsgCreateuser): Promise<MsgCreateuserResponse>;
@@ -5093,6 +5670,10 @@ export interface Msg {
   ChangeAlias(request: MsgChangeAlias): Promise<MsgChangeAliasResponse>;
   InviteEarlyAccess(request: MsgInviteEarlyAccess): Promise<MsgInviteEarlyAccessResponse>;
   DisinviteEarlyAccess(request: MsgDisinviteEarlyAccess): Promise<MsgDisinviteEarlyAccessResponse>;
+  ConnectZealyAccount(request: MsgConnectZealyAccount): Promise<MsgConnectZealyAccountResponse>;
+  EncounterCreate(request: MsgEncounterCreate): Promise<MsgEncounterCreateResponse>;
+  EncounterDo(request: MsgEncounterDo): Promise<MsgEncounterDoResponse>;
+  EncounterClose(request: MsgEncounterClose): Promise<MsgEncounterCloseResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -5142,6 +5723,10 @@ export class MsgClientImpl implements Msg {
     this.ChangeAlias = this.ChangeAlias.bind(this);
     this.InviteEarlyAccess = this.InviteEarlyAccess.bind(this);
     this.DisinviteEarlyAccess = this.DisinviteEarlyAccess.bind(this);
+    this.ConnectZealyAccount = this.ConnectZealyAccount.bind(this);
+    this.EncounterCreate = this.EncounterCreate.bind(this);
+    this.EncounterDo = this.EncounterDo.bind(this);
+    this.EncounterClose = this.EncounterClose.bind(this);
   }
   Createuser(request: MsgCreateuser): Promise<MsgCreateuserResponse> {
     const data = MsgCreateuser.encode(request).finish();
@@ -5400,6 +5985,30 @@ export class MsgClientImpl implements Msg {
     const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "DisinviteEarlyAccess", data);
     return promise.then((data) => MsgDisinviteEarlyAccessResponse.decode(new _m0.Reader(data)));
   }
+
+  ConnectZealyAccount(request: MsgConnectZealyAccount): Promise<MsgConnectZealyAccountResponse> {
+    const data = MsgConnectZealyAccount.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "ConnectZealyAccount", data);
+    return promise.then((data) => MsgConnectZealyAccountResponse.decode(new _m0.Reader(data)));
+  }
+
+  EncounterCreate(request: MsgEncounterCreate): Promise<MsgEncounterCreateResponse> {
+    const data = MsgEncounterCreate.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "EncounterCreate", data);
+    return promise.then((data) => MsgEncounterCreateResponse.decode(new _m0.Reader(data)));
+  }
+
+  EncounterDo(request: MsgEncounterDo): Promise<MsgEncounterDoResponse> {
+    const data = MsgEncounterDo.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "EncounterDo", data);
+    return promise.then((data) => MsgEncounterDoResponse.decode(new _m0.Reader(data)));
+  }
+
+  EncounterClose(request: MsgEncounterClose): Promise<MsgEncounterCloseResponse> {
+    const data = MsgEncounterClose.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Msg", "EncounterClose", data);
+    return promise.then((data) => MsgEncounterCloseResponse.decode(new _m0.Reader(data)));
+  }
 }
 
 interface Rpc {
@@ -5471,6 +6080,10 @@ function longToNumber(long: Long): number {
 if (_m0.util.Long !== Long) {
   _m0.util.Long = Long as any;
   _m0.configure();
+}
+
+function isObject(value: any): boolean {
+  return typeof value === "object" && value !== null;
 }
 
 function isSet(value: any): boolean {

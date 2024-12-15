@@ -3,6 +3,7 @@ import Long from "long";
 import _m0 from "protobufjs/minimal";
 import { cardClassFromJSON, cardClassToJSON, cardRarityFromJSON, cardRarityToJSON, cardTypeFromJSON, cardTypeToJSON, OutpCard, statusFromJSON, statusToJSON, } from "./card";
 import { Council } from "./council";
+import { Encounter, EncounterWithImage } from "./encounters";
 import { Match, outcomeFromJSON, outcomeToJSON } from "./match";
 import { Params } from "./params";
 import { SellOffer, sellOfferStatusFromJSON, sellOfferStatusToJSON } from "./sell_offer";
@@ -1849,6 +1850,422 @@ export const QueryQCardContentsResponse = {
         return message;
     },
 };
+function createBaseQueryQAccountFromZealyRequest() {
+    return { zealyId: "" };
+}
+export const QueryQAccountFromZealyRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.zealyId !== "") {
+            writer.uint32(10).string(message.zealyId);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQAccountFromZealyRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.zealyId = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { zealyId: isSet(object.zealyId) ? String(object.zealyId) : "" };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.zealyId !== undefined && (obj.zealyId = message.zealyId);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQAccountFromZealyRequest();
+        message.zealyId = object.zealyId ?? "";
+        return message;
+    },
+};
+function createBaseQueryQAccountFromZealyResponse() {
+    return { address: "" };
+}
+export const QueryQAccountFromZealyResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.address !== "") {
+            writer.uint32(10).string(message.address);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQAccountFromZealyResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.address = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { address: isSet(object.address) ? String(object.address) : "" };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.address !== undefined && (obj.address = message.address);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQAccountFromZealyResponse();
+        message.address = object.address ?? "";
+        return message;
+    },
+};
+function createBaseQueryQEncountersRequest() {
+    return {};
+}
+export const QueryQEncountersRequest = {
+    encode(_, writer = _m0.Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQEncountersRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = createBaseQueryQEncountersRequest();
+        return message;
+    },
+};
+function createBaseQueryQEncountersResponse() {
+    return { encounters: [] };
+}
+export const QueryQEncountersResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        for (const v of message.encounters) {
+            Encounter.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQEncountersResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.encounters.push(Encounter.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            encounters: Array.isArray(object?.encounters) ? object.encounters.map((e) => Encounter.fromJSON(e)) : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.encounters) {
+            obj.encounters = message.encounters.map((e) => e ? Encounter.toJSON(e) : undefined);
+        }
+        else {
+            obj.encounters = [];
+        }
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQEncountersResponse();
+        message.encounters = object.encounters?.map((e) => Encounter.fromPartial(e)) || [];
+        return message;
+    },
+};
+function createBaseQueryQEncounterRequest() {
+    return { id: 0 };
+}
+export const QueryQEncounterRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.id !== 0) {
+            writer.uint32(8).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQEncounterRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { id: isSet(object.id) ? Number(object.id) : 0 };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.id !== undefined && (obj.id = Math.round(message.id));
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQEncounterRequest();
+        message.id = object.id ?? 0;
+        return message;
+    },
+};
+function createBaseQueryQEncounterResponse() {
+    return { encounter: undefined };
+}
+export const QueryQEncounterResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.encounter !== undefined) {
+            Encounter.encode(message.encounter, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQEncounterResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.encounter = Encounter.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { encounter: isSet(object.encounter) ? Encounter.fromJSON(object.encounter) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.encounter !== undefined
+            && (obj.encounter = message.encounter ? Encounter.toJSON(message.encounter) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQEncounterResponse();
+        message.encounter = (object.encounter !== undefined && object.encounter !== null)
+            ? Encounter.fromPartial(object.encounter)
+            : undefined;
+        return message;
+    },
+};
+function createBaseQueryQEncountersWithImageRequest() {
+    return {};
+}
+export const QueryQEncountersWithImageRequest = {
+    encode(_, writer = _m0.Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQEncountersWithImageRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        return {};
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = createBaseQueryQEncountersWithImageRequest();
+        return message;
+    },
+};
+function createBaseQueryQEncountersWithImageResponse() {
+    return { encounters: [] };
+}
+export const QueryQEncountersWithImageResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        for (const v of message.encounters) {
+            EncounterWithImage.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQEncountersWithImageResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.encounters.push(EncounterWithImage.decode(reader, reader.uint32()));
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return {
+            encounters: Array.isArray(object?.encounters)
+                ? object.encounters.map((e) => EncounterWithImage.fromJSON(e))
+                : [],
+        };
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.encounters) {
+            obj.encounters = message.encounters.map((e) => e ? EncounterWithImage.toJSON(e) : undefined);
+        }
+        else {
+            obj.encounters = [];
+        }
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQEncountersWithImageResponse();
+        message.encounters = object.encounters?.map((e) => EncounterWithImage.fromPartial(e)) || [];
+        return message;
+    },
+};
+function createBaseQueryQEncounterWithImageRequest() {
+    return { id: 0 };
+}
+export const QueryQEncounterWithImageRequest = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.id !== 0) {
+            writer.uint32(8).uint64(message.id);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQEncounterWithImageRequest();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.id = longToNumber(reader.uint64());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { id: isSet(object.id) ? Number(object.id) : 0 };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.id !== undefined && (obj.id = Math.round(message.id));
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQEncounterWithImageRequest();
+        message.id = object.id ?? 0;
+        return message;
+    },
+};
+function createBaseQueryQEncounterWithImageResponse() {
+    return { encounter: undefined };
+}
+export const QueryQEncounterWithImageResponse = {
+    encode(message, writer = _m0.Writer.create()) {
+        if (message.encounter !== undefined) {
+            EncounterWithImage.encode(message.encounter, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = createBaseQueryQEncounterWithImageResponse();
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.encounter = EncounterWithImage.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        return { encounter: isSet(object.encounter) ? EncounterWithImage.fromJSON(object.encounter) : undefined };
+    },
+    toJSON(message) {
+        const obj = {};
+        message.encounter !== undefined
+            && (obj.encounter = message.encounter ? EncounterWithImage.toJSON(message.encounter) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = createBaseQueryQEncounterWithImageResponse();
+        message.encounter = (object.encounter !== undefined && object.encounter !== null)
+            ? EncounterWithImage.fromPartial(object.encounter)
+            : undefined;
+        return message;
+    },
+};
 export class QueryClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -1869,6 +2286,11 @@ export class QueryClientImpl {
         this.QSets = this.QSets.bind(this);
         this.RarityDistribution = this.RarityDistribution.bind(this);
         this.QCardContents = this.QCardContents.bind(this);
+        this.QAccountFromZealy = this.QAccountFromZealy.bind(this);
+        this.QEncounters = this.QEncounters.bind(this);
+        this.QEncounter = this.QEncounter.bind(this);
+        this.QEncountersWithImage = this.QEncountersWithImage.bind(this);
+        this.QEncounterWithImage = this.QEncounterWithImage.bind(this);
     }
     Params(request) {
         const data = QueryParamsRequest.encode(request).finish();
@@ -1954,6 +2376,31 @@ export class QueryClientImpl {
         const data = QueryQCardContentsRequest.encode(request).finish();
         const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCardContents", data);
         return promise.then((data) => QueryQCardContentsResponse.decode(new _m0.Reader(data)));
+    }
+    QAccountFromZealy(request) {
+        const data = QueryQAccountFromZealyRequest.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QAccountFromZealy", data);
+        return promise.then((data) => QueryQAccountFromZealyResponse.decode(new _m0.Reader(data)));
+    }
+    QEncounters(request) {
+        const data = QueryQEncountersRequest.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QEncounters", data);
+        return promise.then((data) => QueryQEncountersResponse.decode(new _m0.Reader(data)));
+    }
+    QEncounter(request) {
+        const data = QueryQEncounterRequest.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QEncounter", data);
+        return promise.then((data) => QueryQEncounterResponse.decode(new _m0.Reader(data)));
+    }
+    QEncountersWithImage(request) {
+        const data = QueryQEncountersWithImageRequest.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QEncountersWithImage", data);
+        return promise.then((data) => QueryQEncountersWithImageResponse.decode(new _m0.Reader(data)));
+    }
+    QEncounterWithImage(request) {
+        const data = QueryQEncounterWithImageRequest.encode(request).finish();
+        const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QEncounterWithImage", data);
+        return promise.then((data) => QueryQEncounterWithImageResponse.decode(new _m0.Reader(data)));
     }
 }
 var globalThis = (() => {

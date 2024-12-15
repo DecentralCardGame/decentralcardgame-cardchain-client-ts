@@ -90,6 +90,7 @@ export var CardchaincardchainStatus;
     CardchaincardchainStatus["BannedSoon"] = "bannedSoon";
     CardchaincardchainStatus["BannedVerySoon"] = "bannedVerySoon";
     CardchaincardchainStatus["None"] = "none";
+    CardchaincardchainStatus["AdventureItem"] = "adventureItem";
 })(CardchaincardchainStatus || (CardchaincardchainStatus = {}));
 import axios from "axios";
 export var ContentType;
@@ -183,6 +184,20 @@ export class Api extends HttpClient {
          * No description
          *
          * @tags Query
+         * @name QueryQAccountFromZealy
+         * @summary Queries a list of QAccountFromZealy items.
+         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_account_from_zealy/{zealyId}
+         */
+        this.queryQAccountFromZealy = (zealyId, params = {}) => this.request({
+            path: `/DecentralCardGame/Cardchain/cardchain/q_account_from_zealy/${zealyId}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
          * @name QueryQCard
          * @summary Queries a list of QCard items.
          * @request GET:/DecentralCardGame/Cardchain/cardchain/q_card/{cardId}
@@ -260,6 +275,62 @@ export class Api extends HttpClient {
          */
         this.queryQCouncil = (councilId, params = {}) => this.request({
             path: `/DecentralCardGame/Cardchain/cardchain/q_council/${councilId}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryQEncounter
+         * @summary Queries a list of QEncounter items.
+         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_encounter/{id}
+         */
+        this.queryQEncounter = (id, params = {}) => this.request({
+            path: `/DecentralCardGame/Cardchain/cardchain/q_encounter/${id}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryQEncounterWithImage
+         * @summary Queries a list of QEncounterWithImage items.
+         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_encounter_with_image/{id}
+         */
+        this.queryQEncounterWithImage = (id, params = {}) => this.request({
+            path: `/DecentralCardGame/Cardchain/cardchain/q_encounter_with_image/${id}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryQEncounters
+         * @summary Queries a list of QEncounters items.
+         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_encounters
+         */
+        this.queryQEncounters = (params = {}) => this.request({
+            path: `/DecentralCardGame/Cardchain/cardchain/q_encounters`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryQEncountersWithImage
+         * @summary Queries a list of QEncountersWithImage items.
+         * @request GET:/DecentralCardGame/Cardchain/cardchain/q_encounters_with_image
+         */
+        this.queryQEncountersWithImage = (params = {}) => this.request({
+            path: `/DecentralCardGame/Cardchain/cardchain/q_encounters_with_image`,
             method: "GET",
             format: "json",
             ...params,

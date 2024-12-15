@@ -11,6 +11,7 @@ import { SellOffer } from "./sell_offer";
 import { Server } from "./server";
 import { Set } from "./set";
 import { User } from "./user";
+import { Zealy } from "./zealy";
 
 export const protobufPackage = "DecentralCardGame.cardchain.cardchain";
 
@@ -29,8 +30,11 @@ export interface GenesisState {
   RunningAverages: RunningAverage[];
   images: Image[];
   Servers: Server[];
+  lastCardModified:
+    | TimeStamp
+    | undefined;
   /** this line is used by starport scaffolding # genesis/proto/state */
-  lastCardModified: TimeStamp | undefined;
+  zealys: Zealy[];
 }
 
 function createBaseGenesisState(): GenesisState {
@@ -49,6 +53,7 @@ function createBaseGenesisState(): GenesisState {
     images: [],
     Servers: [],
     lastCardModified: undefined,
+    zealys: [],
   };
 }
 
@@ -95,6 +100,9 @@ export const GenesisState = {
     }
     if (message.lastCardModified !== undefined) {
       TimeStamp.encode(message.lastCardModified, writer.uint32(130).fork()).ldelim();
+    }
+    for (const v of message.zealys) {
+      Zealy.encode(v!, writer.uint32(138).fork()).ldelim();
     }
     return writer;
   },
@@ -148,6 +156,9 @@ export const GenesisState = {
         case 16:
           message.lastCardModified = TimeStamp.decode(reader, reader.uint32());
           break;
+        case 17:
+          message.zealys.push(Zealy.decode(reader, reader.uint32()));
+          break;
         default:
           reader.skipType(tag & 7);
           break;
@@ -174,6 +185,7 @@ export const GenesisState = {
       images: Array.isArray(object?.images) ? object.images.map((e: any) => Image.fromJSON(e)) : [],
       Servers: Array.isArray(object?.Servers) ? object.Servers.map((e: any) => Server.fromJSON(e)) : [],
       lastCardModified: isSet(object.lastCardModified) ? TimeStamp.fromJSON(object.lastCardModified) : undefined,
+      zealys: Array.isArray(object?.zealys) ? object.zealys.map((e: any) => Zealy.fromJSON(e)) : [],
     };
   },
 
@@ -238,6 +250,11 @@ export const GenesisState = {
     }
     message.lastCardModified !== undefined
       && (obj.lastCardModified = message.lastCardModified ? TimeStamp.toJSON(message.lastCardModified) : undefined);
+    if (message.zealys) {
+      obj.zealys = message.zealys.map((e) => e ? Zealy.toJSON(e) : undefined);
+    } else {
+      obj.zealys = [];
+    }
     return obj;
   },
 
@@ -261,6 +278,7 @@ export const GenesisState = {
     message.lastCardModified = (object.lastCardModified !== undefined && object.lastCardModified !== null)
       ? TimeStamp.fromPartial(object.lastCardModified)
       : undefined;
+    message.zealys = object.zealys?.map((e) => Zealy.fromPartial(e)) || [];
     return message;
   },
 };

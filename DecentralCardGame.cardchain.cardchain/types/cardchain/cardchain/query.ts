@@ -17,6 +17,7 @@ import {
   statusToJSON,
 } from "./card";
 import { Council } from "./council";
+import { Encounter, EncounterWithImage } from "./encounters";
 import { Match, Outcome, outcomeFromJSON, outcomeToJSON } from "./match";
 import { Params } from "./params";
 import { SellOffer, SellOfferStatus, sellOfferStatusFromJSON, sellOfferStatusToJSON } from "./sell_offer";
@@ -196,6 +197,44 @@ export interface QueryQCardContentsRequest {
 
 export interface QueryQCardContentsResponse {
   cards: QueryQCardContentResponse[];
+}
+
+export interface QueryQAccountFromZealyRequest {
+  zealyId: string;
+}
+
+export interface QueryQAccountFromZealyResponse {
+  address: string;
+}
+
+export interface QueryQEncountersRequest {
+}
+
+export interface QueryQEncountersResponse {
+  encounters: Encounter[];
+}
+
+export interface QueryQEncounterRequest {
+  id: number;
+}
+
+export interface QueryQEncounterResponse {
+  encounter: Encounter | undefined;
+}
+
+export interface QueryQEncountersWithImageRequest {
+}
+
+export interface QueryQEncountersWithImageResponse {
+  encounters: EncounterWithImage[];
+}
+
+export interface QueryQEncounterWithImageRequest {
+  id: number;
+}
+
+export interface QueryQEncounterWithImageResponse {
+  encounter: EncounterWithImage | undefined;
 }
 
 function createBaseQueryParamsRequest(): QueryParamsRequest {
@@ -2187,6 +2226,492 @@ export const QueryQCardContentsResponse = {
   },
 };
 
+function createBaseQueryQAccountFromZealyRequest(): QueryQAccountFromZealyRequest {
+  return { zealyId: "" };
+}
+
+export const QueryQAccountFromZealyRequest = {
+  encode(message: QueryQAccountFromZealyRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.zealyId !== "") {
+      writer.uint32(10).string(message.zealyId);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQAccountFromZealyRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQAccountFromZealyRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.zealyId = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryQAccountFromZealyRequest {
+    return { zealyId: isSet(object.zealyId) ? String(object.zealyId) : "" };
+  },
+
+  toJSON(message: QueryQAccountFromZealyRequest): unknown {
+    const obj: any = {};
+    message.zealyId !== undefined && (obj.zealyId = message.zealyId);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQAccountFromZealyRequest>, I>>(
+    object: I,
+  ): QueryQAccountFromZealyRequest {
+    const message = createBaseQueryQAccountFromZealyRequest();
+    message.zealyId = object.zealyId ?? "";
+    return message;
+  },
+};
+
+function createBaseQueryQAccountFromZealyResponse(): QueryQAccountFromZealyResponse {
+  return { address: "" };
+}
+
+export const QueryQAccountFromZealyResponse = {
+  encode(message: QueryQAccountFromZealyResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.address !== "") {
+      writer.uint32(10).string(message.address);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQAccountFromZealyResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQAccountFromZealyResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.address = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryQAccountFromZealyResponse {
+    return { address: isSet(object.address) ? String(object.address) : "" };
+  },
+
+  toJSON(message: QueryQAccountFromZealyResponse): unknown {
+    const obj: any = {};
+    message.address !== undefined && (obj.address = message.address);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQAccountFromZealyResponse>, I>>(
+    object: I,
+  ): QueryQAccountFromZealyResponse {
+    const message = createBaseQueryQAccountFromZealyResponse();
+    message.address = object.address ?? "";
+    return message;
+  },
+};
+
+function createBaseQueryQEncountersRequest(): QueryQEncountersRequest {
+  return {};
+}
+
+export const QueryQEncountersRequest = {
+  encode(_: QueryQEncountersRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQEncountersRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQEncountersRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryQEncountersRequest {
+    return {};
+  },
+
+  toJSON(_: QueryQEncountersRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQEncountersRequest>, I>>(_: I): QueryQEncountersRequest {
+    const message = createBaseQueryQEncountersRequest();
+    return message;
+  },
+};
+
+function createBaseQueryQEncountersResponse(): QueryQEncountersResponse {
+  return { encounters: [] };
+}
+
+export const QueryQEncountersResponse = {
+  encode(message: QueryQEncountersResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    for (const v of message.encounters) {
+      Encounter.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQEncountersResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQEncountersResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.encounters.push(Encounter.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryQEncountersResponse {
+    return {
+      encounters: Array.isArray(object?.encounters) ? object.encounters.map((e: any) => Encounter.fromJSON(e)) : [],
+    };
+  },
+
+  toJSON(message: QueryQEncountersResponse): unknown {
+    const obj: any = {};
+    if (message.encounters) {
+      obj.encounters = message.encounters.map((e) => e ? Encounter.toJSON(e) : undefined);
+    } else {
+      obj.encounters = [];
+    }
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQEncountersResponse>, I>>(object: I): QueryQEncountersResponse {
+    const message = createBaseQueryQEncountersResponse();
+    message.encounters = object.encounters?.map((e) => Encounter.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseQueryQEncounterRequest(): QueryQEncounterRequest {
+  return { id: 0 };
+}
+
+export const QueryQEncounterRequest = {
+  encode(message: QueryQEncounterRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.id !== 0) {
+      writer.uint32(8).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQEncounterRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQEncounterRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryQEncounterRequest {
+    return { id: isSet(object.id) ? Number(object.id) : 0 };
+  },
+
+  toJSON(message: QueryQEncounterRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = Math.round(message.id));
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQEncounterRequest>, I>>(object: I): QueryQEncounterRequest {
+    const message = createBaseQueryQEncounterRequest();
+    message.id = object.id ?? 0;
+    return message;
+  },
+};
+
+function createBaseQueryQEncounterResponse(): QueryQEncounterResponse {
+  return { encounter: undefined };
+}
+
+export const QueryQEncounterResponse = {
+  encode(message: QueryQEncounterResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.encounter !== undefined) {
+      Encounter.encode(message.encounter, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQEncounterResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQEncounterResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.encounter = Encounter.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryQEncounterResponse {
+    return { encounter: isSet(object.encounter) ? Encounter.fromJSON(object.encounter) : undefined };
+  },
+
+  toJSON(message: QueryQEncounterResponse): unknown {
+    const obj: any = {};
+    message.encounter !== undefined
+      && (obj.encounter = message.encounter ? Encounter.toJSON(message.encounter) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQEncounterResponse>, I>>(object: I): QueryQEncounterResponse {
+    const message = createBaseQueryQEncounterResponse();
+    message.encounter = (object.encounter !== undefined && object.encounter !== null)
+      ? Encounter.fromPartial(object.encounter)
+      : undefined;
+    return message;
+  },
+};
+
+function createBaseQueryQEncountersWithImageRequest(): QueryQEncountersWithImageRequest {
+  return {};
+}
+
+export const QueryQEncountersWithImageRequest = {
+  encode(_: QueryQEncountersWithImageRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQEncountersWithImageRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQEncountersWithImageRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): QueryQEncountersWithImageRequest {
+    return {};
+  },
+
+  toJSON(_: QueryQEncountersWithImageRequest): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQEncountersWithImageRequest>, I>>(
+    _: I,
+  ): QueryQEncountersWithImageRequest {
+    const message = createBaseQueryQEncountersWithImageRequest();
+    return message;
+  },
+};
+
+function createBaseQueryQEncountersWithImageResponse(): QueryQEncountersWithImageResponse {
+  return { encounters: [] };
+}
+
+export const QueryQEncountersWithImageResponse = {
+  encode(message: QueryQEncountersWithImageResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    for (const v of message.encounters) {
+      EncounterWithImage.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQEncountersWithImageResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQEncountersWithImageResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.encounters.push(EncounterWithImage.decode(reader, reader.uint32()));
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryQEncountersWithImageResponse {
+    return {
+      encounters: Array.isArray(object?.encounters)
+        ? object.encounters.map((e: any) => EncounterWithImage.fromJSON(e))
+        : [],
+    };
+  },
+
+  toJSON(message: QueryQEncountersWithImageResponse): unknown {
+    const obj: any = {};
+    if (message.encounters) {
+      obj.encounters = message.encounters.map((e) => e ? EncounterWithImage.toJSON(e) : undefined);
+    } else {
+      obj.encounters = [];
+    }
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQEncountersWithImageResponse>, I>>(
+    object: I,
+  ): QueryQEncountersWithImageResponse {
+    const message = createBaseQueryQEncountersWithImageResponse();
+    message.encounters = object.encounters?.map((e) => EncounterWithImage.fromPartial(e)) || [];
+    return message;
+  },
+};
+
+function createBaseQueryQEncounterWithImageRequest(): QueryQEncounterWithImageRequest {
+  return { id: 0 };
+}
+
+export const QueryQEncounterWithImageRequest = {
+  encode(message: QueryQEncounterWithImageRequest, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.id !== 0) {
+      writer.uint32(8).uint64(message.id);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQEncounterWithImageRequest {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQEncounterWithImageRequest();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.id = longToNumber(reader.uint64() as Long);
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryQEncounterWithImageRequest {
+    return { id: isSet(object.id) ? Number(object.id) : 0 };
+  },
+
+  toJSON(message: QueryQEncounterWithImageRequest): unknown {
+    const obj: any = {};
+    message.id !== undefined && (obj.id = Math.round(message.id));
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQEncounterWithImageRequest>, I>>(
+    object: I,
+  ): QueryQEncounterWithImageRequest {
+    const message = createBaseQueryQEncounterWithImageRequest();
+    message.id = object.id ?? 0;
+    return message;
+  },
+};
+
+function createBaseQueryQEncounterWithImageResponse(): QueryQEncounterWithImageResponse {
+  return { encounter: undefined };
+}
+
+export const QueryQEncounterWithImageResponse = {
+  encode(message: QueryQEncounterWithImageResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.encounter !== undefined) {
+      EncounterWithImage.encode(message.encounter, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): QueryQEncounterWithImageResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseQueryQEncounterWithImageResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.encounter = EncounterWithImage.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryQEncounterWithImageResponse {
+    return { encounter: isSet(object.encounter) ? EncounterWithImage.fromJSON(object.encounter) : undefined };
+  },
+
+  toJSON(message: QueryQEncounterWithImageResponse): unknown {
+    const obj: any = {};
+    message.encounter !== undefined
+      && (obj.encounter = message.encounter ? EncounterWithImage.toJSON(message.encounter) : undefined);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<QueryQEncounterWithImageResponse>, I>>(
+    object: I,
+  ): QueryQEncounterWithImageResponse {
+    const message = createBaseQueryQEncounterWithImageResponse();
+    message.encounter = (object.encounter !== undefined && object.encounter !== null)
+      ? EncounterWithImage.fromPartial(object.encounter)
+      : undefined;
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -2223,6 +2748,16 @@ export interface Query {
   RarityDistribution(request: QueryRarityDistributionRequest): Promise<QueryRarityDistributionResponse>;
   /** Queries a list of QCardContents items. */
   QCardContents(request: QueryQCardContentsRequest): Promise<QueryQCardContentsResponse>;
+  /** Queries a list of QAccountFromZealy items. */
+  QAccountFromZealy(request: QueryQAccountFromZealyRequest): Promise<QueryQAccountFromZealyResponse>;
+  /** Queries a list of QEncounters items. */
+  QEncounters(request: QueryQEncountersRequest): Promise<QueryQEncountersResponse>;
+  /** Queries a list of QEncounter items. */
+  QEncounter(request: QueryQEncounterRequest): Promise<QueryQEncounterResponse>;
+  /** Queries a list of QEncountersWithImage items. */
+  QEncountersWithImage(request: QueryQEncountersWithImageRequest): Promise<QueryQEncountersWithImageResponse>;
+  /** Queries a list of QEncounterWithImage items. */
+  QEncounterWithImage(request: QueryQEncounterWithImageRequest): Promise<QueryQEncounterWithImageResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -2246,6 +2781,11 @@ export class QueryClientImpl implements Query {
     this.QSets = this.QSets.bind(this);
     this.RarityDistribution = this.RarityDistribution.bind(this);
     this.QCardContents = this.QCardContents.bind(this);
+    this.QAccountFromZealy = this.QAccountFromZealy.bind(this);
+    this.QEncounters = this.QEncounters.bind(this);
+    this.QEncounter = this.QEncounter.bind(this);
+    this.QEncountersWithImage = this.QEncountersWithImage.bind(this);
+    this.QEncounterWithImage = this.QEncounterWithImage.bind(this);
   }
   Params(request: QueryParamsRequest): Promise<QueryParamsResponse> {
     const data = QueryParamsRequest.encode(request).finish();
@@ -2347,6 +2887,36 @@ export class QueryClientImpl implements Query {
     const data = QueryQCardContentsRequest.encode(request).finish();
     const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QCardContents", data);
     return promise.then((data) => QueryQCardContentsResponse.decode(new _m0.Reader(data)));
+  }
+
+  QAccountFromZealy(request: QueryQAccountFromZealyRequest): Promise<QueryQAccountFromZealyResponse> {
+    const data = QueryQAccountFromZealyRequest.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QAccountFromZealy", data);
+    return promise.then((data) => QueryQAccountFromZealyResponse.decode(new _m0.Reader(data)));
+  }
+
+  QEncounters(request: QueryQEncountersRequest): Promise<QueryQEncountersResponse> {
+    const data = QueryQEncountersRequest.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QEncounters", data);
+    return promise.then((data) => QueryQEncountersResponse.decode(new _m0.Reader(data)));
+  }
+
+  QEncounter(request: QueryQEncounterRequest): Promise<QueryQEncounterResponse> {
+    const data = QueryQEncounterRequest.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QEncounter", data);
+    return promise.then((data) => QueryQEncounterResponse.decode(new _m0.Reader(data)));
+  }
+
+  QEncountersWithImage(request: QueryQEncountersWithImageRequest): Promise<QueryQEncountersWithImageResponse> {
+    const data = QueryQEncountersWithImageRequest.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QEncountersWithImage", data);
+    return promise.then((data) => QueryQEncountersWithImageResponse.decode(new _m0.Reader(data)));
+  }
+
+  QEncounterWithImage(request: QueryQEncounterWithImageRequest): Promise<QueryQEncounterWithImageResponse> {
+    const data = QueryQEncounterWithImageRequest.encode(request).finish();
+    const promise = this.rpc.request("DecentralCardGame.cardchain.cardchain.Query", "QEncounterWithImage", data);
+    return promise.then((data) => QueryQEncounterWithImageResponse.decode(new _m0.Reader(data)));
   }
 }
 

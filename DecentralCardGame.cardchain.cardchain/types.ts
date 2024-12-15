@@ -3,6 +3,9 @@ import { TimeStamp } from "./types/cardchain/cardchain/card"
 import { CopyrightProposal } from "./types/cardchain/cardchain/copyright_proposal"
 import { WrapClearResponse } from "./types/cardchain/cardchain/council"
 import { WrapHashResponse } from "./types/cardchain/cardchain/council"
+import { EarlyAccessProposal } from "./types/cardchain/cardchain/early_access_proposal"
+import { Encounter } from "./types/cardchain/cardchain/encounters"
+import { EncounterWithImage } from "./types/cardchain/cardchain/encounters"
 import { Image } from "./types/cardchain/cardchain/image"
 import { MatchPlayer } from "./types/cardchain/cardchain/match"
 import { MatchReporterProposal } from "./types/cardchain/cardchain/match_reporter_proposal"
@@ -22,6 +25,7 @@ import { AirDrops } from "./types/cardchain/cardchain/user"
 import { VotingResults } from "./types/cardchain/cardchain/voting"
 import { VotingResult } from "./types/cardchain/cardchain/voting"
 import { SingleVote } from "./types/cardchain/cardchain/voting"
+import { Zealy } from "./types/cardchain/cardchain/zealy"
 
 
 export {     
@@ -30,6 +34,9 @@ export {
     CopyrightProposal,
     WrapClearResponse,
     WrapHashResponse,
+    EarlyAccessProposal,
+    Encounter,
+    EncounterWithImage,
     Image,
     MatchPlayer,
     MatchReporterProposal,
@@ -49,5 +56,6 @@ export {
     VotingResults,
     VotingResult,
     SingleVote,
+    Zealy,
     
  }

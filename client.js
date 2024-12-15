@@ -20,10 +20,7 @@ export class IgniteClient extends EventEmitter {
     async signAndBroadcast(msgs, fee, memo) {
         if (this.signer) {
             const { address } = (await this.signer.getAccounts())[0];
-            const signingClient = await SigningStargateClient.connectWithSigner(this.env.rpcURL, this.signer, {
-                registry: new Registry(this.registry),
-                prefix: this.env.prefix
-            });
+            const signingClient = await SigningStargateClient.connectWithSigner(this.env.rpcURL, this.signer, { registry: new Registry(this.registry), prefix: this.env.prefix });
             return await signingClient.signAndBroadcast(address, msgs, fee ? fee : defaultFee, memo);
         }
         else {
@@ -37,7 +34,7 @@ export class IgniteClient extends EventEmitter {
         this.setMaxListeners(0);
         this.signer = signer;
         const classConstructor = this.constructor;
-        classConstructor.plugins.forEach(plugin => {
+        classConstructor.plugins.forEach((plugin) => {
             const pluginInstance = plugin(this);
             Object.assign(this, pluginInstance.module);
             if (this.registry) {

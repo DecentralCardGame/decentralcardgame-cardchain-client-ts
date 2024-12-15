@@ -110,6 +110,26 @@ export interface CardchainEarlyAccess {
   invitedUser?: string;
 }
 
+export interface CardchainEncounter {
+  /** @format uint64 */
+  Id?: string;
+  Drawlist?: string[];
+  proven?: boolean;
+  owner?: string;
+  parameters?: Record<string, string>;
+
+  /** @format uint64 */
+  imageId?: string;
+  name?: string;
+}
+
+export interface CardchainEncounterWithImage {
+  encounter?: CardchainEncounter;
+
+  /** @format byte */
+  image?: string;
+}
+
 export interface CardchainIgnoreMatches {
   outcome?: boolean;
 }
@@ -174,6 +194,8 @@ export type CardchainMsgCommitCouncilResponseResponse = object;
 
 export type CardchainMsgConfirmMatchResponse = object;
 
+export type CardchainMsgConnectZealyAccountResponse = object;
+
 export type CardchainMsgCreateCouncilResponse = object;
 
 export type CardchainMsgCreateSellOfferResponse = object;
@@ -185,6 +207,12 @@ export type CardchainMsgCreateuserResponse = object;
 export type CardchainMsgDisinviteEarlyAccessResponse = object;
 
 export type CardchainMsgDonateToCardResponse = object;
+
+export type CardchainMsgEncounterCloseResponse = object;
+
+export type CardchainMsgEncounterCreateResponse = object;
+
+export type CardchainMsgEncounterDoResponse = object;
 
 export type CardchainMsgFinalizeSetResponse = object;
 
@@ -308,6 +336,10 @@ export interface CardchainQueryParamsResponse {
   params?: CardchaincardchainParams;
 }
 
+export interface CardchainQueryQAccountFromZealyResponse {
+  address?: string;
+}
+
 export interface CardchainQueryQCardContentResponse {
   content?: string;
   hash?: string;
@@ -339,6 +371,22 @@ export interface CardchainQueryQCardchainInfoResponse {
 
 export interface CardchainQueryQCardsResponse {
   cardsList?: string[];
+}
+
+export interface CardchainQueryQEncounterResponse {
+  encounter?: CardchainEncounter;
+}
+
+export interface CardchainQueryQEncounterWithImageResponse {
+  encounter?: CardchainEncounterWithImage;
+}
+
+export interface CardchainQueryQEncountersResponse {
+  encounters?: CardchainEncounter[];
+}
+
+export interface CardchainQueryQEncountersWithImageResponse {
+  encounters?: CardchainEncounterWithImage[];
 }
 
 export interface CardchainQueryQMatchesResponse {
@@ -419,6 +467,8 @@ export interface CardchainUser {
   votableCards?: string[];
   votedCards?: string[];
   earlyAccess?: CardchainEarlyAccess;
+  OpenEncounters?: string[];
+  WonEncounters?: string[];
 }
 
 export enum CardchainVoteType {
@@ -549,6 +599,7 @@ export enum CardchaincardchainStatus {
   BannedSoon = "bannedSoon",
   BannedVerySoon = "bannedVerySoon",
   None = "none",
+  AdventureItem = "adventureItem",
 }
 
 export interface GooglerpcStatus {
@@ -718,6 +769,22 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
    * No description
    *
    * @tags Query
+   * @name QueryQAccountFromZealy
+   * @summary Queries a list of QAccountFromZealy items.
+   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_account_from_zealy/{zealyId}
+   */
+  queryQAccountFromZealy = (zealyId: string, params: RequestParams = {}) =>
+    this.request<CardchainQueryQAccountFromZealyResponse, GooglerpcStatus>({
+      path: `/DecentralCardGame/Cardchain/cardchain/q_account_from_zealy/${zealyId}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
    * @name QueryQCard
    * @summary Queries a list of QCard items.
    * @request GET:/DecentralCardGame/Cardchain/cardchain/q_card/{cardId}
@@ -799,6 +866,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         | "bannedSoon"
         | "bannedVerySoon"
         | "none"
+        | "adventureItem"
       )[];
       cardTypes?: ("place" | "action" | "entity" | "headquarter")[];
       classes?: ("nature" | "culture" | "mysticism" | "technology")[];
@@ -832,6 +900,70 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
   queryQCouncil = (councilId: string, params: RequestParams = {}) =>
     this.request<CardchainCouncil, GooglerpcStatus>({
       path: `/DecentralCardGame/Cardchain/cardchain/q_council/${councilId}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryQEncounter
+   * @summary Queries a list of QEncounter items.
+   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_encounter/{id}
+   */
+  queryQEncounter = (id: string, params: RequestParams = {}) =>
+    this.request<CardchainQueryQEncounterResponse, GooglerpcStatus>({
+      path: `/DecentralCardGame/Cardchain/cardchain/q_encounter/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryQEncounterWithImage
+   * @summary Queries a list of QEncounterWithImage items.
+   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_encounter_with_image/{id}
+   */
+  queryQEncounterWithImage = (id: string, params: RequestParams = {}) =>
+    this.request<CardchainQueryQEncounterWithImageResponse, GooglerpcStatus>({
+      path: `/DecentralCardGame/Cardchain/cardchain/q_encounter_with_image/${id}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryQEncounters
+   * @summary Queries a list of QEncounters items.
+   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_encounters
+   */
+  queryQEncounters = (params: RequestParams = {}) =>
+    this.request<CardchainQueryQEncountersResponse, GooglerpcStatus>({
+      path: `/DecentralCardGame/Cardchain/cardchain/q_encounters`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryQEncountersWithImage
+   * @summary Queries a list of QEncountersWithImage items.
+   * @request GET:/DecentralCardGame/Cardchain/cardchain/q_encounters_with_image
+   */
+  queryQEncountersWithImage = (params: RequestParams = {}) =>
+    this.request<CardchainQueryQEncountersWithImageResponse, GooglerpcStatus>({
+      path: `/DecentralCardGame/Cardchain/cardchain/q_encounters_with_image`,
       method: "GET",
       format: "json",
       ...params,
